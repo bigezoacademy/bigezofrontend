@@ -24,27 +24,35 @@ export class LoginComponent {
 constructor(private http:HttpClient, private router:Router){}
 
 
-  onSubmit(loginForm: NgForm) {
-    this.apiLoginObj={
-      "username":this.username,
-      "password":this.password
-    }
-    console.log(`BEFORE SENDING CREDENTIALS ------------${this.apiLoginObj.username}`);
-    // Prevent form submission if invalid
-    //debugger;
-   // if (loginForm.invalid) return;
-   
-      this.http.post("http://localhost:8080/auth/login",this.apiLoginObj).subscribe((res:any)=>{
-      //debugger;
-      console.log(`TOKEN ------------${res}`);
-      alert(`SUCCESSFULLY LOGGED IN. TOKEN ------------${res.data}`)
+onSubmit(loginForm: NgForm) {
+  this.apiLoginObj = {
+    username: this.username,
+    password: this.password,
+  };
 
-localStorage.setItem("Token",res.data);
-this.router.navigateByUrl("admin");
-      },error=>{
-        alert(`UNAUTHORIZED ACCESS FOR ------------${this.apiLoginObj.username}`)
-      })
-     }
+  this.http.post('http://localhost:8080/auth/login', this.apiLoginObj).subscribe(
+    (res: any) => {
+      const token = res.data.token;
+      const role = res.data.role; // Assuming the backend sends the role
+      const userId=res.data.userId;
+      localStorage.setItem('Token', token);
+      localStorage.setItem('Role', role);
+      localStorage.setItem('id',userId)
+
+      if (role === 'ROLE_ADMIN') {
+        this.router.navigate(['/admin']);
+      } else if (role === 'ROLE_USER') {
+        this.router.navigate(['/student']);
+      } else {
+        alert('UNKNOWN ROLE!');
+      }
+    },
+    (error) => {
+      alert('UNAUTHORIZED ACCESS!');
+    }
+  );
+}
+
  
   
 }

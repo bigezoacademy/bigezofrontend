@@ -1,7 +1,6 @@
 import { CanActivateFn } from '@angular/router';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-
 import { Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
@@ -9,17 +8,23 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (isPlatformBrowser(platformId)) {
-    const token = localStorage.getItem("Token");
-    if (token) {
+    const token = localStorage.getItem('Token');
+    const userRole = localStorage.getItem('Role'); // Retrieve role from localStorage
+
+    if (token && userRole) {
+      const expectedRole = route.data?.['role']; // Fetch expected role from route data
+      if (expectedRole && userRole !== expectedRole) {
+        alert('NOT AUTHORIZED FOR THIS ROLE!');
+        router.navigate([userRole === 'ROLE_ADMIN' ? '/admin' : '/student']);
+        return false;
+      }
       return true;
     } else {
-      alert(`NOT AUTHORIZED! ${token}`);
-      router.navigate(['/']); // Redirect to home or login
+      alert('NOT AUTHORIZED!');
+      router.navigate(['/']);
       return false;
     }
   }
 
-  // Deny access for SSR
-  return false;
+  return false; // Deny access for server-side rendering
 };
-
