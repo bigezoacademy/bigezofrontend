@@ -19,32 +19,19 @@
         <li class="nav-item">
           <a class="nav-link" (click)="terms()">Terms & Conditions</a>
         </li>
+        <li class="nav-item">
+          <a class="btn btn-dark" (click)="logout()">Logout</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
-<h3 class="text-center p-3">The Leading School Management Platform</h3>
-<!-- Main Content -->
-<div class="row align-items-center">
-  <div class="col-md-6">
-    <img src="2.png" alt="Students" class="img-fluid col-md-6" />
-  </div>
-  <div class="col-md-6 mt-3">
-    <ng-container *ngIf="showLogin">
-      <app-login></app-login>
-      <div class="text-center mt-3">
-        <a (click)="toggleView()" class="text-primary">Register your school?</a>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="!showLogin">
-      <app-register></app-register>
-      <div class="text-center mt-3">
-        <a (click)="toggleView()" class="text-primary">Login instead?</a>
-      </div>
-    </ng-container>
-  </div>
+
+<div class="text-center">
+  <h1 class="display-3 text-success border-bottom">THIS IS THE MAIN LAYOUT</h1>
+  <router-outlet></router-outlet>
 </div>
-<!-- Footer -->
+
 <footer>
   <p>"Fear God, and give Glory to Him" ... Rev 14:6-7</p>
   <p><span>Bigezo Technologies 2025</span></p>

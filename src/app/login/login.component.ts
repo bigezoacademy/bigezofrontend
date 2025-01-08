@@ -2,9 +2,8 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from 'express';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Console } from 'node:console';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +21,7 @@ export class LoginComponent {
     "password":""
   }
 
-constructor(private http:HttpClient){}
+constructor(private http:HttpClient, private router:Router){}
 
 
   onSubmit(loginForm: NgForm) {
@@ -40,8 +39,8 @@ constructor(private http:HttpClient){}
       console.log(`TOKEN ------------${res}`);
       alert(`SUCCESSFULLY LOGGED IN. TOKEN ------------${res.data}`)
 
-localStorage.setItem("Returned data ---------",res.data);
-localStorage.setItem("Token: ",res.data);
+localStorage.setItem("Token",res.data);
+this.router.navigateByUrl("admin");
       },error=>{
         alert(`UNAUTHORIZED ACCESS FOR ------------${this.apiLoginObj.username}`)
       })

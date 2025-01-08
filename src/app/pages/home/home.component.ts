@@ -3,6 +3,7 @@ import { RegisterComponent } from "../../register/register.component";
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from "../../login/login.component";
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',  
@@ -17,4 +18,11 @@ export class HomeComponent {
   toggleView() {
     this.showLogin = !this.showLogin;
   }
+
+    constructor(private router:Router){
+  
+    }
+    terms():any{
+  this.router.navigateByUrl("terms");
+    }
 }
