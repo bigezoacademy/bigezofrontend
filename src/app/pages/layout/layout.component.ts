@@ -17,7 +17,14 @@ this.router.navigateByUrl("terms");
   }
 
   logout():any{
-this.router.navigateByUrl("");
+    // Clear the local storage
+    localStorage.clear();
+
+    // Optionally clear session storage if used
+    sessionStorage.clear();
+
+    // Navigate to the home or login page
+    this.router.navigateByUrl("");
   }
 
 }
