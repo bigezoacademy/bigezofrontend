@@ -1,0 +1,183 @@
+<div class="register-box">
+  <h3 class="text-center text-success">REGISTER SCHOOL</h3>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage" class="alert alert-success text-center">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <form
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!successMessage"
+    novalidate
+  >
+    <!-- School Name -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        id="schoolName"
+        formControlName="schoolName"
+        class="form-control"
+        placeholder="School Name"
+      />
+      <label for="schoolName">School Name</label>
+      <div
+        *ngIf="
+          registerForm.get('schoolName')?.invalid &&
+          registerForm.get('schoolName')?.touched
+        "
+        class="text-danger"
+      >
+        School Name is required.
+      </div>
+    </div>
+
+    <!-- Admin Name -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        id="username"
+        formControlName="adminUsername"
+        class="form-control"
+        placeholder="Username"
+      />
+      <label for="username">Username</label>
+      <div
+        *ngIf="
+          registerForm.get('adminUsername')?.invalid &&
+          registerForm.get('adminUsername')?.touched
+        "
+        class="text-danger"
+      >
+        Admin Name is required.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-floating mb-3">
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        class="form-control"
+        placeholder="Email Address"
+      />
+      <label for="email">Email Address</label>
+      <div
+        *ngIf="
+          registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched
+        "
+        class="text-danger"
+      >
+        <div *ngIf="registerForm.get('email')?.errors?.['required']">
+          Email is required.
+        </div>
+        <div *ngIf="registerForm.get('email')?.errors?.['email']">
+          Enter a valid email address.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        id="phone"
+        formControlName="phone"
+        class="form-control"
+        placeholder="Phone"
+      />
+      <label for="phone">Phone</label>
+      <div
+        *ngIf="
+          registerForm.get('phone')?.invalid &&
+          registerForm.get('phone')?.touched
+        "
+        class="text-danger"
+      >
+        <div *ngIf="registerForm.get('phone')?.errors?.['required']">
+          Phone number is required.
+        </div>
+        <div *ngIf="registerForm.get('phone')?.errors?.['pattern']">
+          Enter a valid 10-digit phone number.
+        </div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-floating mb-3">
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        class="form-control"
+        placeholder="Password"
+      />
+      <label for="password">Password</label>
+      <div
+        *ngIf="
+          registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched
+        "
+        class="text-danger"
+      >
+        <div *ngIf="registerForm.get('password')?.errors?.['required']">
+          Password is required.
+        </div>
+        <div *ngIf="registerForm.get('password')?.errors?.['minlength']">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-floating mb-3">
+      <input
+        type="password"
+        id="confirmPassword"
+        formControlName="confirmPassword"
+        class="form-control"
+        placeholder="Confirm Password"
+      />
+      <label for="confirmPassword">Confirm Password</label>
+      <div
+        *ngIf="
+          registerForm.get('confirmPassword')?.invalid &&
+          registerForm.get('confirmPassword')?.touched
+        "
+        class="text-danger"
+      >
+        Confirm Password is required.
+      </div>
+    </div>
+
+    <!-- District -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        id="district"
+        formControlName="district"
+        class="form-control"
+        placeholder="District"
+      />
+      <label for="district">District</label>
+      <div
+        *ngIf="
+          registerForm.get('district')?.invalid &&
+          registerForm.get('district')?.touched
+        "
+        class="text-danger"
+      >
+        District is required.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-success w-100">Register</button>
+  </form>
+</div>

@@ -1,0 +1,19 @@
+<div class="row align-items-center">
+  <div class="col-md-6">
+    <img src="2.png" alt="Students" class="img-fluid col-md-6" />
+  </div>
+  <div class="col-md-6 mt-3">
+    <ng-container *ngIf="showLogin">
+      <app-login></app-login>
+      <div class="text-center mt-3">
+        <a (click)="toggleView()" class="text-primary">Register your school?</a>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!showLogin">
+      <app-register></app-register>
+      <div class="text-center mt-3">
+        <a (click)="toggleView()" class="text-primary">Login instead?</a>
+      </div>
+    </ng-container>
+  </div>
+</div>

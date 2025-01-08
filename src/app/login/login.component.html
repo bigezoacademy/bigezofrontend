@@ -1,0 +1,57 @@
+<!-- src/app/login/login.component.html -->
+<div class="login-box">
+  <h3 class="text-center text-success">LOGIN</h3>
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+    <div class="form-floating">
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="Enter your username"
+        [(ngModel)]="username"
+        name="username"
+        required
+        #usernameField="ngModel"
+      />
+      <label for="username">Username</label>
+      <div
+        *ngIf="usernameField.invalid && usernameField.touched"
+        class="text-danger"
+      >
+        Username is required.
+      </div>
+    </div>
+
+    <div class="form-floating">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Enter your password"
+        [(ngModel)]="password"
+        name="password"
+        required
+        #passwordField="ngModel"
+      />
+      <label for="password">Password</label>
+      <div
+        *ngIf="passwordField.invalid && passwordField.touched"
+        class="text-danger"
+      >
+        Password is required.
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success w-100"
+      [disabled]="loginForm.invalid"
+    >
+      Login
+    </button>
+
+    <div *ngIf="errorMessage" class="text-danger mt-3">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>
