@@ -14,7 +14,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     if (token && userRole) {
       const expectedRole = route.data?.['role']; // Fetch expected role from route data
       if (expectedRole && userRole !== expectedRole) {
-        alert('NOT AUTHORIZED FOR THIS ROLE!');
+        alert(`NOT AUTHORIZED FOR THE ROLE ${expectedRole}`);
         router.navigate([userRole === 'ROLE_ADMIN' ? '/admin' : '/student']);
         return false;
       }
