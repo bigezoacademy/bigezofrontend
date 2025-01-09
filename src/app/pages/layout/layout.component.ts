@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -30,4 +31,10 @@ this.router.navigateByUrl("terms");
     this.router.navigateByUrl("");
   }
 
+
+
+  
 }
+
+
+
