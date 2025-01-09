@@ -12,6 +12,9 @@ export class LayoutComponent {
   constructor(private router:Router){
 
   }
+accounttype:any=localStorage.getItem("Role");
+
+
   terms():any{
 this.router.navigateByUrl("terms");
   }

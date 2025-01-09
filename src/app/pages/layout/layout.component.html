@@ -1,18 +1,18 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-      <img src="logo.png" class="logo" alt="Logo" />
-    </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarNav">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" class="logo" alt="Logo" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#">How to use</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
@@ -27,12 +27,113 @@
   </div>
 </nav>
 
-<div class="text-center">
-  <h1 class="display-3 text-success border-bottom">THIS IS THE MAIN LAYOUT</h1>
-  <router-outlet></router-outlet>
-</div>
+<div class="d-flex flex-column min-vh-100">
+  <!-- Sidebar for medium to large screens -->
+  <nav
+    class="bg-light sidebar flex-column px-3 py-4 d-none d-md-block"
+    style="width: 250px; position: fixed; top: 0; left: 0"
+  >
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <img src="logo.png" class="logo" alt="Logo" />
+      <button
+        class="btn btn-close"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarContent"
+      ></button>
+    </div>
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" href="#">Requirements</a>
+      </li>
+      <li class="nav-item mb-2">
+        <a
+          class="nav-link text-dark"
+          href="#"
+          data-bs-toggle="collapse"
+          data-bs-target="#schoolFeesSubMenu"
+          >School Fees <i class="bi bi-chevron-down"></i
+        ></a>
+        <ul class="collapse" id="schoolFeesSubMenu">
+          <li class="nav-item">
+            <a class="nav-link text-dark ps-4" href="#">Term 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark ps-4" href="#">Payment Tracker</a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" href="#">School Canteen</a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" href="#">Exam Results</a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-dark" href="#">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" href="#">SMS</a>
+      </li>
+    </ul>
+  </nav>
 
-<footer>
-  <p>"Fear God, and give Glory to Him" ... Rev 14:6-7</p>
-  <p><span>Bigezo Technologies 2025</span></p>
-</footer>
+  <!-- Sidebar for small screens (collapsed initially) -->
+  <div class="collapse d-md-none" id="sidebarContent">
+    <nav class="bg-light sidebar flex-column px-3 py-4">
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="#">Requirements</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a
+            class="nav-link text-dark"
+            href="#"
+            data-bs-toggle="collapse"
+            data-bs-target="#schoolFeesSubMenu"
+            >School Fees <i class="bi bi-chevron-down"></i
+          ></a>
+          <ul class="collapse" id="schoolFeesSubMenu">
+            <li class="nav-item">
+              <a class="nav-link text-dark ps-4" href="#">Term 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark ps-4" href="#">Payment Tracker</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="#">School Canteen</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="#">Exam Results</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link text-dark" href="#">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#">SMS</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div
+    class="main-content flex-grow-1 p-4"
+    style="margin-left: 250px; padding: 20px"
+  >
+    <div class="text-center">
+      <h1 class="display-3 text-success border-bottom">
+        THIS IS THE MAIN LAYOUT
+      </h1>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- Fixed Footer -->
+  <footer class="bg-light text-center mt-auto py-3">
+    <p>"Fear God, and give Glory to Him" ... Rev 14:6-7</p>
+    <p><span>Bigezo Technologies 2025</span></p>
+  </footer>
+</div>
