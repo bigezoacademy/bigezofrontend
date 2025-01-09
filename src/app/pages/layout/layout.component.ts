@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -10,12 +10,19 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-  constructor(private router:Router){
+  constructor(private router:Router,private renderer: Renderer2){
 
   }
 accounttype:any=localStorage.getItem("Role");
 
-
+ngOnInit(): void {
+  const script = this.renderer.createElement('script');
+  script.src = 'src/index.js';
+  script.onload = () => {
+    console.log('index.js loaded');
+  };
+  this.renderer.appendChild(document.body, script);
+}
   terms():any{
 this.router.navigateByUrl("terms");
   }

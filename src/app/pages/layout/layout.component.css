@@ -112,7 +112,6 @@
 }
 
 main {
-  padding: min(30px, 7%);
 }
 
 .container {
@@ -129,10 +128,6 @@ main {
 
 .container h2 {
   margin-bottom: 1em;
-}
-
-main p {
-  color: var(--secondary-text-clr);
 }
 
 @media (max-width: 800px) {
@@ -175,6 +170,11 @@ main p {
   }
 
   main {
-    margin-top: 70px;
+    margin-top: 0px;
   }
+}
+
+.welcome {
+  font-size: 16px;
+  font-weight: 500;
 }
