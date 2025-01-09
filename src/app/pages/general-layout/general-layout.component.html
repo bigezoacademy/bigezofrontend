@@ -1,0 +1,40 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="logo.png" class="logo" alt="Logo" />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">How to use</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="terms()">Terms & Conditions</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-success" (click)="login()">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="text-center">
+  <h1 class="display-3 text-success border-bottom">
+    THIS IS THE OUTER GENERAL LAYOUT
+  </h1>
+  <router-outlet></router-outlet>
+</div>
+
+<footer>
+  <p>"Fear God, and give Glory to Him" ... Rev 14:6-7</p>
+  <p><span>Bigezo Technologies 2025</span></p>
+</footer>

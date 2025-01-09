@@ -6,10 +6,15 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { HomeComponent } from './pages/home/home.component';
 import { StudentComponent } from './pages/student/student.component';
 import { authGuard } from './guard/auth.guard';
+import { GeneralLayoutComponent } from './pages/general-layout/general-layout.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Public route
-  { path: 'terms', component: TermsComponent }, // Public route
+  { path: '', component: GeneralLayoutComponent,
+    children:[
+      { path: 'terms', component: TermsComponent }, // Public route
+    ]
+   },
   {
     path: '',
     component: LayoutComponent,
