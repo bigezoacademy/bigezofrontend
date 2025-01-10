@@ -1,0 +1,8 @@
+th {
+  text-align: left;
+  border-bottom: 1px solid #000;
+}
+
+tr:has(.selectRow:checked) > td {
+  background-color: #ccc;
+}

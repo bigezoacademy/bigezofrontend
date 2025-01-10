@@ -61,11 +61,21 @@
           <th>Level</th>
           <th>Term</th>
           <th>Year</th>
-          <th>Options</th>
+          <th *ngIf="accounttype === 'ROLE_ADMIN'"></th>
+          <th *ngIf="accounttype === 'ROLE_USER'">
+            Select
+            <input
+              type="checkbox"
+              name="selectAllRows"
+              value="1"
+              class="selectAllRows"
+              onclick="[...closest('table').querySelectorAll('tbody [class=selectRow]')].forEach(box=>box.checked=checked)"
+            />
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let requirement of requirements">
+        <tr *ngFor="let requirement of requirements; let i = index">
           <td>{{ requirement.item }}</td>
           <td>{{ requirement.description }}</td>
           <td>{{ requirement.unitCost }}</td>
@@ -73,8 +83,16 @@
           <td>{{ requirement.term }}</td>
           <td>{{ requirement.year }}</td>
           <td>
+            <input
+              type="checkbox"
+              name="selectRow[]"
+              value="1"
+              class="selectRow"
+            />
+          </td>
+          <td>
             <!-- Dropdown Button -->
-            <div class="dropdown">
+            <div class="dropdown" *ngIf="accounttype === 'ROLE_ADMIN'">
               <button
                 class="btn btn-dark dropdown-toggle"
                 type="button"

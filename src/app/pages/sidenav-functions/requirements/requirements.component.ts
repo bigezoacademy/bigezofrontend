@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./requirements.component.css']
 })
 export class RequirementsComponent {
+  accounttype:any=localStorage.getItem("Role");
   requirementsUrl: string = 'http://localhost:8080/api/requirements';
   requirements: any[] = []; // To store fetched requirements
   myyear: number = 2025;  // Default year as number
@@ -98,4 +99,7 @@ export class RequirementsComponent {
     this.currentRequirement = null;
     this.message = ''; // Clear message on cancel
   }
+
+
+  
 }

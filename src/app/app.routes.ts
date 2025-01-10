@@ -24,7 +24,7 @@ export const routes: Routes = [
       {path:'requirements',
         component:RequirementsComponent,
         canActivate:[authGuard],
-        data:{role:'ROLE_ADMIN'}
+        data:{role:['ROLE_ADMIN','ROLE_USER','ROLE_TEACHER']}
       },
       {path:'newrequirement',
         component:NewRequirementComponent,
