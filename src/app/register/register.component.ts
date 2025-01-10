@@ -37,7 +37,7 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
+ /*  onSubmit() {
     // Check if the form is valid
     if (this.registerForm.invalid) {
       this.errorMessage = 'Please fill out all required fields correctly.';
@@ -73,5 +73,46 @@ export class RegisterComponent {
         console.error('Error:', error);
       },
     });
+  } */
+
+    onSubmit() {
+      // Check if the form is valid
+      if (this.registerForm.invalid) {
+        this.errorMessage = 'Please fill out all required fields correctly.';
+        return;
+      }
+    
+      this.successMessage = '';
+      this.errorMessage = '';
+    
+      const formData = {
+        schoolName: this.registerForm.get('schoolName')?.value,
+        adminUsername: this.registerForm.get('adminUsername')?.value,  
+        adminPassword: this.registerForm.get('password')?.value,
+        adminPhone: this.registerForm.get('phone')?.value,
+        adminEmail: this.registerForm.get('email')?.value,
+        district: this.registerForm.get('district')?.value,
+      };
+    
+      this.http.post<RegisterResponse>(this.registerUrl, formData).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.successMessage = 'Registration successful!';
+            this.registerForm.reset();
+          } else {
+            this.errorMessage = response.message || 'Registration failed. Please try again later.';
+          }
+        },
+        error: (error) => {
+          if (error.status === 400 && error.error?.message === 'Admin username already exists') {
+            this.errorMessage = 'The username is already taken. Please choose a different one.';
+          } else {
+            this.errorMessage = 'Registration failed. Please try again later.';
+          }
+          console.error('Error:', error);
+        },
+      });
+    }
+    
+
   }
-}

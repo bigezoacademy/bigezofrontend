@@ -23,117 +23,16 @@
 
       <!-- User Profile Section (Aligned to the Right) -->
       <div class="user d-flex align-items-center ml-auto">
-        <button class="btn btn-outline-dark me-3">Logout</button>
+        <button class="btn btn-outline-dark me-3" (click)="logout()">
+          Logout
+        </button>
         <span class="me-2">Claire Ochola</span>
         <i class="bi bi-person-circle" style="font-size: 1.5rem"></i>
       </div>
     </div>
 
     <div class="maincontent">
-      <h5>Requirements for <strong>Term 2, S.3</strong></h5>
-      <!-- Unpaid Section -->
-      <h6 class="text-danger">
-        <i class="bi bi-exclamation-circle-fill"></i> UNPAID
-      </h6>
-      <button class="btn btn-dark mb-3">
-        Download PDF <i class="bi bi-download"></i>
-      </button>
-
-      <!-- Add table-responsive class for responsiveness -->
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead class="table-secondary">
-            <tr>
-              <th>No.</th>
-              <th>Item</th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>Unit Cost (UGx)</th>
-              <th>Total (UGx)</th>
-              <th>Select</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Ream of papers</td>
-              <td>Picfare</td>
-              <td>3</td>
-              <td>21,000</td>
-              <td>63,000</td>
-              <td><input type="checkbox" /></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Holy Bible</td>
-              <td>NKJV</td>
-              <td>1</td>
-              <td>40,000</td>
-              <td>40,000</td>
-              <td><input type="checkbox" /></td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th colspan="5">TOTAL</th>
-              <th colspan="2" class="text-danger">UGX 103,000</th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-
-      <button class="btn btn-danger col-md-4">PAY FOR SELECTED ITEMS</button>
-
-      <hr />
-
-      <!-- Paid Section -->
-      <h6 class="text-success"><i class="bi bi-check-circle-fill"></i> PAID</h6>
-      <button class="btn btn-dark mb-3">
-        Download PDF <i class="bi bi-download"></i>
-      </button>
-
-      <!-- Add table-responsive class for responsiveness -->
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead class="table-secondary">
-            <tr>
-              <th>No.</th>
-              <th>Item</th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>Unit Cost (UGx)</th>
-              <th>Total (UGx)</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Scientific Calculator</td>
-              <td>FX-991</td>
-              <td>1</td>
-              <td>85,000</td>
-              <td>85,000</td>
-              <td class="status-paid">PAID</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>On Y Va French Book</td>
-              <td>On Y Va</td>
-              <td>2</td>
-              <td>26,000</td>
-              <td>52,000</td>
-              <td class="status-paid">PAID</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th colspan="5">TOTAL</th>
-              <th colspan="2" class="text-success">UGX 137,000</th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+      <router-outlet></router-outlet>
     </div>
 
     <!-- Footer -->
