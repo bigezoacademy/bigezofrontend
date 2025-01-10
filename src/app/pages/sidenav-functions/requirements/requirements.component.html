@@ -1,58 +1,70 @@
-<h3>
-  See all requirements here
-  <button class="btn btn-dark ms-5" (click)="showrequirements()">
-    Show All
-  </button>
-</h3>
+<!-- Dropdown menus for Year, Term, and Class inside a row -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="mb-3">
+      <label for="year" class="form-label">Year</label>
+      <select id="year" class="form-select" [(ngModel)]="myyear">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  </div>
 
-<!-- Dropdown menus for Year, Term, and Class -->
-<div class="mb-3">
-  <label for="year" class="form-label">Year</label>
-  <select id="year" class="form-select" [(ngModel)]="myyear">
-    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-  </select>
-</div>
+  <div class="col-md-3">
+    <div class="mb-3">
+      <label for="term" class="form-label">Term</label>
+      <select id="term" class="form-select" [(ngModel)]="myterm">
+        <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
+      </select>
+    </div>
+  </div>
 
-<div class="mb-3">
-  <label for="term" class="form-label">Term</label>
-  <select id="term" class="form-select" [(ngModel)]="myterm">
-    <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
-  </select>
-</div>
-
-<div class="mb-3">
-  <label for="level" class="form-label">Class Level</label>
-  <select id="level" class="form-select" [(ngModel)]="mylevel">
-    <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
-  </select>
+  <div class="col-md-3">
+    <div class="mb-3">
+      <label for="level" class="form-label">Class Level</label>
+      <select id="level" class="form-select" [(ngModel)]="mylevel">
+        <option *ngFor="let level of levels" [value]="level">
+          {{ level }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="mb-3">
+      <button class="btn btn-dark ms-5" (click)="showrequirements()">
+        Show All
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Requirements Table -->
-<table *ngIf="requirements.length > 0" class="table">
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Description</th>
-      <th>Unit Cost</th>
-      <th>Level</th>
-      <th>Term</th>
-      <th>Year</th>
-      <th>School Admin</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let requirement of requirements">
-      <td>{{ requirement.item }}</td>
-      <td>{{ requirement.description }}</td>
-      <td>{{ requirement.unitCost }}</td>
-      <td>{{ requirement.level }}</td>
-      <td>{{ requirement.term }}</td>
-      <td>{{ requirement.year }}</td>
-      <td>{{ requirement.schoolAdmin.id }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-responsive">
+  <table *ngIf="requirements.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Unit Cost</th>
+        <th>Level</th>
+        <th>Term</th>
+        <th>Year</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let requirement of requirements">
+        <td>{{ requirement.item }}</td>
+        <td>{{ requirement.description }}</td>
+        <td>{{ requirement.unitCost }}</td>
+        <td>{{ requirement.level }}</td>
+        <td>{{ requirement.term }}</td>
+        <td>{{ requirement.year }}</td>
+        <td><button class="btn btn-dark">Options</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<p *ngIf="requirements.length === 0">
+<p *ngIf="requirements.length === 0" class="alert alert-danger m-2">
   No requirements found for the selected year, level, and term.
 </p>

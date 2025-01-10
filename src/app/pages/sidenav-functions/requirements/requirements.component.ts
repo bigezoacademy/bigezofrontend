@@ -16,10 +16,11 @@ export class RequirementsComponent {
   myyear: number = 2025;  // Default year as number
   mylevel: string = '5';  // Default level as string
   myterm: number = 1;     // Default term as number
+  myschool:string='';
 
   // Define the possible values for year, term, and level
   years: number[] = [2025, 2026, 2027];  // Example years
-  terms: number[] = [1, 2];              // Example terms
+  terms: number[] = [1, 2,3];              // Example terms
   levels: string[] = ['1', '2', '3', '4', '5','6','7']; // Example levels
 
   private http = inject(HttpClient);
@@ -38,6 +39,7 @@ export class RequirementsComponent {
       .subscribe({
         next: (data) => {
           this.requirements = data;
+         // this.myschool=this.requirements.schoolAdmin.schoolName;
         },
         error: (err) => {
           console.error('Error fetching requirements', err);
