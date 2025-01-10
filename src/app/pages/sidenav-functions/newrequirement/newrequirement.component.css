@@ -1,0 +1,25 @@
+/* Optional: Customizing the floating label color */
+:root {
+  --darkgreen: #528f41; /* Define the color variable */
+  --lightgreen: #daffcf;
+  --lightcream: #fffbef;
+  --black: #000000;
+  --lightgrey: #e9e9e9;
+  --red: #b90202;
+}
+.form-floating label {
+  color: #000000; /* Change to any color you prefer */
+}
+
+.form-floating input:focus,
+.form-floating select:focus,
+.form-floating textarea:focus {
+  border-color: #28a745; /* Change to a color of your choice */
+}
+
+.form-control {
+  border: 2px solid #000000;
+}
+.form-select {
+  border-bottom: 2px solid #000000;
+}

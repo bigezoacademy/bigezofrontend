@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./newrequirement.component.css'],
 })
 export class NewRequirementComponent {
+
+  addrequirementstatus:string='status message';
+  status:any;
   
   newRequirementUrl: string = 'http://localhost:8080/api/requirements';
   item: string = '';
@@ -46,12 +49,14 @@ export class NewRequirementComponent {
 
     this.http.post(this.newRequirementUrl, newRequirement).subscribe({
       next: () => {
-        alert('Requirement created successfully!');
+        this.addrequirementstatus='Requirement created successfully!';
+        this.status='success';
         this.clearForm();
       },
       error: (err) => {
+        this.status='error';
+        this.addrequirementstatus='Error! Failed to create requirement';
         console.error('Error creating requirement', err);
-        alert('Failed to create requirement.');
       },
     });
   }

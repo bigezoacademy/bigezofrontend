@@ -1,80 +1,112 @@
 <div class="container">
-  <h2>Create New Requirement</h2>
+  <h4 class="text-success pb-5">Create New Requirement</h4>
+
+  <div *ngIf="status === 'success'" class="alert alert-success text-center">
+    {{ addrequirementstatus }}
+  </div>
+  <div
+    *ngIf="status === 'error' || status === null"
+    class="alert alert-danger text-center"
+  >
+    {{ addrequirementstatus }}
+  </div>
+
   <form (ngSubmit)="createRequirement()">
     <div class="row">
+      <!-- Item Input with Placeholder -->
       <div class="mb-3 col-md-4">
-        <label for="item" class="form-label">Item</label>
-        <input
-          id="item"
-          class="form-control"
-          [(ngModel)]="item"
-          name="item"
-          required
-        />
+        <div class="">
+          <input
+            id="item"
+            class="form-control"
+            [(ngModel)]="item"
+            name="item"
+            placeholder="Item name"
+            required
+          />
+        </div>
       </div>
 
+      <!-- Description Textarea with Placeholder -->
       <div class="mb-3 col-md-4">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          id="description"
-          class="form-control"
-          [(ngModel)]="description"
-          name="description"
-          required
-        ></textarea>
+        <div class="">
+          <textarea
+            id="description"
+            class="form-control"
+            [(ngModel)]="description"
+            name="description"
+            placeholder="Description"
+            required
+          ></textarea>
+        </div>
       </div>
 
+      <!-- Unit Cost Input with Placeholder -->
       <div class="mb-3 col-md-4">
-        <label for="unitCost" class="form-label">Unit Cost</label>
-        <input
-          id="unitCost"
-          type="number"
-          class="form-control"
-          [(ngModel)]="unitCost"
-          name="unitCost"
-          required
-        />
+        <div class="">
+          <input
+            id="unitCost"
+            type="number"
+            class="form-control"
+            [(ngModel)]="unitCost"
+            placeholder="Unit Cost"
+            name="unitCost"
+            required
+          />
+        </div>
       </div>
 
+      <!-- Class Level Select with Placeholder -->
       <div class="mb-3 col-md-4">
-        <label for="level" class="form-label">Class Level</label>
-        <select
-          id="level"
-          class="form-select"
-          [(ngModel)]="level"
-          name="level"
-          required
-        >
-          <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
-        </select>
+        <div class="">
+          <select
+            id="level"
+            class="form-select"
+            [(ngModel)]="level"
+            name="level"
+            required
+          >
+            <option value="" disabled selected>Select Class Level</option>
+            <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
+          </select>
+        </div>
       </div>
 
+      <!-- Term Select with Placeholder -->
       <div class="mb-3 col-md-4">
-        <label for="term" class="form-label">Term</label>
-        <select
-          id="term"
-          class="form-select"
-          [(ngModel)]="term"
-          name="term"
-          required
-        >
-          <option *ngFor="let t of terms" [value]="t">{{ t }}</option>
-        </select>
+        <div class="">
+          <select
+            id="term"
+            class="form-select"
+            [(ngModel)]="term"
+            name="term"
+            required
+          >
+            <option value="" class="text-secondary" disabled selected>
+              Select Term
+            </option>
+            <option *ngFor="let t of terms" [value]="t">{{ t }}</option>
+          </select>
+        </div>
       </div>
 
+      <!-- Year Select with Placeholder -->
       <div class="mb-3 col-md-4">
-        <label for="year" class="form-label">Year</label>
-        <select
-          id="year"
-          class="form-select"
-          [(ngModel)]="year"
-          name="year"
-          required
-        >
-          <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
-        </select>
+        <div class="">
+          <select
+            id="year"
+            class="form-select"
+            [(ngModel)]="year"
+            name="year"
+            required
+          >
+            <option value="" disabled selected>Select Year</option>
+            <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
+          </select>
+        </div>
       </div>
 
+      <!-- Hidden School Admin Input -->
       <div class="mb-3 col-md-4">
         <input
           hidden
@@ -85,6 +117,8 @@
           name="schoolAdminId"
         />
       </div>
+
+      <!-- Submit Button -->
       <div class="mb-3 col-md-4"></div>
       <div class="mb-3 col-md-4">
         <button type="submit" class="btn btn-success">
