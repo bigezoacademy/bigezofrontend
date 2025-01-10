@@ -24,6 +24,8 @@ body {
   font-style: normal;
   background-color: #ffffff;
   color: #000000;
+  overflow-x: hidden;
+  margin: 0; /* Reset default margin */
 }
 
 .form-floating {

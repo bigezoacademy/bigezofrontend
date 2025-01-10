@@ -1,82 +1,138 @@
-<div class="body">
-  <nav id="sidebar">
-    <ul>
-      <li>
-        <span class="logo">Bigezo</span>
-        <button onclick="toggleSidebar()" id="toggle-btn">
-          <i class="bi bi-chevron-double-left"></i>
-        </button>
-      </li>
-      <li>
-        <a href="index.html">
-          <i class="bi bi-house-door-fill"></i>
-          <span>Home</span>
-        </a>
-      </li>
-      <li class="active">
-        <a href="dashboard.html">
-          <i class="bi bi-grid-fill"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <button onclick="toggleSubMenu(this)" class="dropdown-btn">
-          <i class="bi bi-folder-plus"></i>
-          <span>Create</span>
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <ul class="sub-menu">
-          <div>
-            <li><a href="#">Folder</a></li>
-            <li><a href="#">Document</a></li>
-            <li><a href="#">Project</a></li>
-          </div>
-        </ul>
-      </li>
-      <li>
-        <button onclick="toggleSubMenu(this)" class="dropdown-btn">
-          <i class="bi bi-list-task"></i>
-          <span>Todo-Lists</span>
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <ul class="sub-menu">
-          <div>
-            <li><a href="#">Work</a></li>
-            <li><a href="#">Private</a></li>
-            <li><a href="#">Coding</a></li>
-            <li><a href="#">Gardening</a></li>
-            <li><a href="#">School</a></li>
-          </div>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+<div class="d-flex row">
+  <!-- Sidebar -->
+  <div class="sidebar" [ngClass]="{ show: sidebarVisible }">
+    <button class="close-btn" (click)="toggleSidebar()">×</button>
+    <img src="logo.png" alt="Logo" class="mb-4" style="width: 120px" />
+    <a href="#"> <i class="bi me-2 bi-list-check"></i> Requirements </a>
+    <a href="#"> <i class="bi me-2 bi-cash-stack"></i> School Fees </a>
+    <a href="#"> <i class="bi me-2 bi-shop"></i> School Canteen </a>
+    <a href="#"> <i class="bi me-2 bi-journal-check"></i> Exam Results </a>
+    <a href="#"> <i class="bi me-2 bi-person"></i> Profile </a>
+    <a href="#"> <i class="bi me-2 bi-chat-dots"></i> SMS </a>
+  </div>
 
-  <main>
-    <!-- Main Content -->
-    <div class="main-content flex-grow-1 p-4">
-      <nav
-        class="navbar top-nav navbar-expand-lg navbar-light bg-light mb-3 p-3"
-      >
-        <div class="container-fluid">
-          <div class="d-flex ms-auto align-items-center">
-            <span class="navbar-brand mb-0 p me-3 welcome"
-              >Welcome <i class="text-danger">Bigezo Dashboard</i>
-            </span>
-            <button class="btn btn-dark px-3" (click)="logout()">Logout</button>
-          </div>
-        </div>
-      </nav>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header d-flex justify-content-between p-3 border-bottom">
+      <!-- Hamburger Button for Small Screens -->
+      <button class="hamburger-btn d-md-none" (click)="toggleSidebar()">
+        ☰
+      </button>
+      <p class="bigezoapp">Bigezo App</p>
 
-      <div class="text-center">
-        <router-outlet></router-outlet>
+      <!-- User Profile Section (Aligned to the Right) -->
+      <div class="user d-flex align-items-center ml-auto">
+        <button class="btn btn-outline-dark me-3">Logout</button>
+        <span class="me-2">Claire Ochola</span>
+        <i class="bi bi-person-circle" style="font-size: 1.5rem"></i>
       </div>
     </div>
 
-    <!-- Fixed Footer -->
-    <footer class="bg-light text-center mt-auto py-3">
-      <p>"Fear God, and give Glory to Him" ... Rev 14:6-7</p>
-      <p><span>Bigezo Technologies 2025</span></p>
-    </footer>
-  </main>
+    <div class="maincontent">
+      <h5>Requirements for <strong>Term 2, S.3</strong></h5>
+      <!-- Unpaid Section -->
+      <h6 class="text-danger">
+        <i class="bi bi-exclamation-circle-fill"></i> UNPAID
+      </h6>
+      <button class="btn btn-dark mb-3">
+        Download PDF <i class="bi bi-download"></i>
+      </button>
+      <table class="table table-bordered">
+        <thead class="table-secondary">
+          <tr>
+            <th>No.</th>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Cost (UGx)</th>
+            <th>Total (UGx)</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Ream of papers</td>
+            <td>Picfare</td>
+            <td>3</td>
+            <td>21,000</td>
+            <td>63,000</td>
+            <td><input type="checkbox" /></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Holy Bible</td>
+            <td>NKJV</td>
+            <td>1</td>
+            <td>40,000</td>
+            <td>40,000</td>
+            <td><input type="checkbox" /></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="5">TOTAL</th>
+            <th colspan="2" class="text-danger">UGX 103,000</th>
+          </tr>
+        </tfoot>
+      </table>
+      <button class="btn btn-danger w-100">PAY FOR SELECTED ITEMS</button>
+
+      <hr />
+
+      <!-- Paid Section -->
+      <h6 class="text-success"><i class="bi bi-check-circle-fill"></i> PAID</h6>
+      <button class="btn btn-dark mb-3">
+        Download PDF <i class="bi bi-download"></i>
+      </button>
+      <table class="table table-bordered">
+        <thead class="table-secondary">
+          <tr>
+            <th>No.</th>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Cost (UGx)</th>
+            <th>Total (UGx)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Scientific Calculator</td>
+            <td>FX-991</td>
+            <td>1</td>
+            <td>85,000</td>
+            <td>85,000</td>
+            <td class="status-paid">PAID</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>On Y Va French Book</td>
+            <td>On Y Va</td>
+            <td>2</td>
+            <td>26,000</td>
+            <td>52,000</td>
+            <td class="status-paid">PAID</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="5">TOTAL</th>
+            <th colspan="2" class="text-success">UGX 137,000</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        “Fear God, and give Glory to Him” ... Rev 14:6–7 <br />
+        <strong>Bigezo Technologies 2025</strong>
+      </p>
+    </div>
+  </div>
 </div>
