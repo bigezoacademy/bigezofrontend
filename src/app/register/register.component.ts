@@ -104,10 +104,13 @@ export class RegisterComponent {
           }
         },
         error: (error) => {
-          if (error.status === 400 && error.error?.message === 'Admin username already exists') {
+          if (error.status === 0) {
+            this.errorMessage = 'Unable to connect to the server. Please ensure the backend is running.';
+          }
+         else if (error.status === 400 && error.error?.message === 'Admin username already exists') {
             this.errorMessage = 'The username is already taken. Please choose a different one.';
           } else {
-            this.errorMessage = 'Registration failed. Please try again later.';
+            this.errorMessage = `Registration failed. Please try again later. ${error}`;
           }
           console.error('Error:', error);
         },
