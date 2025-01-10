@@ -51,72 +51,86 @@
 <!-- Conditionally display requirements or edit UI -->
 <div *ngIf="!isEditMode">
   <!-- Requirements Table -->
-  <div class="table-responsive">
-    <table *ngIf="requirements.length > 0" class="table">
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Description</th>
-          <th>Unit Cost</th>
-          <th>Level</th>
-          <th>Term</th>
-          <th>Year</th>
-          <th *ngIf="accounttype === 'ROLE_ADMIN'"></th>
-          <th *ngIf="accounttype === 'ROLE_USER'">
-            Select
-            <input
-              type="checkbox"
-              name="selectAllRows"
-              value="1"
-              class="selectAllRows"
-              onclick="[...closest('table').querySelectorAll('tbody [class=selectRow]')].forEach(box=>box.checked=checked)"
-            />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let requirement of requirements; let i = index">
-          <td>{{ requirement.item }}</td>
-          <td>{{ requirement.description }}</td>
-          <td>{{ requirement.unitCost }}</td>
-          <td>{{ requirement.level }}</td>
-          <td>{{ requirement.term }}</td>
-          <td>{{ requirement.year }}</td>
-          <td>
-            <input
-              type="checkbox"
-              name="selectRow[]"
-              value="1"
-              class="selectRow"
-            />
-          </td>
-          <td>
-            <!-- Dropdown Button -->
-            <div class="dropdown" *ngIf="accounttype === 'ROLE_ADMIN'">
-              <button
-                class="btn btn-dark dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Options
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    (click)="editRequirement(requirement)"
-                    >Edit</a
-                  >
-                </li>
-                <li><a class="dropdown-item" href="#">Delete</a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="requirements.length > 0">
+    <div class="table-responsive mb-3">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Unit Cost</th>
+            <th>Class</th>
+            <th>Term</th>
+            <th>Year</th>
+            <th *ngIf="accounttype === 'ROLE_ADMIN'"></th>
+            <th *ngIf="accounttype === 'ROLE_USER'">
+              Select
+              <input
+                type="checkbox"
+                name="selectAllRows"
+                value="1"
+                class="selectAllRows"
+                onclick="[...closest('table').querySelectorAll('tbody [class=selectRow]')].forEach(box=>box.checked=checked)"
+              />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let requirement of requirements; let i = index">
+            <td>{{ requirement.item }}</td>
+            <td>{{ requirement.description }}</td>
+            <td>{{ requirement.unitCost }}</td>
+            <td>{{ requirement.level }}</td>
+            <td>{{ requirement.term }}</td>
+            <td>{{ requirement.year }}</td>
+            <td>
+              <input
+                type="checkbox"
+                name="selectRow[]"
+                value="1"
+                class="selectRow"
+              />
+            </td>
+            <td>
+              <!-- Dropdown Button -->
+              <div class="dropdown" *ngIf="accounttype === 'ROLE_ADMIN'">
+                <button
+                  class="btn btn-dark dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Options
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      (click)="editRequirement(requirement)"
+                      >Edit</a
+                    >
+                  </li>
+                  <li><a class="dropdown-item" href="#">Delete</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-4"></div>
+
+      <div class="col-md-4">
+        <button class="btn btn-secondary w-100 m-1">Calculate Total</button>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-success w-100 m-1">
+          Pay for selected items
+        </button>
+      </div>
+    </div>
   </div>
 
   <p *ngIf="requirements.length === 0" class="alert alert-danger m-2">
