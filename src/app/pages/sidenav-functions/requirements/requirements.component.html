@@ -1,0 +1,36 @@
+<h3>
+  See all requirements here
+  <button class="btn btn-dark ms-5" (click)="showrequirements()">
+    Show All
+  </button>
+</h3>
+
+<table *ngIf="requirements.length > 0" class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Description</th>
+      <th>Unit Cost</th>
+      <th>Level</th>
+      <th>Term</th>
+      <th>Year</th>
+      <th>School Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let requirement of requirements">
+      <td>{{ requirement.item }}</td>
+      <td>{{ requirement.description }}</td>
+      <td>{{ requirement.unitCost }}</td>
+      <!-- No pipe, just direct number -->
+      <td>{{ requirement.level }}</td>
+      <td>{{ requirement.term }}</td>
+      <td>{{ requirement.year }}</td>
+      <td>{{ requirement.schoolAdmin.id }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="requirements.length === 0">
+  No requirements found for the selected year, level, and term.
+</p>

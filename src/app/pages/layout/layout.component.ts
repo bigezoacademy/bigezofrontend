@@ -26,6 +26,12 @@ ngOnInit(): void {
   terms():any{
 this.router.navigateByUrl("terms");
   }
+  home():any{
+    this.router.navigateByUrl("admin");
+      }
+  requirements():any{
+    this.router.navigateByUrl("requirements");
+      }
 
   logout():any{
     // Clear the local storage
