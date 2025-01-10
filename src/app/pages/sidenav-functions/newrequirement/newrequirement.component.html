@@ -1,0 +1,96 @@
+<div class="container">
+  <h2>Create New Requirement</h2>
+  <form (ngSubmit)="createRequirement()">
+    <div class="row">
+      <div class="mb-3 col-md-4">
+        <label for="item" class="form-label">Item</label>
+        <input
+          id="item"
+          class="form-control"
+          [(ngModel)]="item"
+          name="item"
+          required
+        />
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          class="form-control"
+          [(ngModel)]="description"
+          name="description"
+          required
+        ></textarea>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="unitCost" class="form-label">Unit Cost</label>
+        <input
+          id="unitCost"
+          type="number"
+          class="form-control"
+          [(ngModel)]="unitCost"
+          name="unitCost"
+          required
+        />
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="level" class="form-label">Class Level</label>
+        <select
+          id="level"
+          class="form-select"
+          [(ngModel)]="level"
+          name="level"
+          required
+        >
+          <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="term" class="form-label">Term</label>
+        <select
+          id="term"
+          class="form-select"
+          [(ngModel)]="term"
+          name="term"
+          required
+        >
+          <option *ngFor="let t of terms" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="year" class="form-label">Year</label>
+        <select
+          id="year"
+          class="form-select"
+          [(ngModel)]="year"
+          name="year"
+          required
+        >
+          <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <input
+          hidden
+          id="schoolAdmin"
+          type="number"
+          class="form-control"
+          [(ngModel)]="schoolAdminId"
+          name="schoolAdminId"
+        />
+      </div>
+      <div class="mb-3 col-md-4"></div>
+      <div class="mb-3 col-md-4">
+        <button type="submit" class="btn btn-success">
+          Create Requirement
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

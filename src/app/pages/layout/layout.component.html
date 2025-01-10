@@ -4,9 +4,23 @@
     <button class="close-btn" (click)="toggleSidebar()">×</button>
     <img src="logo.png" alt="Logo" class="mb-4" style="width: 120px" />
     <a (click)="home()"> <i class="bi me-2 bi-house"></i> Home </a>
-    <a (click)="requirements()">
+    <a
+      class="d-flex align-items-center dropdown-toggle"
+      id="requirementsDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
       <i class="bi me-2 bi-list-check"></i> Requirements
     </a>
+    <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
+      <li>
+        <a class="dropdown-item" (click)="requirements()">View Requirements</a>
+      </li>
+      <li>
+        <a class="dropdown-item" (click)="newrequirement()">New Requirement</a>
+      </li>
+    </ul>
+
     <a href="#"> <i class="bi me-2 bi-cash-stack"></i> School Fees </a>
     <a href="#"> <i class="bi me-2 bi-shop"></i> School Canteen </a>
     <a href="#"> <i class="bi me-2 bi-journal-check"></i> Exam Results </a>

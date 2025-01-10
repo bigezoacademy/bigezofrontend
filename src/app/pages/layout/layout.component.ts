@@ -32,6 +32,9 @@ this.router.navigateByUrl("terms");
   requirements():any{
     this.router.navigateByUrl("requirements");
       }
+      newrequirement():any{
+        this.router.navigateByUrl("newrequirement");
+          }
 
   logout():any{
     // Clear the local storage

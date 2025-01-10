@@ -8,6 +8,7 @@ import { StudentComponent } from './pages/student/student.component';
 import { authGuard } from './guard/auth.guard';
 import { GeneralLayoutComponent } from './pages/general-layout/general-layout.component';
 import { RequirementsComponent } from './pages/sidenav-functions/requirements/requirements.component';
+import { NewRequirementComponent } from './pages/sidenav-functions/newrequirement/newrequirement.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Public route
@@ -22,6 +23,11 @@ export const routes: Routes = [
     children: [
       {path:'requirements',
         component:RequirementsComponent,
+        canActivate:[authGuard],
+        data:{role:'ROLE_ADMIN'}
+      },
+      {path:'newrequirement',
+        component:NewRequirementComponent,
         canActivate:[authGuard],
         data:{role:'ROLE_ADMIN'}
       },

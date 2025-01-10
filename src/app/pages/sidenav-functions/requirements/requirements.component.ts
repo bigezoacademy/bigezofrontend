@@ -19,7 +19,7 @@ export class RequirementsComponent {
   myschool:string='';
 
   // Define the possible values for year, term, and level
-  years: number[] = [2025, 2026, 2027];  // Example years
+  years: number[] = [2025, 2024];  // Example years
   terms: number[] = [1, 2,3];              // Example terms
   levels: string[] = ['1', '2', '3', '4', '5','6','7']; // Example levels
 
