@@ -62,7 +62,7 @@
             <th>Class</th>
             <th>Term</th>
             <th>Year</th>
-            <th *ngIf="accounttype === 'ROLE_ADMIN'"></th>
+            <th *ngIf="accounttype === 'ROLE_ADMIN'">Action</th>
             <th *ngIf="accounttype === 'ROLE_USER'">
               Select
               <input
@@ -83,7 +83,7 @@
             <td>{{ requirement.level }}</td>
             <td>{{ requirement.term }}</td>
             <td>{{ requirement.year }}</td>
-            <td>
+            <td *ngIf="accounttype === 'ROLE_USER'">
               <input
                 type="checkbox"
                 name="selectRow[]"
@@ -111,7 +111,13 @@
                       >Edit</a
                     >
                   </li>
-                  <li><a class="dropdown-item" href="#">Delete</a></li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      (click)="deleteRequirement(requirement.id)"
+                      >Delete</a
+                    >
+                  </li>
                 </ul>
               </div>
             </td>

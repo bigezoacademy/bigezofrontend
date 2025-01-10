@@ -101,5 +101,23 @@ export class RequirementsComponent {
   }
 
 
+  deleteRequirement(requirementId: number) {
+    if (confirm('Are you sure you want to delete this requirement?')) {
+      this.http.delete(`${this.requirementsUrl}/${requirementId}`).subscribe({
+        next: () => {
+          this.message = 'Requirement deleted successfully!';
+          this.messageType = 'success';
+          this.showrequirements();  // Refresh the list of requirements
+        },
+        error: (err) => {
+          console.error('Error deleting requirement', err);
+          this.message = 'Error deleting requirement, please try again.';
+          this.messageType = 'error';
+        },
+      });
+    }
+  }
+  
+
   
 }

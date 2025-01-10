@@ -16,3 +16,6 @@ tr:has(.selectRow:checked) > td {
   font-weight: 600;
   background-color: var(--lightgreen);
 }
+table {
+  min-height: 150px;
+}
