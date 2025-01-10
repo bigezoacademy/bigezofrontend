@@ -37,34 +37,138 @@
   </div>
 </div>
 
-<!-- Requirements Table -->
-<div class="table-responsive">
-  <table *ngIf="requirements.length > 0" class="table">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>Description</th>
-        <th>Unit Cost</th>
-        <th>Level</th>
-        <th>Term</th>
-        <th>Year</th>
-        <th>Options</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let requirement of requirements">
-        <td>{{ requirement.item }}</td>
-        <td>{{ requirement.description }}</td>
-        <td>{{ requirement.unitCost }}</td>
-        <td>{{ requirement.level }}</td>
-        <td>{{ requirement.term }}</td>
-        <td>{{ requirement.year }}</td>
-        <td><button class="btn btn-dark">Options</button></td>
-      </tr>
-    </tbody>
-  </table>
+<!-- Conditionally display requirements or edit UI -->
+<div *ngIf="!isEditMode">
+  <!-- Requirements Table -->
+  <div class="table-responsive">
+    <table *ngIf="requirements.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Description</th>
+          <th>Unit Cost</th>
+          <th>Level</th>
+          <th>Term</th>
+          <th>Year</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let requirement of requirements">
+          <td>{{ requirement.item }}</td>
+          <td>{{ requirement.description }}</td>
+          <td>{{ requirement.unitCost }}</td>
+          <td>{{ requirement.level }}</td>
+          <td>{{ requirement.term }}</td>
+          <td>{{ requirement.year }}</td>
+          <td>
+            <!-- Dropdown Button -->
+            <div class="dropdown">
+              <button
+                class="btn btn-dark dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Options
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    (click)="editRequirement(requirement)"
+                    >Edit</a
+                  >
+                </li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="requirements.length === 0" class="alert alert-danger m-2">
+    No requirements found for the selected year, level, and term.
+  </p>
 </div>
 
-<p *ngIf="requirements.length === 0" class="alert alert-danger m-2">
-  No requirements found for the selected year, level, and term.
-</p>
+<!-- Edit Requirement Form -->
+<div *ngIf="isEditMode" class="edit-form">
+  <h3>Edit Requirement</h3>
+  <form (ngSubmit)="updateRequirement()">
+    <div class="mb-3">
+      <label for="item" class="form-label">Item</label>
+      <input
+        type="text"
+        class="form-control"
+        id="item"
+        [(ngModel)]="currentRequirement.item"
+        name="item"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        [(ngModel)]="currentRequirement.description"
+        name="description"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="unitCost" class="form-label">Unit Cost</label>
+      <input
+        type="number"
+        class="form-control"
+        id="unitCost"
+        [(ngModel)]="currentRequirement.unitCost"
+        name="unitCost"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="level" class="form-label">Class Level</label>
+      <input
+        type="text"
+        class="form-control"
+        id="level"
+        [(ngModel)]="currentRequirement.level"
+        name="level"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="term" class="form-label">Term</label>
+      <input
+        type="number"
+        class="form-control"
+        id="term"
+        [(ngModel)]="currentRequirement.term"
+        name="term"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="year" class="form-label">Year</label>
+      <input
+        type="number"
+        class="form-control"
+        id="year"
+        [(ngModel)]="currentRequirement.year"
+        name="year"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+      Cancel
+    </button>
+  </form>
+</div>
