@@ -112,6 +112,9 @@
 
 /* Show sidebar for large screens */
 @media (min-width: 769px) {
+  .close-btn {
+    display: none;
+  }
   .sidebar {
     left: 0; /* Sidebar is always visible */
   }
