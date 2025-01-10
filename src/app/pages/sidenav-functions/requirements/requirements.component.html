@@ -36,6 +36,17 @@
     </div>
   </div>
 </div>
+<!-- Conditionally display success or error message -->
+<div
+  *ngIf="message"
+  class="alert"
+  [ngClass]="{
+    'alert-success': messageType === 'success',
+    'alert-danger': messageType === 'error'
+  }"
+>
+  {{ message }}
+</div>
 
 <!-- Conditionally display requirements or edit UI -->
 <div *ngIf="!isEditMode">
@@ -98,77 +109,140 @@
 <!-- Edit Requirement Form -->
 <div *ngIf="isEditMode" class="edit-form">
   <h3>Edit Requirement</h3>
-  <form (ngSubmit)="updateRequirement()">
-    <div class="mb-3">
-      <label for="item" class="form-label">Item</label>
-      <input
-        type="text"
-        class="form-control"
-        id="item"
-        [(ngModel)]="currentRequirement.item"
-        name="item"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <input
-        type="text"
-        class="form-control"
-        id="description"
-        [(ngModel)]="currentRequirement.description"
-        name="description"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="unitCost" class="form-label">Unit Cost</label>
-      <input
-        type="number"
-        class="form-control"
-        id="unitCost"
-        [(ngModel)]="currentRequirement.unitCost"
-        name="unitCost"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="level" class="form-label">Class Level</label>
-      <input
-        type="text"
-        class="form-control"
-        id="level"
-        [(ngModel)]="currentRequirement.level"
-        name="level"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="term" class="form-label">Term</label>
-      <input
-        type="number"
-        class="form-control"
-        id="term"
-        [(ngModel)]="currentRequirement.term"
-        name="term"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="year" class="form-label">Year</label>
-      <input
-        type="number"
-        class="form-control"
-        id="year"
-        [(ngModel)]="currentRequirement.year"
-        name="year"
-        required
-      />
-    </div>
+  <form (ngSubmit)="updateRequirement()" #editForm="ngForm">
+    <div class="row">
+      <div class="mb-3 col-md-4">
+        <label for="item" class="form-label">Item</label>
+        <input
+          type="text"
+          class="form-control"
+          id="item"
+          [(ngModel)]="currentRequirement.item"
+          name="item"
+          required
+          #item="ngModel"
+        />
+        <div
+          *ngIf="item.invalid && (item.dirty || item.touched)"
+          class="text-danger"
+        >
+          Item is required.
+        </div>
+      </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
-      Cancel
-    </button>
+      <div class="mb-3 col-md-4">
+        <label for="description" class="form-label">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="currentRequirement.description"
+          name="description"
+          required
+          #description="ngModel"
+        />
+        <div
+          *ngIf="
+            description.invalid && (description.dirty || description.touched)
+          "
+          class="text-danger"
+        >
+          Description is required.
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="unitCost" class="form-label">Unit Cost</label>
+        <input
+          type="number"
+          class="form-control"
+          id="unitCost"
+          [(ngModel)]="currentRequirement.unitCost"
+          name="unitCost"
+          required
+          #unitCost="ngModel"
+        />
+        <div
+          *ngIf="unitCost.invalid && (unitCost.dirty || unitCost.touched)"
+          class="text-danger"
+        >
+          Unit Cost is required and must be a number.
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="level" class="form-label">Class Level</label>
+        <input
+          type="text"
+          class="form-control"
+          id="level"
+          [(ngModel)]="currentRequirement.level"
+          name="level"
+          required
+          #level="ngModel"
+        />
+        <div
+          *ngIf="level.invalid && (level.dirty || level.touched)"
+          class="text-danger"
+        >
+          Class Level is required.
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="term" class="form-label">Term</label>
+        <input
+          type="number"
+          class="form-control"
+          id="term"
+          [(ngModel)]="currentRequirement.term"
+          name="term"
+          required
+          #term="ngModel"
+        />
+        <div
+          *ngIf="term.invalid && (term.dirty || term.touched)"
+          class="text-danger"
+        >
+          Term is required and must be a number.
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <label for="year" class="form-label">Year</label>
+        <input
+          type="number"
+          class="form-control"
+          id="year"
+          [(ngModel)]="currentRequirement.year"
+          name="year"
+          required
+          #year="ngModel"
+        />
+        <div
+          *ngIf="year.invalid && (year.dirty || year.touched)"
+          class="text-danger"
+        >
+          Year is required and must be a number.
+        </div>
+      </div>
+
+      <div class="mb-3 col-md-4">
+        <button
+          type="button"
+          class="btn btn-secondary col-md-4 m-1"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-success col-md-4 m-1"
+          [disabled]="editForm.invalid"
+        >
+          Save
+        </button>
+      </div>
+    </div>
   </form>
 </div>

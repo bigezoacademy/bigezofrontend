@@ -22,6 +22,10 @@ export class RequirementsComponent {
   isEditMode: boolean = false;
   currentRequirement: any = null;  // To store the current requirement being edited
 
+  // Message for success or error
+  message: string = ''; // To show success/error messages
+  messageType: string = ''; // To determine the type of message ('success' or 'error')
+
   // Define the possible values for year, term, and level
   years: number[] = [2025, 2024];  // Example years
   terms: number[] = [1, 2, 3];              // Example terms
@@ -57,22 +61,41 @@ export class RequirementsComponent {
 
   // Update requirement by calling the backend
   updateRequirement() {
+    // Check if the form is valid before attempting the update
+    if (!this.currentRequirement || this.isFormInvalid()) {
+      this.message = 'Please fill out all required fields correctly.';
+      this.messageType = 'error'; // Show error message
+      return;
+    }
+  
+    // Proceed with updating if the form is valid
     this.http
       .put<any>(`${this.requirementsUrl}/${this.currentRequirement.id}`, this.currentRequirement)
       .subscribe({
         next: (updatedRequirement) => {
           this.isEditMode = false;
           this.showrequirements(); // Reload the requirements after update
+          this.message = 'Requirement updated successfully!';
+          this.messageType = 'success'; // Success message
         },
         error: (err) => {
           console.error('Error updating requirement', err);
+          this.message = 'Error updating requirement, please try again.';
+          this.messageType = 'error'; // Error message
         },
       });
   }
+  
+  // Helper method to check if the form is invalid
+  isFormInvalid() {
+    return !this.currentRequirement.item || !this.currentRequirement.description || !this.currentRequirement.unitCost || !this.currentRequirement.level || !this.currentRequirement.term || !this.currentRequirement.year;
+  }
+  
 
   // Cancel the edit mode
   cancelEdit() {
     this.isEditMode = false;
     this.currentRequirement = null;
+    this.message = ''; // Clear message on cancel
   }
 }
