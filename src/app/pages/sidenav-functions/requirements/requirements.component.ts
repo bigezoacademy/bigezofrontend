@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-requirements',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './requirements.component.html',
   styleUrls: ['./requirements.component.css']
 })
@@ -13,8 +14,13 @@ export class RequirementsComponent {
   requirementsUrl: string = 'http://localhost:8080/api/requirements';
   requirements: any[] = []; // To store fetched requirements
   myyear: number = 2025;  // Default year as number
-  mylevel: string = '7';  // Default level as string
+  mylevel: string = '5';  // Default level as string
   myterm: number = 1;     // Default term as number
+
+  // Define the possible values for year, term, and level
+  years: number[] = [2025, 2026, 2027];  // Example years
+  terms: number[] = [1, 2];              // Example terms
+  levels: string[] = ['1', '2', '3', '4', '5','6','7']; // Example levels
 
   private http = inject(HttpClient);
 

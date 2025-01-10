@@ -5,6 +5,29 @@
   </button>
 </h3>
 
+<!-- Dropdown menus for Year, Term, and Class -->
+<div class="mb-3">
+  <label for="year" class="form-label">Year</label>
+  <select id="year" class="form-select" [(ngModel)]="myyear">
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+</div>
+
+<div class="mb-3">
+  <label for="term" class="form-label">Term</label>
+  <select id="term" class="form-select" [(ngModel)]="myterm">
+    <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
+  </select>
+</div>
+
+<div class="mb-3">
+  <label for="level" class="form-label">Class Level</label>
+  <select id="level" class="form-select" [(ngModel)]="mylevel">
+    <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+  </select>
+</div>
+
+<!-- Requirements Table -->
 <table *ngIf="requirements.length > 0" class="table">
   <thead>
     <tr>
@@ -22,7 +45,6 @@
       <td>{{ requirement.item }}</td>
       <td>{{ requirement.description }}</td>
       <td>{{ requirement.unitCost }}</td>
-      <!-- No pipe, just direct number -->
       <td>{{ requirement.level }}</td>
       <td>{{ requirement.term }}</td>
       <td>{{ requirement.year }}</td>
