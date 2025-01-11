@@ -145,18 +145,18 @@
         </tr>
       </table>
     </div>
+    <!-- Pay Button -->
+    <button class="btn btn-success" *ngIf="accounttype === 'ROLE_USER'">
+      Pay for Selected Items
+    </button>
   </div>
 
   <!-- Display Grand Total -->
-
-  <!-- Pay Button -->
-  <button class="btn btn-dark" *ngIf="accounttype === 'ROLE_USER'">
-    Pay for Selected Items
-  </button>
 </div>
 
 <!-- Edit UI -->
 <div *ngIf="isEditMode">
+  <h3 class="p-3 text-success">Edit requirement</h3>
   <div class="row mb-3">
     <div class="col-md-4">
       <label for="item" class="form-label">Item</label>

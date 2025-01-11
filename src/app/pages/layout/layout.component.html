@@ -3,7 +3,9 @@
   <div class="sidebar" [ngClass]="{ show: sidebarVisible }">
     <button class="close-btn" (click)="toggleSidebar()">×</button>
     <img src="logo.png" alt="Logo" class="mb-4" style="width: 120px" />
-    <a (click)="home()"> <i class="bi me-2 bi-house"></i> Home </a>
+    <a (click)="home()">
+      <i class="bi me-2 bi-graph-up-arrow"></i> Analytics
+    </a>
     <a
       class="d-flex align-items-center dropdown-toggle"
       id="requirementsDropdown"
@@ -54,14 +56,25 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="smsDropdown">
       <li>
-        <a class="dropdown-item">Send single SMS</a>
+        <a class="dropdown-item">SMS Notifications</a>
       </li>
       <li>
-        <a class="dropdown-item">Send Bulk SMS</a>
+        <a class="dropdown-item" *ngIf="accounttype === 'ROLE_ADMIN'"
+          >Send single SMS</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" *ngIf="accounttype === 'ROLE_ADMIN'"
+          >Send Bulk SMS</a
+        >
       </li>
     </ul>
 
-    <a href="#"> <i class="bi me-2 bi-database"></i> Student Database </a>
+    <a href="#" *ngIf="accounttype === 'ROLE_ADMIN'">
+      <i class="bi me-2 bi-database"></i> Student Database
+    </a>
+
+    <a href="#"> <i class="bi me-2 bi-database"></i> My Wallet </a>
 
     <a href="#"> <i class="bi me-2 bi-person"></i> Profile </a>
   </div>
