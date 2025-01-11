@@ -126,4 +126,30 @@ calculateGrandTotal(): number {
   }, 0);
 }
 
+
+
+calculateSelectedTotal(): number {
+  const selectedCheckboxes = document.querySelectorAll(
+    'input.selectRow:checked'
+  ) as NodeListOf<HTMLInputElement>;
+
+  if (selectedCheckboxes.length === 0) {
+    // If no checkboxes are selected, return the grand total
+    return this.calculateGrandTotal();
+  }
+
+  let total = 0;
+  selectedCheckboxes.forEach((checkbox) => {
+    const index = parseInt(checkbox.dataset['index']!, 10);
+    const requirement = this.requirements[index];
+    if (requirement) {
+      total += requirement.unitCost * requirement.quantity;
+    }
+  });
+
+  return total;
 }
+
+
+}
+

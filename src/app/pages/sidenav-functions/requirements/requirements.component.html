@@ -72,7 +72,7 @@
                 type="checkbox"
                 name="selectAllRows"
                 value="1"
-                class="selectAllRows"
+                class="selectAllRows d-none"
                 onclick="[...closest('table').querySelectorAll('tbody [class=selectRow]')].forEach(box=>box.checked=checked)"
               />
             </th>
@@ -99,10 +99,12 @@
                 name="selectRow[]"
                 value="1"
                 class="selectRow"
+                [attr.data-index]="i"
+                (change)="calculateSelectedTotal()"
               />
             </td>
+
             <td>
-              <!-- Dropdown Button -->
               <div class="dropdown" *ngIf="accounttype === 'ROLE_ADMIN'">
                 <button
                   class="btn btn-dark dropdown-toggle"
@@ -133,7 +135,6 @@
             </td>
           </tr>
         </tbody>
-
         <tr class="totalrow p-3">
           <td colspan="7" class="text-dark ps-3">Grand Total:</td>
           <td>
@@ -144,90 +145,97 @@
         </tr>
       </table>
     </div>
-    <div class="row mb-3">
-      <div class="col-md-4"></div>
-
-      <div class="col-md-4"></div>
-      <div class="col-md-4" *ngIf="accounttype === 'ROLE_USER'">
-        <button class="btn btn-success w-100 m-1">
-          Pay for selected items
-        </button>
-      </div>
-    </div>
   </div>
+
+  <!-- Display Grand Total -->
+
+  <!-- Pay Button -->
+  <button class="btn btn-dark" *ngIf="accounttype === 'ROLE_USER'">
+    Pay for Selected Items
+  </button>
 </div>
 
-<!-- Requirement Edit UI -->
+<!-- Edit UI -->
 <div *ngIf="isEditMode">
-  <h3>Edit Requirement</h3>
-  <div class="form-group">
-    <label for="item">Item</label>
-    <input
-      type="text"
-      class="form-control"
-      id="item"
-      [(ngModel)]="currentRequirement.item"
-    />
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="item" class="form-label">Item</label>
+      <input
+        [(ngModel)]="currentRequirement.item"
+        id="item"
+        type="text"
+        class="form-control"
+        placeholder="Item Name"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="description" class="form-label">Description</label>
+      <input
+        [(ngModel)]="currentRequirement.description"
+        id="description"
+        type="text"
+        class="form-control"
+        placeholder="Description"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="unitCost" class="form-label">Unit Cost</label>
+      <input
+        [(ngModel)]="currentRequirement.unitCost"
+        id="unitCost"
+        type="number"
+        class="form-control"
+        placeholder="Unit Cost"
+      />
+    </div>
   </div>
-  <div class="form-group">
-    <label for="description">Description</label>
-    <input
-      type="text"
-      class="form-control"
-      id="description"
-      [(ngModel)]="currentRequirement.description"
-    />
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="level" class="form-label">Class Level</label>
+      <input
+        [(ngModel)]="currentRequirement.level"
+        id="level"
+        type="text"
+        class="form-control"
+        placeholder="Class Level"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="term" class="form-label">Term</label>
+      <input
+        [(ngModel)]="currentRequirement.term"
+        id="term"
+        type="number"
+        class="form-control"
+        placeholder="Term"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="year" class="form-label">Year</label>
+      <input
+        [(ngModel)]="currentRequirement.year"
+        id="year"
+        type="number"
+        class="form-control"
+        placeholder="Year"
+      />
+    </div>
   </div>
-  <div class="form-group">
-    <label for="unitCost">Unit Cost</label>
-    <input
-      type="number"
-      class="form-control"
-      id="unitCost"
-      [(ngModel)]="currentRequirement.unitCost"
-    />
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="quantity" class="form-label">Quantity</label>
+      <input
+        [(ngModel)]="currentRequirement.quantity"
+        id="quantity"
+        type="number"
+        class="form-control"
+        placeholder="Quantity"
+      />
+    </div>
   </div>
-  <div class="form-group">
-    <label for="quantity">Quantity</label>
-    <input
-      type="number"
-      class="form-control"
-      id="quantity"
-      [(ngModel)]="currentRequirement.quantity"
-    />
-  </div>
-  <div class="form-group">
-    <label for="level">Class Level</label>
-    <select
-      id="level"
-      class="form-control"
-      [(ngModel)]="currentRequirement.level"
-    >
-      <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="term">Term</label>
-    <input
-      type="number"
-      class="form-control"
-      id="term"
-      [(ngModel)]="currentRequirement.term"
-    />
-  </div>
-  <div class="form-group">
-    <label for="year">Year</label>
-    <input
-      type="number"
-      class="form-control"
-      id="year"
-      [(ngModel)]="currentRequirement.year"
-    />
-  </div>
-  <div class="form-group">
-    <button class="btn btn-primary" (click)="updateRequirement()">
-      Update
-    </button>
-    <button class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
-  </div>
+
+  <button class="btn btn-primary" (click)="updateRequirement()">
+    Update Requirement
+  </button>
+  <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
 </div>
