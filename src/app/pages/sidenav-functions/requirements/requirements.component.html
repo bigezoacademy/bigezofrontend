@@ -234,8 +234,12 @@
     </div>
   </div>
 
-  <button class="btn btn-primary" (click)="updateRequirement()">
-    Update Requirement
-  </button>
-  <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <button class="btn btn-dark m-1" (click)="cancelEdit()">Cancel</button>
+      <button class="btn btn-success m-1" (click)="updateRequirement()">
+        Update Requirement
+      </button>
+    </div>
+  </div>
 </div>
