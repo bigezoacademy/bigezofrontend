@@ -19,3 +19,10 @@ tr:has(.selectRow:checked) > td {
 table {
   min-height: 150px;
 }
+.totalrow,
+.totalrow tr td {
+  background-color: #ffdcdc !important;
+  color: #820000 !important;
+  font-weight: bold;
+  font-size: 24px;
+}

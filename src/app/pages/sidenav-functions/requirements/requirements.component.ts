@@ -117,4 +117,13 @@ export class RequirementsComponent {
       });
     }
   }
+
+
+  // Calculate the grand total for all requirements
+calculateGrandTotal(): number {
+  return this.requirements.reduce((total, requirement) => {
+    return total + (requirement.unitCost * requirement.quantity);
+  }, 0);
+}
+
 }

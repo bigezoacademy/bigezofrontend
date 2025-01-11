@@ -133,15 +133,22 @@
             </td>
           </tr>
         </tbody>
+
+        <tr class="totalrow p-3">
+          <td colspan="7" class="text-dark ps-3">Grand Total:</td>
+          <td>
+            UGX {{ calculateGrandTotal() | number : "1.0-0" }}
+            <!-- Display Grand Total -->
+          </td>
+          <td></td>
+        </tr>
       </table>
     </div>
     <div class="row mb-3">
       <div class="col-md-4"></div>
 
-      <div class="col-md-4">
-        <button class="btn btn-secondary w-100 m-1">Calculate Total</button>
-      </div>
-      <div class="col-md-4">
+      <div class="col-md-4"></div>
+      <div class="col-md-4" *ngIf="accounttype === 'ROLE_USER'">
         <button class="btn btn-success w-100 m-1">
           Pay for selected items
         </button>
