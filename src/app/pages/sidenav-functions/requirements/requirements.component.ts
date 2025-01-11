@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,10 +8,11 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './requirements.component.html',
-  styleUrls: ['./requirements.component.css']
+  styleUrls: ['./requirements.component.css'],
+  providers: [DecimalPipe]
 })
 export class RequirementsComponent {
-  accounttype:any=localStorage.getItem("Role");
+  accounttype: any = localStorage.getItem("Role");
   requirementsUrl: string = 'http://localhost:8080/api/requirements';
   requirements: any[] = []; // To store fetched requirements
   myyear: number = 2025;  // Default year as number
@@ -89,7 +90,7 @@ export class RequirementsComponent {
   
   // Helper method to check if the form is invalid
   isFormInvalid() {
-    return !this.currentRequirement.item || !this.currentRequirement.description || !this.currentRequirement.unitCost || !this.currentRequirement.level || !this.currentRequirement.term || !this.currentRequirement.year;
+    return !this.currentRequirement.item || !this.currentRequirement.description || !this.currentRequirement.unitCost || !this.currentRequirement.level || !this.currentRequirement.term || !this.currentRequirement.year || !this.currentRequirement.quantity;
   }
   
 
@@ -99,7 +100,6 @@ export class RequirementsComponent {
     this.currentRequirement = null;
     this.message = ''; // Clear message on cancel
   }
-
 
   deleteRequirement(requirementId: number) {
     if (confirm('Are you sure you want to delete this requirement?')) {
@@ -117,7 +117,4 @@ export class RequirementsComponent {
       });
     }
   }
-  
-
-  
 }

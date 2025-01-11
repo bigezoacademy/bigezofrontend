@@ -36,6 +36,7 @@
     </div>
   </div>
 </div>
+
 <!-- Conditionally display success or error message -->
 <div
   *ngIf="message"
@@ -62,6 +63,8 @@
             <th>Class</th>
             <th>Term</th>
             <th>Year</th>
+            <th>Quantity</th>
+            <th>Total</th>
             <th *ngIf="accounttype === 'ROLE_ADMIN'">Action</th>
             <th *ngIf="accounttype === 'ROLE_USER'">
               Select
@@ -79,10 +82,17 @@
           <tr *ngFor="let requirement of requirements; let i = index">
             <td>{{ requirement.item }}</td>
             <td>{{ requirement.description }}</td>
-            <td>{{ requirement.unitCost }}</td>
+            <td>{{ requirement.unitCost | number : "1.0-0" }}</td>
             <td>{{ requirement.level }}</td>
             <td>{{ requirement.term }}</td>
             <td>{{ requirement.year }}</td>
+            <td>{{ requirement.quantity }}</td>
+            <td>
+              UGX
+              {{
+                requirement.unitCost * requirement.quantity | number : "1.0-0"
+              }}
+            </td>
             <td *ngIf="accounttype === 'ROLE_USER'">
               <input
                 type="checkbox"
@@ -138,149 +148,79 @@
       </div>
     </div>
   </div>
-
-  <p *ngIf="requirements.length === 0" class="alert alert-danger m-2">
-    No requirements found for the selected year, level, and term.
-  </p>
 </div>
 
-<!-- Edit Requirement Form -->
-<div *ngIf="isEditMode" class="edit-form">
+<!-- Requirement Edit UI -->
+<div *ngIf="isEditMode">
   <h3>Edit Requirement</h3>
-  <form (ngSubmit)="updateRequirement()" #editForm="ngForm">
-    <div class="row">
-      <div class="mb-3 col-md-4">
-        <label for="item" class="form-label">Item</label>
-        <input
-          type="text"
-          class="form-control"
-          id="item"
-          [(ngModel)]="currentRequirement.item"
-          name="item"
-          required
-          #item="ngModel"
-        />
-        <div
-          *ngIf="item.invalid && (item.dirty || item.touched)"
-          class="text-danger"
-        >
-          Item is required.
-        </div>
-      </div>
-
-      <div class="mb-3 col-md-4">
-        <label for="description" class="form-label">Description</label>
-        <input
-          type="text"
-          class="form-control"
-          id="description"
-          [(ngModel)]="currentRequirement.description"
-          name="description"
-          required
-          #description="ngModel"
-        />
-        <div
-          *ngIf="
-            description.invalid && (description.dirty || description.touched)
-          "
-          class="text-danger"
-        >
-          Description is required.
-        </div>
-      </div>
-
-      <div class="mb-3 col-md-4">
-        <label for="unitCost" class="form-label">Unit Cost</label>
-        <input
-          type="number"
-          class="form-control"
-          id="unitCost"
-          [(ngModel)]="currentRequirement.unitCost"
-          name="unitCost"
-          required
-          #unitCost="ngModel"
-        />
-        <div
-          *ngIf="unitCost.invalid && (unitCost.dirty || unitCost.touched)"
-          class="text-danger"
-        >
-          Unit Cost is required and must be a number.
-        </div>
-      </div>
-
-      <div class="mb-3 col-md-4">
-        <label for="level" class="form-label">Class Level</label>
-        <input
-          type="text"
-          class="form-control"
-          id="level"
-          [(ngModel)]="currentRequirement.level"
-          name="level"
-          required
-          #level="ngModel"
-        />
-        <div
-          *ngIf="level.invalid && (level.dirty || level.touched)"
-          class="text-danger"
-        >
-          Class Level is required.
-        </div>
-      </div>
-
-      <div class="mb-3 col-md-4">
-        <label for="term" class="form-label">Term</label>
-        <input
-          type="number"
-          class="form-control"
-          id="term"
-          [(ngModel)]="currentRequirement.term"
-          name="term"
-          required
-          #term="ngModel"
-        />
-        <div
-          *ngIf="term.invalid && (term.dirty || term.touched)"
-          class="text-danger"
-        >
-          Term is required and must be a number.
-        </div>
-      </div>
-
-      <div class="mb-3 col-md-4">
-        <label for="year" class="form-label">Year</label>
-        <input
-          type="number"
-          class="form-control"
-          id="year"
-          [(ngModel)]="currentRequirement.year"
-          name="year"
-          required
-          #year="ngModel"
-        />
-        <div
-          *ngIf="year.invalid && (year.dirty || year.touched)"
-          class="text-danger"
-        >
-          Year is required and must be a number.
-        </div>
-      </div>
-
-      <div class="mb-3 col-md-4">
-        <button
-          type="button"
-          class="btn btn-secondary col-md-4 m-1"
-          (click)="cancelEdit()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="btn btn-success col-md-4 m-1"
-          [disabled]="editForm.invalid"
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </form>
+  <div class="form-group">
+    <label for="item">Item</label>
+    <input
+      type="text"
+      class="form-control"
+      id="item"
+      [(ngModel)]="currentRequirement.item"
+    />
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input
+      type="text"
+      class="form-control"
+      id="description"
+      [(ngModel)]="currentRequirement.description"
+    />
+  </div>
+  <div class="form-group">
+    <label for="unitCost">Unit Cost</label>
+    <input
+      type="number"
+      class="form-control"
+      id="unitCost"
+      [(ngModel)]="currentRequirement.unitCost"
+    />
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input
+      type="number"
+      class="form-control"
+      id="quantity"
+      [(ngModel)]="currentRequirement.quantity"
+    />
+  </div>
+  <div class="form-group">
+    <label for="level">Class Level</label>
+    <select
+      id="level"
+      class="form-control"
+      [(ngModel)]="currentRequirement.level"
+    >
+      <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="term">Term</label>
+    <input
+      type="number"
+      class="form-control"
+      id="term"
+      [(ngModel)]="currentRequirement.term"
+    />
+  </div>
+  <div class="form-group">
+    <label for="year">Year</label>
+    <input
+      type="number"
+      class="form-control"
+      id="year"
+      [(ngModel)]="currentRequirement.year"
+    />
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary" (click)="updateRequirement()">
+      Update
+    </button>
+    <button class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
+  </div>
 </div>

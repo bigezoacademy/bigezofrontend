@@ -2,19 +2,21 @@ import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-newrequirement',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './newrequirement.component.html',
   styleUrls: ['./newrequirement.component.css'],
 })
 export class NewRequirementComponent {
 
-  addrequirementstatus:string='status message';
-  status:any;
-  
+  addrequirementstatus: string = 'status message';
+  status: string | null = null;
+  quantity: number | null = null;
+
   newRequirementUrl: string = 'http://localhost:8080/api/requirements';
   item: string = '';
   description: string = '';
@@ -24,15 +26,16 @@ export class NewRequirementComponent {
   year: number | null = null;
   schoolAdminId: number | null = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : null;
 
-
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   terms: number[] = [1, 2, 3];
   years: number[] = [2025, 2024];
 
   private http = inject(HttpClient);
+  private router=inject(Router);
 
   createRequirement() {
-    if (!this.item || !this.description || !this.unitCost || !this.level || !this.term || !this.year || !this.schoolAdminId) {
+    // Check if all fields are filled before making the POST request
+    if (!this.item || !this.description || !this.unitCost || !this.level || !this.term || !this.year || !this.quantity || !this.schoolAdminId) {
       alert('Please fill in all the fields.');
       return;
     }
@@ -44,18 +47,22 @@ export class NewRequirementComponent {
       level: this.level,
       term: this.term,
       year: this.year,
+      quantity: this.quantity, // Include quantity
       schoolAdmin: { id: this.schoolAdminId },
     };
 
+    // Make the POST request to create the new requirement
     this.http.post(this.newRequirementUrl, newRequirement).subscribe({
       next: () => {
-        this.addrequirementstatus='Requirement created successfully!';
-        this.status='success';
-        this.clearForm();
+        this.addrequirementstatus = 'Requirement created successfully!';
+        this.status = 'success';
+this.router.navigateByUrl("/requirements");
+        // Optionally, clear the form after successful submission
+        // this.clearForm();
       },
       error: (err) => {
-        this.status='error';
-        this.addrequirementstatus='Error! Failed to create requirement';
+        this.status = 'error';
+        this.addrequirementstatus = 'Error! Failed to create requirement';
         console.error('Error creating requirement', err);
       },
     });
@@ -68,6 +75,7 @@ export class NewRequirementComponent {
     this.level = '';
     this.term = null;
     this.year = null;
+    this.quantity = null;
     this.schoolAdminId = null;
   }
 }
