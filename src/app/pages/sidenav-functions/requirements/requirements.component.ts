@@ -50,12 +50,24 @@ export class RequirementsComponent {
       .subscribe({
         next: (data) => {
           this.requirements = data;
+  
+          // Check if no data was returned
+          if (this.requirements.length === 0) {
+            this.message = 'No data found'; // Set error message
+            this.messageType = 'error'; // Set message type to error
+          } else {
+            this.message = ''; // Clear message if data is present
+          }
         },
         error: (err) => {
           console.error('Error fetching requirements', err);
+          this.message = 'Error fetching data, please try again.'; // Set error message on failure
+          this.messageType = 'error'; // Set message type to error
         },
       });
   }
+  
+  
 
   // Trigger the edit mode with a specific requirement
   editRequirement(requirement: any) {
