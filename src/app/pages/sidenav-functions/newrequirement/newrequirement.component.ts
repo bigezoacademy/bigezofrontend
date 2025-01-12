@@ -48,17 +48,15 @@ export class NewRequirementComponent {
       term: this.term,
       year: this.year,
       quantity: this.quantity, // Include quantity
-      schoolAdmin: { id: this.schoolAdminId },
     };
 
     // Make the POST request to create the new requirement
-    this.http.post(this.newRequirementUrl, newRequirement).subscribe({
+    this.http.post(`${this.newRequirementUrl}?schoolAdminId=${this.schoolAdminId}`, newRequirement).subscribe({
       next: () => {
         this.addrequirementstatus = 'Requirement created successfully!';
         this.status = 'success';
-this.router.navigateByUrl("/requirements");
+        this.router.navigateByUrl("/requirements");
         // Optionally, clear the form after successful submission
-        // this.clearForm();
       },
       error: (err) => {
         this.status = 'error';

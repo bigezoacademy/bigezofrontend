@@ -19,6 +19,7 @@ export class RequirementsComponent {
   mylevel: string = '5';  // Default level as string
   myterm: number = 1;     // Default term as number
   myschool: string = '';
+  schoolAdminId: number = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : 0;
 
   // Edit mode flag
   isEditMode: boolean = false;
@@ -43,6 +44,7 @@ export class RequirementsComponent {
           year: this.myyear.toString(),
           level: this.mylevel,
           term: this.myterm.toString(),
+          schoolAdminId: this.schoolAdminId.toString(),
         },
       })
       .subscribe({
@@ -72,7 +74,7 @@ export class RequirementsComponent {
   
     // Proceed with updating if the form is valid
     this.http
-      .put<any>(`${this.requirementsUrl}/${this.currentRequirement.id}`, this.currentRequirement)
+      .put<any>(`${this.requirementsUrl}/${this.currentRequirement.id}?schoolAdminId=${this.schoolAdminId}`, this.currentRequirement)
       .subscribe({
         next: (updatedRequirement) => {
           this.isEditMode = false;
@@ -103,7 +105,7 @@ export class RequirementsComponent {
 
   deleteRequirement(requirementId: number) {
     if (confirm('Are you sure you want to delete this requirement?')) {
-      this.http.delete(`${this.requirementsUrl}/${requirementId}`).subscribe({
+      this.http.delete(`${this.requirementsUrl}/${requirementId}?schoolAdminId=${this.schoolAdminId}`).subscribe({
         next: () => {
           this.message = 'Requirement deleted successfully!';
           this.messageType = 'success';
@@ -118,38 +120,32 @@ export class RequirementsComponent {
     }
   }
 
-
   // Calculate the grand total for all requirements
-calculateGrandTotal(): number {
-  return this.requirements.reduce((total, requirement) => {
-    return total + (requirement.unitCost * requirement.quantity);
-  }, 0);
-}
-
-
-
-calculateSelectedTotal(): number {
-  const selectedCheckboxes = document.querySelectorAll(
-    'input.selectRow:checked'
-  ) as NodeListOf<HTMLInputElement>;
-
-  if (selectedCheckboxes.length === 0) {
-    // If no checkboxes are selected, return the grand total
-    return this.calculateGrandTotal();
+  calculateGrandTotal(): number {
+    return this.requirements.reduce((total, requirement) => {
+      return total + (requirement.unitCost * requirement.quantity);
+    }, 0);
   }
 
-  let total = 0;
-  selectedCheckboxes.forEach((checkbox) => {
-    const index = parseInt(checkbox.dataset['index']!, 10);
-    const requirement = this.requirements[index];
-    if (requirement) {
-      total += requirement.unitCost * requirement.quantity;
+  // Calculate the total for selected requirements
+  calculateSelectedTotal(): number {
+    const selectedCheckboxes = document.querySelectorAll(
+      'input.selectRow:checked'
+    ) as NodeListOf<HTMLInputElement>;
+
+    if (selectedCheckboxes.length === 0) {
+      return this.calculateGrandTotal(); // Return the grand total if no checkboxes are selected
     }
-  });
 
-  return total;
+    let total = 0;
+    selectedCheckboxes.forEach((checkbox) => {
+      const index = parseInt(checkbox.dataset['index']!, 10);
+      const requirement = this.requirements[index];
+      if (requirement) {
+        total += requirement.unitCost * requirement.quantity;
+      }
+    });
+
+    return total;
+  }
 }
-
-
-}
-
