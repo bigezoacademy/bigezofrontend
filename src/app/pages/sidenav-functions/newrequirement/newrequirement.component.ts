@@ -55,7 +55,11 @@ export class NewRequirementComponent {
       next: () => {
         this.addrequirementstatus = 'Requirement created successfully!';
         this.status = 'success';
-        this.router.navigateByUrl("/requirements");
+       // this.router.navigateByUrl("/requirements");
+       console.log(`---------------------------${this.description}`);
+       this.clearForm();
+      
+       //
         // Optionally, clear the form after successful submission
       },
       error: (err) => {

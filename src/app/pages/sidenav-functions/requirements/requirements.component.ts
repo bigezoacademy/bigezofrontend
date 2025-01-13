@@ -38,6 +38,7 @@ export class RequirementsComponent {
 
   // This method will be called when the "Show All" button is clicked
   showrequirements() {
+    this.isEditMode= false;
     this.http
       .get<any[]>(this.requirementsUrl, {
         params: {
@@ -60,6 +61,7 @@ export class RequirementsComponent {
           }
         },
         error: (err) => {
+          this.requirements=[];
           console.error('Error fetching requirements', err);
           this.message = 'Error fetching data, please try again.'; // Set error message on failure
           this.messageType = 'error'; // Set message type to error

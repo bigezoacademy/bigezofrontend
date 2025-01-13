@@ -31,13 +31,12 @@
   <div class="col-md-3 col-6">
     <div class="mb-3">
       <button class="btn btn-dark ms-5" (click)="showrequirements()">
-        Show All
+        View <i class="bi bi-eye mx-3"></i>
       </button>
     </div>
   </div>
 </div>
 
-<h3 class="text-success p-3">Requirements</h3>
 <!-- Conditionally display success or error message -->
 <div
   *ngIf="message"
@@ -52,6 +51,7 @@
 
 <!-- Conditionally display requirements or edit UI -->
 <div *ngIf="!isEditMode">
+  <h3 class="text-success p-3">Requirements</h3>
   <!-- Requirements Table -->
   <div *ngIf="requirements.length > 0">
     <div class="table-responsive mb-3">
@@ -139,7 +139,7 @@
         <tr class="totalrow p-3">
           <td colspan="7" class="text-dark ps-3">Grand Total:</td>
           <td>
-            UGX {{ calculateGrandTotal() | number : "1.0-0" }}
+            UGX {{ calculateSelectedTotal() | number : "1.0-0" }}
             <!-- Display Grand Total -->
           </td>
           <td></td>
