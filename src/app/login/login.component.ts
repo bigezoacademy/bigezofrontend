@@ -61,26 +61,30 @@ export class LoginComponent {
     // Send the login request based on userType
     this.http.post(loginUrl, loginObj).subscribe(
       (res: any) => {
-        const token = res.data.token; // Assuming the backend sends the this.role
+        const token = res.data.token; 
        
         if (this.userType === 'student'){          
          this.userId=res.data.studentId;
          this.role="ROLE_USER";
-         console.log(`User ID:  ${this.userId}   ROLE: ${this.role} `)
+         localStorage.setItem('Token', token);
+         localStorage.setItem('id', this.userId);
+         localStorage.setItem('Role', this.role);
         }
         else{
          this.userId = res.data.userId;
       this.role=res.data.role;
+      localStorage.setItem('Token', token);
+      localStorage.setItem('id', this.userId);
+      localStorage.setItem('Role', this.role);
         }
-        localStorage.setItem('Token', token);
-        localStorage.setItem('id', this.userId);
-        localStorage.setItem('Role', this.role);
+       
        
 
         // Redirect based on this.role
         if (this.role === 'ROLE_ADMIN') {
           this.router.navigate(['/admin']);
         } else if (this.role === 'ROLE_USER') {
+          alert('LOGGED IN AS STUDENT');
           this.router.navigate(['/student']);
         } else if (this.role === 'ROLE_TEACHER') {
           alert('LOGGED IN AS TEACHER');

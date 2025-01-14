@@ -32,7 +32,7 @@ export const routes: Routes = [
         canActivate:[authGuard],
         data:{role:'ROLE_ADMIN'}
       },
-      {path:'students',
+      {path:'student',
         component:StudentComponent,
         canActivate:[authGuard],
         data:{role:['ROLE_ADMIN','ROLE_USER','ROLE_TEACHER']}
