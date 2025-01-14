@@ -70,9 +70,23 @@
       </li>
     </ul>
 
-    <a href="#" *ngIf="accounttype === 'ROLE_ADMIN'">
-      <i class="bi me-2 bi-database"></i> Student Database
+    <a
+      class="d-flex align-items-center dropdown-toggle"
+      *ngIf="accounttype === 'ROLE_ADMIN'"
+      id="requirementsDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="bi me-2 bi-database"></i> Database
     </a>
+    <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
+      <li>
+        <a class="dropdown-item" (click)="students()">View Students</a>
+      </li>
+      <li *ngIf="accounttype === 'ROLE_ADMIN'">
+        <a class="dropdown-item" (click)="newstudent()">New Student</a>
+      </li>
+    </ul>
 
     <a href="#"> <i class="bi me-2 bi-database"></i> My Wallet </a>
 

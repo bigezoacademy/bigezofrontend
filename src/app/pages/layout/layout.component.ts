@@ -35,6 +35,12 @@ this.router.navigateByUrl("terms");
       newrequirement():any{
         this.router.navigateByUrl("newrequirement");
           }
+          students():any{
+            this.router.navigateByUrl("students");
+              }
+              newstudent():any{
+                this.router.navigateByUrl("newstudent");
+                  }
 
   logout():any{
     // Clear the local storage

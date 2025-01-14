@@ -1,0 +1,241 @@
+<!-- Dropdown menus for Year, Term, and Class inside a row -->
+<div class="row mb-4">
+  <div class="col-md-3 col-6">
+    <div class="mb-3">
+      <label for="year" class="form-label">Year</label>
+      <select id="year" class="form-select" [(ngModel)]="myyear">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-6">
+    <div class="mb-3">
+      <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
+      <select
+        id="enrollmentStatus"
+        class="form-select"
+        [(ngModel)]="myenrollmentStatus"
+      >
+        <option *ngFor="let status of enrollmentStatuses" [value]="status">
+          {{ status }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-6">
+    <div class="mb-3">
+      <label for="level" class="form-label">Class Level</label>
+      <select id="level" class="form-select" [(ngModel)]="mylevel">
+        <option *ngFor="let level of levels" [value]="level">
+          {{ level }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="mb-3">
+      <button class="btn btn-dark ms-5" (click)="showstudents()">
+        View <i class="bi bi-eye mx-3"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Conditionally display success or error message -->
+<div
+  *ngIf="message"
+  class="alert"
+  [ngClass]="{
+    'alert-success': messageType === 'success',
+    'alert-danger': messageType === 'error'
+  }"
+>
+  {{ message }}
+</div>
+
+<!-- Conditionally display students or edit UI -->
+<div *ngIf="!isEditMode">
+  <h3 class="text-success p-3">Students</h3>
+  <!-- Students Table -->
+  <div *ngIf="student.length > 0">
+    <div class="table-responsive mb-3">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Student Number</th>
+            <th>Mother</th>
+            <th>Father</th>
+            <th>Phone</th>
+
+            <th *ngIf="accounttype === 'ROLE_ADMIN'">Action</th>
+            <th *ngIf="accounttype === 'ROLE_USER'">
+              Select
+              <input
+                type="checkbox"
+                name="selectAllRows"
+                value="1"
+                class="selectAllRows d-none"
+                onclick="[...closest('table').querySelectorAll('tbody [class=selectRow]')].forEach(box=>box.checked=checked)"
+              />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of student; let i = index">
+            <td>{{ student.firstName }}</td>
+            <td>{{ student.lastName }}</td>
+            <td>{{ student.studentNumber }}</td>
+            <td>{{ student.mother }}</td>
+            <td>{{ student.father }}</td>
+            <td>{{ student.phone }}</td>
+
+            <td *ngIf="accounttype === 'ROLE_USER'">
+              <input
+                type="checkbox"
+                name="selectRow[]"
+                value="1"
+                class="selectRow"
+                [attr.data-index]="i"
+                (change)="calculateSelectedTotal()"
+              />
+            </td>
+
+            <td>
+              <div class="dropdown" *ngIf="accounttype === 'ROLE_ADMIN'">
+                <button
+                  class="btn btn-dark dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Options
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <a class="dropdown-item" (click)="editStudent(student)"
+                      >Edit</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" (click)="deleteStudent(student.id)"
+                      >Delete</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tr class="totalrow p-3">
+          <td colspan="7" class="text-dark ps-3">Grand Total:</td>
+          <td>
+            UGX {{ calculateSelectedTotal() | number : "1.0-0" }}
+            <!-- Display Grand Total -->
+          </td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <!-- Pay Button -->
+    <button class="btn btn-success" *ngIf="accounttype === 'ROLE_USER'">
+      Pay for Selected Items
+    </button>
+  </div>
+
+  <!-- Display Grand Total -->
+</div>
+
+<!-- Edit UI -->
+<div *ngIf="isEditMode">
+  <h3 class="p-3 text-success">Edit student</h3>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="item" class="form-label">Item</label>
+      <input
+        [(ngModel)]="currentStudent.item"
+        id="item"
+        type="text"
+        class="form-control"
+        placeholder="Item Name"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="description" class="form-label">Description</label>
+      <input
+        [(ngModel)]="currentStudent.description"
+        id="description"
+        type="text"
+        class="form-control"
+        placeholder="Description"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="unitCost" class="form-label">Unit Cost</label>
+      <input
+        [(ngModel)]="currentStudent.unitCost"
+        id="unitCost"
+        type="number"
+        class="form-control"
+        placeholder="Unit Cost"
+      />
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="level" class="form-label">Class Level</label>
+      <input
+        [(ngModel)]="currentStudent.level"
+        id="level"
+        type="text"
+        class="form-control"
+        placeholder="Class Level"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="term" class="form-label">Term</label>
+      <input
+        [(ngModel)]="currentStudent.term"
+        id="term"
+        type="number"
+        class="form-control"
+        placeholder="Term"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="year" class="form-label">Year</label>
+      <input
+        [(ngModel)]="currentStudent.year"
+        id="year"
+        type="number"
+        class="form-control"
+        placeholder="Year"
+      />
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="quantity" class="form-label">Quantity</label>
+      <input
+        [(ngModel)]="currentStudent.quantity"
+        id="quantity"
+        type="number"
+        class="form-control"
+        placeholder="Quantity"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <button class="btn btn-dark m-1" (click)="cancelEdit()">Cancel</button>
+      <button class="btn btn-success m-1" (click)="updateStudent()">
+        Update Student
+      </button>
+    </div>
+  </div>
+</div>

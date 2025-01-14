@@ -78,6 +78,9 @@ export class NewRequirementComponent {
     this.term = null;
     this.year = null;
     this.quantity = null;
-    this.schoolAdminId = null;
+  
+    // Retain the schoolAdminId from localStorage
+    this.schoolAdminId = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : null;
   }
+  
 }
