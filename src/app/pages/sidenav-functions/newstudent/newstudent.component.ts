@@ -39,6 +39,13 @@ export class NewStudentComponent {
 
   private http = inject(HttpClient);
 
+  // Function to generate a 7-digit provisional password
+  generateProvisionalPassword(): string {
+    var propassword:any=Math.floor(1000000 + Math.random() * 9000000).toString();
+    console.log(propassword);
+    return propassword;
+  }
+
   createStudent() {
     if (
       !this.firstName ||
@@ -49,7 +56,6 @@ export class NewStudentComponent {
       !this.healthStatus ||
       !this.phone ||
       !this.email ||
-      !this.password ||
       !this.level ||
       !this.enrollmentStatus ||
       !this.year ||
@@ -57,6 +63,11 @@ export class NewStudentComponent {
     ) {
       alert('Please fill in all required fields.');
       return;
+    }
+
+    // Autogenerate the password if it's not provided
+    if (!this.password) {
+      this.password = this.generateProvisionalPassword();
     }
 
     const newStudent = {

@@ -2,6 +2,7 @@
 <div class="login-box">
   <h3 class="text-center text-success">LOGIN</h3>
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+    <!-- Username Field -->
     <div class="form-floating">
       <input
         type="text"
@@ -22,6 +23,7 @@
       </div>
     </div>
 
+    <!-- Password Field -->
     <div class="form-floating">
       <input
         type="password"
@@ -42,6 +44,36 @@
       </div>
     </div>
 
+    <!-- User Type Selection -->
+    <div class="form-group mt-3">
+      <label for="userType">Select User Type:</label>
+      <div>
+        <input
+          type="radio"
+          id="schoolAdmin"
+          name="userType"
+          [(ngModel)]="userType"
+          value="schoolAdmin"
+          required
+        />
+        <label for="schoolAdmin">School Admin</label>
+
+        <input
+          type="radio"
+          id="student"
+          name="userType"
+          [(ngModel)]="userType"
+          value="student"
+          required
+        />
+        <label for="student">Student</label>
+      </div>
+      <div *ngIf="!userType && loginForm.touched" class="text-danger">
+        User type is required.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
     <button
       type="submit"
       class="btn btn-success w-100"
@@ -50,6 +82,7 @@
       Login
     </button>
 
+    <!-- Error Message -->
     <div *ngIf="errorMessage" class="text-danger mt-3">
       {{ errorMessage }}
     </div>
