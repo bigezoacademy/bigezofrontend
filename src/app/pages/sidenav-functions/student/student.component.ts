@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 export class StudentComponent {
   accounttype: any = localStorage.getItem("Role");
   studentUrl: string = 'http://localhost:8080/api/students';
-  student: any[] = []; // To store fetched student
+  student: any[] = []; // To store fetched student data
   myyear: number = 2025;  // Default year as number
   mylevel: string = '5';  // Default level as string
   myenrollmentStatus: string = 'active'; // Default enrollmentStatus as string
@@ -38,7 +38,7 @@ export class StudentComponent {
 
   // This method will be called when the "Show All" button is clicked
   showstudents() {
-    this.isEditMode= false;
+    this.isEditMode = false;
     this.http
       .get<any[]>(this.studentUrl, {
         params: {
@@ -51,7 +51,7 @@ export class StudentComponent {
       .subscribe({
         next: (data) => {
           this.student = data;
-  
+
           // Check if no data was returned
           if (this.student.length === 0) {
             this.message = 'No data found'; // Set error message
@@ -61,7 +61,7 @@ export class StudentComponent {
           }
         },
         error: (err) => {
-          this.student=[];
+          this.student = [];
           console.error('Error fetching student', err);
           this.message = 'Error fetching data, please try again.'; // Set error message on failure
           this.messageType = 'error'; // Set message type to error
@@ -83,7 +83,7 @@ export class StudentComponent {
       this.messageType = 'error'; // Show error message
       return;
     }
-  
+
     // Proceed with updating if the form is valid
     this.http
       .put<any>(`${this.studentUrl}/${this.currentStudent.id}?schoolAdminId=${this.schoolAdminId}`, this.currentStudent)
@@ -101,12 +101,16 @@ export class StudentComponent {
         },
       });
   }
-  
+
   // Helper method to check if the form is invalid
   isFormInvalid() {
-    return !this.currentStudent.item || !this.currentStudent.description || !this.currentStudent.unitCost || !this.currentStudent.level || !this.currentStudent.enrollmentStatus || !this.currentStudent.year || !this.currentStudent.quantity;
+    return !this.currentStudent.firstName || !this.currentStudent.lastName || !this.currentStudent.studentNumber ||
+           !this.currentStudent.level || !this.currentStudent.birthDate || !this.currentStudent.residence ||
+           !this.currentStudent.mother || !this.currentStudent.father || !this.currentStudent.phone ||
+           !this.currentStudent.email || !this.currentStudent.club || !this.currentStudent.healthStatus ||
+           !this.currentStudent.enrollmentStatus || !this.currentStudent.year;
   }
-  
+
   // Cancel the edit mode
   cancelEdit() {
     this.isEditMode = false;
@@ -114,6 +118,7 @@ export class StudentComponent {
     this.message = ''; // Clear message on cancel
   }
 
+  // Delete student
   deleteStudent(studentId: number) {
     if (confirm('Are you sure you want to delete this student?')) {
       this.http.delete(`${this.studentUrl}/${studentId}?schoolAdminId=${this.schoolAdminId}`).subscribe({
@@ -129,34 +134,5 @@ export class StudentComponent {
         },
       });
     }
-  }
-
-  // Calculate the grand total for all student
-  calculateGrandTotal(): number {
-    return this.student.reduce((total, student) => {
-      return total + (student.unitCost * student.quantity);
-    }, 0);
-  }
-
-  // Calculate the total for selected student
-  calculateSelectedTotal(): number {
-    const selectedCheckboxes = document.querySelectorAll(
-      'input.selectRow:checked'
-    ) as NodeListOf<HTMLInputElement>;
-
-    if (selectedCheckboxes.length === 0) {
-      return this.calculateGrandTotal(); // Return the grand total if no checkboxes are selected
-    }
-
-    let total = 0;
-    selectedCheckboxes.forEach((checkbox) => {
-      const index = parseInt(checkbox.dataset['index']!, 10);
-      const student = this.student[index];
-      if (student) {
-        total += student.unitCost * student.quantity;
-      }
-    });
-
-    return total;
   }
 }

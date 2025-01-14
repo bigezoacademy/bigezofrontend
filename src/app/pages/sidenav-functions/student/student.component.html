@@ -100,7 +100,6 @@
                 value="1"
                 class="selectRow"
                 [attr.data-index]="i"
-                (change)="calculateSelectedTotal()"
               />
             </td>
 
@@ -131,60 +130,50 @@
             </td>
           </tr>
         </tbody>
-        <tr class="totalrow p-3">
-          <td colspan="7" class="text-dark ps-3">Grand Total:</td>
-          <td>
-            UGX {{ calculateSelectedTotal() | number : "1.0-0" }}
-            <!-- Display Grand Total -->
-          </td>
-          <td></td>
-        </tr>
       </table>
     </div>
-    <!-- Pay Button -->
-    <button class="btn btn-success" *ngIf="accounttype === 'ROLE_USER'">
-      Pay for Selected Items
-    </button>
   </div>
 
   <!-- Display Grand Total -->
 </div>
 
 <!-- Edit UI -->
+<!-- Edit UI -->
 <div *ngIf="isEditMode">
   <h3 class="p-3 text-success">Edit student</h3>
   <div class="row mb-3">
     <div class="col-md-4">
-      <label for="item" class="form-label">Item</label>
+      <label for="firstName" class="form-label">First Name</label>
       <input
-        [(ngModel)]="currentStudent.item"
-        id="item"
+        [(ngModel)]="currentStudent.firstName"
+        id="firstName"
         type="text"
         class="form-control"
-        placeholder="Item Name"
+        placeholder="First Name"
       />
     </div>
     <div class="col-md-4">
-      <label for="description" class="form-label">Description</label>
+      <label for="lastName" class="form-label">Last Name</label>
       <input
-        [(ngModel)]="currentStudent.description"
-        id="description"
+        [(ngModel)]="currentStudent.lastName"
+        id="lastName"
         type="text"
         class="form-control"
-        placeholder="Description"
+        placeholder="Last Name"
       />
     </div>
     <div class="col-md-4">
-      <label for="unitCost" class="form-label">Unit Cost</label>
+      <label for="studentNumber" class="form-label">Student Number</label>
       <input
-        [(ngModel)]="currentStudent.unitCost"
-        id="unitCost"
-        type="number"
+        [(ngModel)]="currentStudent.studentNumber"
+        id="studentNumber"
+        type="text"
         class="form-control"
-        placeholder="Unit Cost"
+        placeholder="Student Number"
       />
     </div>
   </div>
+
   <div class="row mb-3">
     <div class="col-md-4">
       <label for="level" class="form-label">Class Level</label>
@@ -197,13 +186,101 @@
       />
     </div>
     <div class="col-md-4">
-      <label for="term" class="form-label">Term</label>
+      <label for="birthDate" class="form-label">Birth Date</label>
       <input
-        [(ngModel)]="currentStudent.term"
-        id="term"
-        type="number"
+        [(ngModel)]="currentStudent.birthDate"
+        id="birthDate"
+        type="date"
         class="form-control"
-        placeholder="Term"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="residence" class="form-label">Residence</label>
+      <input
+        [(ngModel)]="currentStudent.residence"
+        id="residence"
+        type="text"
+        class="form-control"
+        placeholder="Residence"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="mother" class="form-label">Mother</label>
+      <input
+        [(ngModel)]="currentStudent.mother"
+        id="mother"
+        type="text"
+        class="form-control"
+        placeholder="Mother's Name"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="father" class="form-label">Father</label>
+      <input
+        [(ngModel)]="currentStudent.father"
+        id="father"
+        type="text"
+        class="form-control"
+        placeholder="Father's Name"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="phone" class="form-label">Phone</label>
+      <input
+        [(ngModel)]="currentStudent.phone"
+        id="phone"
+        type="text"
+        class="form-control"
+        placeholder="Phone Number"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="email" class="form-label">Email</label>
+      <input
+        [(ngModel)]="currentStudent.email"
+        id="email"
+        type="email"
+        class="form-control"
+        placeholder="Email Address"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="club" class="form-label">Club</label>
+      <input
+        [(ngModel)]="currentStudent.club"
+        id="club"
+        type="text"
+        class="form-control"
+        placeholder="Club"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="healthStatus" class="form-label">Health Status</label>
+      <input
+        [(ngModel)]="currentStudent.healthStatus"
+        id="healthStatus"
+        type="text"
+        class="form-control"
+        placeholder="Health Status"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
+      <input
+        [(ngModel)]="currentStudent.enrollmentStatus"
+        id="enrollmentStatus"
+        type="text"
+        class="form-control"
+        placeholder="Enrollment Status"
       />
     </div>
     <div class="col-md-4">
@@ -214,18 +291,6 @@
         type="number"
         class="form-control"
         placeholder="Year"
-      />
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="quantity" class="form-label">Quantity</label>
-      <input
-        [(ngModel)]="currentStudent.quantity"
-        id="quantity"
-        type="number"
-        class="form-control"
-        placeholder="Quantity"
       />
     </div>
   </div>
