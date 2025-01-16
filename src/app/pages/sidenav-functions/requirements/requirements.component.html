@@ -147,7 +147,12 @@
       </table>
     </div>
     <!-- Pay Button -->
-    <button class="btn btn-success" *ngIf="accounttype === 'ROLE_USER'">
+    <!-- Updated "Pay for Selected Items" Button -->
+    <button
+      class="btn btn-success"
+      *ngIf="accounttype === 'ROLE_USER'"
+      (click)="payForSelectedItems()"
+    >
       Pay for Selected Items
     </button>
   </div>

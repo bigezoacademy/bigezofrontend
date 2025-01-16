@@ -10,6 +10,7 @@ import { RequirementsComponent } from './pages/sidenav-functions/requirements/re
 import { NewRequirementComponent } from './pages/sidenav-functions/newrequirement/newrequirement.component';
 import { NewStudentComponent } from './pages/sidenav-functions/newstudent/newstudent.component';
 import { StudentComponent } from './pages/sidenav-functions/student/student.component';
+import { PayComponent } from './pages/sidenav-functions/pay/pay.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Public route
@@ -32,6 +33,13 @@ export const routes: Routes = [
         canActivate:[authGuard],
         data:{role:'ROLE_ADMIN'}
       },
+      {
+        path: 'pay',
+        component: PayComponent,
+        canActivate: [authGuard],
+        data: { role: 'ROLE_USER' } // Only students can access
+      },
+      
       {path:'student',
         component:StudentComponent,
         canActivate:[authGuard],

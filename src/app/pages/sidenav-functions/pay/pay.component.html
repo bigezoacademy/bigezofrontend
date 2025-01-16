@@ -1,0 +1,30 @@
+<div>
+  <h2>Payment Details</h2>
+  <form>
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input
+        type="text"
+        id="location"
+        [(ngModel)]="paymentDetails.location"
+        name="location"
+        class="form-control"
+        placeholder="Enter your location"
+        required
+      />
+    </div>
+    <div>
+      <h3>Selected Items</h3>
+      <ul>
+        <li *ngFor="let item of selectedItems">
+          {{ item.item }} - UGX
+          {{ item.unitCost * item.quantity | number : "1.0-0" }}
+        </li>
+      </ul>
+      <p>Total: UGX {{ calculateTotal() | number : "1.0-0" }}</p>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="proceedToPay()">
+      Proceed to Pay
+    </button>
+  </form>
+</div>

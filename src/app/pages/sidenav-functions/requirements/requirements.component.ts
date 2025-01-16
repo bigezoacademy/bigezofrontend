@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-requirements',
@@ -35,6 +36,7 @@ export class RequirementsComponent {
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7']; // Example levels
 
   private http = inject(HttpClient);
+  private router=inject(Router);
 
   // This method will be called when the "Show All" button is clicked
   showrequirements() {
@@ -193,4 +195,42 @@ export class RequirementsComponent {
 
     return total;
   }
+
+
+  paymentDetails = {
+    location: '',
+  };
+  selectedItems: any[] = JSON.parse(localStorage.getItem('selectedItems') || '[]');
+
+  calculateTotal(): number {
+    return this.selectedItems.reduce((total, item) => total + item.unitCost * item.quantity, 0);
+  }
+
+  payForSelectedItems() {
+    const selectedCheckboxes = document.querySelectorAll(
+        'input.selectRow:checked'
+    ) as NodeListOf<HTMLInputElement>;
+
+    this.selectedItems = Array.from(selectedCheckboxes).map((checkbox) => {
+        const index = parseInt(checkbox.dataset['index']!, 10);
+        return this.requirements[index];
+    });
+
+    const totalAmount = this.selectedItems.reduce(
+        (total, item) => total + item.unitCost * item.quantity,
+        0
+    );
+
+    // Store selected items and total amount in local storage
+    localStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
+    localStorage.setItem('totalAmount', totalAmount.toString());
+
+    console.log('Selected items and total amount stored in local storage:', {
+        selectedItems: this.selectedItems,
+        totalAmount,
+    });
+
+    this.router.navigate(['/pay']); // Redirect to the payment page
+}
+
 }
