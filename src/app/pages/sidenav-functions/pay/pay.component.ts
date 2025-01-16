@@ -1,7 +1,8 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pay',
@@ -14,6 +15,7 @@ export class PayComponent {
   paymentDetails = {
     location: '',
   };
+  private router=inject(Router);
   selectedItems: any[] = JSON.parse(localStorage.getItem('selectedItems') || '[]');
 
   calculateTotal(): number {
@@ -24,6 +26,11 @@ export class PayComponent {
     console.log('Payment details:', this.paymentDetails);
     console.log('Items to pay for:', this.selectedItems);
     // Implement actual payment logic here
+  }
+
+
+  goBack() {
+    this.router.navigate(['/requirements']); // Adjust the route path if needed
   }
 }
 

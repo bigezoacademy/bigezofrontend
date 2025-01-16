@@ -1,5 +1,10 @@
 <div>
-  <h2>Payment Details</h2>
+  <h2>
+    Payment Details
+    <button type="button" class="btn btn-dark" (click)="goBack()">
+      <i class="bi bi-arrow-left me-2"></i> Back to requirements
+    </button>
+  </h2>
   <form>
     <div class="mb-3">
       <label for="location" class="form-label">Location</label>
@@ -13,18 +18,23 @@
         required
       />
     </div>
-    <div>
-      <h3>Selected Items</h3>
+    <div class="p-3 py-5">
+      <h3 class="pb-3 text-success">Selected Items</h3>
       <ul>
         <li *ngFor="let item of selectedItems">
           {{ item.item }} - UGX
           {{ item.unitCost * item.quantity | number : "1.0-0" }}
         </li>
       </ul>
-      <p>Total: UGX {{ calculateTotal() | number : "1.0-0" }}</p>
+      <p>
+        Total:
+        <span class="text-danger"
+          >UGX {{ calculateTotal() | number : "1.0-0" }}</span
+        >
+      </p>
+      <button type="button" class="btn btn-success" (click)="proceedToPay()">
+        Proceed to Pay
+      </button>
     </div>
-    <button type="button" class="btn btn-primary" (click)="proceedToPay()">
-      Proceed to Pay
-    </button>
   </form>
 </div>
