@@ -9,36 +9,56 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './requirements.component.html',
   styleUrls: ['./requirements.component.css'],
-  providers: [DecimalPipe]
+  providers: [DecimalPipe],
 })
 export class RequirementsComponent {
-  accounttype: any = localStorage.getItem("Role");
+  accounttype: any = localStorage.getItem('Role');
   requirementsUrl: string = 'http://localhost:8080/api/requirements';
   requirements: any[] = []; // To store fetched requirements
-  myyear: number = 2025;  // Default year as number
-  mylevel: string = '5';  // Default level as string
-  myterm: number = 1;     // Default term as number
+  myyear: number = 2025; // Default year as number
+  mylevel: string = ''; // Default level as string
+  myterm: number = 1; // Default term as number
   myschool: string = '';
-  schoolAdminId: number = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : 0;
+  schoolAdminId: number = 0; // Ensure schoolAdminId is a number
 
   // Edit mode flag
   isEditMode: boolean = false;
-  currentRequirement: any = null;  // To store the current requirement being edited
+  currentRequirement: any = null; // To store the current requirement being edited
 
   // Message for success or error
   message: string = ''; // To show success/error messages
   messageType: string = ''; // To determine the type of message ('success' or 'error')
 
   // Define the possible values for year, term, and level
-  years: number[] = [2025, 2024];  // Example years
-  terms: number[] = [1, 2, 3];              // Example terms
+  years: number[] = [2025, 2024]; // Example years
+  terms: number[] = [1, 2, 3]; // Example terms
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7']; // Example levels
 
   private http = inject(HttpClient);
 
   // This method will be called when the "Show All" button is clicked
   showrequirements() {
-    this.isEditMode= false;
+    this.isEditMode = false;
+  
+    // Retrieve chosen role and set schoolAdminId based on the role
+    const chosenrole: string = localStorage.getItem('Role') || '';
+    if (chosenrole === 'ROLE_USER') {
+      this.schoolAdminId = parseInt(localStorage.getItem('schoolAdminId') || '0');
+    } else if (chosenrole === 'ROLE_ADMIN') {
+      this.schoolAdminId = parseInt(localStorage.getItem('id') || '0');
+    }
+  
+    // Validate schoolAdminId
+    if (isNaN(this.schoolAdminId) || this.schoolAdminId <= 0) {
+      console.error('Invalid schoolAdminId value.');
+      this.message = 'Invalid schoolAdminId value.';
+      this.messageType = 'error';
+      return;
+    }
+  
+   
+    
+    // Fetch requirements
     this.http
       .get<any[]>(this.requirementsUrl, {
         params: {
@@ -51,7 +71,7 @@ export class RequirementsComponent {
       .subscribe({
         next: (data) => {
           this.requirements = data;
-  
+          console.log(`Chosen school admin id. --- ${this.schoolAdminId}`);
           // Check if no data was returned
           if (this.requirements.length === 0) {
             this.message = 'No data found'; // Set error message
@@ -61,14 +81,13 @@ export class RequirementsComponent {
           }
         },
         error: (err) => {
-          this.requirements=[];
-          console.error('Error fetching requirements', err);
-          this.message = 'Error fetching data, please try again.'; // Set error message on failure
+          this.requirements = [];
+          console.error('Error fetching requirements', this.schoolAdminId);
+          this.message = `Error fetching data, please try again. --- ${this.schoolAdminId}`; // Set error message on failure
           this.messageType = 'error'; // Set message type to error
         },
       });
   }
-  
   
 
   // Trigger the edit mode with a specific requirement
@@ -85,10 +104,13 @@ export class RequirementsComponent {
       this.messageType = 'error'; // Show error message
       return;
     }
-  
+
     // Proceed with updating if the form is valid
     this.http
-      .put<any>(`${this.requirementsUrl}/${this.currentRequirement.id}?schoolAdminId=${this.schoolAdminId}`, this.currentRequirement)
+      .put<any>(
+        `${this.requirementsUrl}/${this.currentRequirement.id}?schoolAdminId=${this.schoolAdminId}`,
+        this.currentRequirement
+      )
       .subscribe({
         next: (updatedRequirement) => {
           this.isEditMode = false;
@@ -103,12 +125,19 @@ export class RequirementsComponent {
         },
       });
   }
-  
+
   // Helper method to check if the form is invalid
   isFormInvalid() {
-    return !this.currentRequirement.item || !this.currentRequirement.description || !this.currentRequirement.unitCost || !this.currentRequirement.level || !this.currentRequirement.term || !this.currentRequirement.year || !this.currentRequirement.quantity;
+    return (
+      !this.currentRequirement.item ||
+      !this.currentRequirement.description ||
+      !this.currentRequirement.unitCost ||
+      !this.currentRequirement.level ||
+      !this.currentRequirement.term ||
+      !this.currentRequirement.year ||
+      !this.currentRequirement.quantity
+    );
   }
-  
 
   // Cancel the edit mode
   cancelEdit() {
@@ -119,25 +148,27 @@ export class RequirementsComponent {
 
   deleteRequirement(requirementId: number) {
     if (confirm('Are you sure you want to delete this requirement?')) {
-      this.http.delete(`${this.requirementsUrl}/${requirementId}?schoolAdminId=${this.schoolAdminId}`).subscribe({
-        next: () => {
-          this.message = 'Requirement deleted successfully!';
-          this.messageType = 'success';
-          this.showrequirements();  // Refresh the list of requirements
-        },
-        error: (err) => {
-          console.error('Error deleting requirement', err);
-          this.message = 'Error deleting requirement, please try again.';
-          this.messageType = 'error';
-        },
-      });
+      this.http
+        .delete(`${this.requirementsUrl}/${requirementId}?schoolAdminId=${this.schoolAdminId}`)
+        .subscribe({
+          next: () => {
+            this.message = 'Requirement deleted successfully!';
+            this.messageType = 'success';
+            this.showrequirements(); // Refresh the list of requirements
+          },
+          error: (err) => {
+            console.error('Error deleting requirement', err);
+            this.message = 'Error deleting requirement, please try again.';
+            this.messageType = 'error';
+          },
+        });
     }
   }
 
   // Calculate the grand total for all requirements
   calculateGrandTotal(): number {
     return this.requirements.reduce((total, requirement) => {
-      return total + (requirement.unitCost * requirement.quantity);
+      return total + requirement.unitCost * requirement.quantity;
     }, 0);
   }
 

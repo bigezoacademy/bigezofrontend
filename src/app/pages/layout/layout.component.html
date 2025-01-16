@@ -3,7 +3,7 @@
   <div class="sidebar" [ngClass]="{ show: sidebarVisible }">
     <button class="close-btn" (click)="toggleSidebar()">×</button>
     <img src="logo.png" alt="Logo" class="mb-4" style="width: 120px" />
-    <a (click)="home()">
+    <a (click)="home()" *ngIf="accounttype === 'ROLE_ADMIN'">
       <i class="bi me-2 bi-graph-up-arrow"></i> Analytics
     </a>
     <a
@@ -108,7 +108,7 @@
         <button class="btn btn-outline-dark me-3" (click)="logout()">
           Logout
         </button>
-        <span class="me-2">Claire Ochola</span>
+        <span class="me-2">{{ name }}</span>
         <i class="bi bi-person-circle" style="font-size: 1.5rem"></i>
       </div>
     </div>

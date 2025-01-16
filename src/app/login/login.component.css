@@ -1,0 +1,76 @@
+/* Base styles */
+.form-group {
+  font-family: Arial, sans-serif;
+}
+
+.form-group div {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between radio buttons */
+  margin-top: 5px;
+}
+
+/* Hide the default radio button */
+input[type="radio"] {
+  display: none;
+}
+
+/* Create a custom styled radio button */
+input[type="radio"] + label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+input[type="radio"] + label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid #666;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Checked state */
+input[type="radio"]:checked + label::before {
+  border-color: #058817; /* Primary color */
+  background-color: #058817;
+}
+
+input[type="radio"]:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+/* Hover and focus effects */
+input[type="radio"] + label:hover::before,
+input[type="radio"]:focus + label::before {
+  border-color: #058817;
+}
+
+input[type="radio"] + label:hover {
+}
+
+/* Error message styling */
+.text-danger {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}

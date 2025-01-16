@@ -19,6 +19,7 @@ export class LayoutComponent {
     this.sidebarVisible = !this.sidebarVisible;
   }
 accounttype:any=localStorage.getItem("Role");
+name:any=localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
 
 ngOnInit(): void {
 

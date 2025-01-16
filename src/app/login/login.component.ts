@@ -65,10 +65,16 @@ export class LoginComponent {
        
         if (this.userType === 'student'){          
          this.userId=res.data.studentId;
+         const schoolAdminId = res.data.schoolAdminId; 
+         const firstName=res.data.firstName;
+         const lastName=res.data.lastName;
          this.role="ROLE_USER";
          localStorage.setItem('Token', token);
          localStorage.setItem('id', this.userId);
          localStorage.setItem('Role', this.role);
+         localStorage.setItem('schoolAdminId', schoolAdminId.toString()); 
+         localStorage.setItem('firstName',firstName);
+         localStorage.setItem('lastName',lastName);
         }
         else{
          this.userId = res.data.userId;

@@ -1,5 +1,5 @@
 <!-- Dropdown menus for Year, Term, and Class inside a row -->
-<div class="row mb-4">
+<div class="row mb-4" *ngIf="accounttype === 'ROLE_ADMIN'">
   <div class="col-md-3 col-6">
     <div class="mb-3">
       <label for="year" class="form-label">Year</label>
@@ -57,7 +57,9 @@
 
 <!-- Conditionally display students or edit UI -->
 <div *ngIf="!isEditMode">
-  <h3 class="text-success p-3">Students</h3>
+  <h3 class="text-success p-3" *ngIf="accounttype === 'ROLE_ADMIN'">
+    Students
+  </h3>
   <!-- Students Table -->
   <div *ngIf="student.length > 0">
     <div class="table-responsive mb-3">
