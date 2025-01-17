@@ -21,8 +21,11 @@ export class LayoutComponent {
 accounttype:any=localStorage.getItem("Role");
 name:any=localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
 
-ngOnInit(): void {
 
+ngOnInit(): void {
+  if(this.accounttype==="ROLE_ADMIN"){
+  this.name="School Admin";
+  }
 }
   terms():any{
 this.router.navigateByUrl("terms");
