@@ -37,7 +37,7 @@ this.router.navigateByUrl("terms");
         this.router.navigateByUrl("newrequirement");
           }
           students():any{
-            this.router.navigateByUrl("students");
+            this.router.navigateByUrl("student");
               }
               newstudent():any{
                 this.router.navigateByUrl("newstudent");

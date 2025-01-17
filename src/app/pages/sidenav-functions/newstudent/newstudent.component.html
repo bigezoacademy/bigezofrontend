@@ -49,16 +49,19 @@
         />
       </div>
 
-      <!-- Birth Date Input -->
+      <!-- Birth Date Input with Floating Label -->
       <div class="mb-3 col-md-4">
-        <input
-          id="birthDate"
-          type="date"
-          class="form-control"
-          [(ngModel)]="birthDate"
-          name="birthDate"
-          required
-        />
+        <div class="form-floating">
+          <input
+            id="birthDate"
+            type="date"
+            class="form-control"
+            [(ngModel)]="birthDate"
+            name="birthDate"
+            required
+          />
+          <label for="birthDate">Birthday</label>
+        </div>
       </div>
 
       <!-- Residence Input -->
@@ -150,16 +153,20 @@
         </select>
       </div>
 
-      <!-- Enrollment Status Input -->
+      <!-- Enrollment Status Input with Selection Options -->
       <div class="mb-3 col-md-4">
-        <input
+        <select
           id="enrollmentStatus"
           class="form-control"
           [(ngModel)]="enrollmentStatus"
           name="enrollmentStatus"
-          placeholder="Enrollment Status"
           required
-        />
+        >
+          <option value="" disabled selected>Choose Enrollment Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+          <option value="alumni">Alumni</option>
+        </select>
       </div>
 
       <!-- Year Select -->
