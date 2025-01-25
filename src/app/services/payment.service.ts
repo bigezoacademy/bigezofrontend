@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class PaymentService {
 
   requestPaymentToken(): Observable<any> {
     // Set the API key in the headers
-    const headers = new HttpHeaders().set('X-API-KEY', 'ThisIsMyPesapalApiKey'); // Replace 'your-api-key' with your actual API key
+    const headers = new HttpHeaders().set('X-API-KEY', environment.pesapalApiKey); // Replace 'your-api-key' with your actual API key
 
     return this.http.post(this.apiUrl, {}, { headers });
   }
