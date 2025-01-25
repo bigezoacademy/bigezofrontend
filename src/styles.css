@@ -19,13 +19,19 @@
   color: var(--red);
 }
 body {
-  font-family: "Poppins", serif !important;
+  font-family: "Poppins", serif ;
   font-weight: 500;
   font-style: normal;
   background-color: #ffffff;
   color: #000000;
   overflow-x: hidden;
   margin: 0; /* Reset default margin */
+}
+h1,h2,h3,h4,h5,h6{
+  font-family: "Playfair", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
 }
 
 .form-floating {

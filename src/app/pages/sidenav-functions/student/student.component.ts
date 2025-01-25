@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-student',
@@ -35,6 +36,20 @@ export class StudentComponent {
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7']; // Example levels
 
   private http = inject(HttpClient);
+  orderTrackingId: string | null = null;
+  merchantReference: string | null = null;
+  paymentFeedback: any;
+
+ private route = inject(ActivatedRoute);
+  ngOnInit(): void {
+    // Extract query parameters
+   
+    this.route.queryParamMap.subscribe(params => {
+      this.paymentFeedback=params.get('OrderTrackingId');
+      this.orderTrackingId = params.get('OrderTrackingId');
+      this.merchantReference = params.get('OrderMerchantReference');
+    });
+  }
 
   // This method will be called when the "Show All" button is clicked
   showstudents() {

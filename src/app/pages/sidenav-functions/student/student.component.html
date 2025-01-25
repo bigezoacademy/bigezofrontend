@@ -42,6 +42,18 @@
     </div>
   </div>
 </div>
+<div class="feedback-container" *ngIf="paymentFeedback!==null">
+ 
+  <div *ngIf="orderTrackingId && merchantReference; else noFeedback">
+    <h2>Payment Feedback</h2>
+    <p><strong>Order Tracking ID:</strong> <span class="text-success ms-3">{{ orderTrackingId }}</span></p>
+    <p><strong>Merchant Reference:</strong><span class="text-success ms-3"> {{ merchantReference }}</span></p>
+  </div>
+  <ng-template #noFeedback>
+    <h2>Payment Feedback</h2>
+    <p class="text-danger">No feedback available. Please ensure the payment was successful.</p>
+  </ng-template>
+</div>
 
 <!-- Conditionally display success or error message -->
 <div

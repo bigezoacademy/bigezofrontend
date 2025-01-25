@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!showIframe">
   <h2>
     Payment Details
     <button type="button" class="btn btn-dark" (click)="goBack()">
@@ -38,3 +38,13 @@
     </div>
   </form>
 </div>
+
+<div *ngIf="showIframe" class="iframe-container">
+  <iframe
+    [src]="iframeUrl || '' | safeUrl"
+    width="100%"
+    height="600px"
+    frameborder="0"
+  ></iframe>
+</div>
+
