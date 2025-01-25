@@ -3,6 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PaymentService } from '../../../services/payment.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { environment } from '../../../../../environment.prod';
+import { map } from 'rxjs/internal/operators/map';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-requirements',
@@ -13,6 +18,7 @@ import { Router } from '@angular/router';
   providers: [DecimalPipe],
 })
 export class RequirementsComponent {
+    // Update endpoint as needed
   accounttype: any = localStorage.getItem('Role');
   requirementsUrl: string = 'http://localhost:8080/api/requirements';
   requirements: any[] = []; // To store fetched requirements
@@ -37,8 +43,7 @@ export class RequirementsComponent {
 
   private http = inject(HttpClient);
   private router=inject(Router);
-
-  // This method will be called when the "Show All" button is clicked
+  private paymentService=inject(PaymentService);  // This method will be called when the "Show All" button is clicked
   showrequirements() {
     this.isEditMode = false;
   
@@ -207,6 +212,7 @@ export class RequirementsComponent {
   }
 
   payForSelectedItems() {
+    this.requestPaymentToken();
     const selectedCheckboxes = document.querySelectorAll(
         'input.selectRow:checked'
     ) as NodeListOf<HTMLInputElement>;
@@ -225,12 +231,36 @@ export class RequirementsComponent {
     localStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
     localStorage.setItem('totalAmount', totalAmount.toString());
 
-    console.log('Selected items and total amount stored in local storage:', {
+    /* console.log('Selected items and total amount stored in local storage:', {
         selectedItems: this.selectedItems,
         totalAmount,
-    });
+    }); */
 
     this.router.navigate(['/pay']); // Redirect to the payment page
 }
+
+paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";
+
+requestPaymentToken() {
+  this.paymentService.requestPaymentToken().subscribe({
+    next: (response: { token: string, expiryDate: string, error: any, status: string, message: string }) => {  
+      // Handle the response here
+      if (response.status === '200' && response.token) {
+        const paymentToken = response.token;
+        localStorage.setItem('paymentToken', paymentToken); // Store the token in local storage
+        console.log('Payment token received and stored:', paymentToken);
+      } else {
+        console.error('Error: ' + response.message);
+      }
+    },  
+    error: (err) => {  
+      console.error('Error requesting payment token:', err);  
+      this.message = 'Error requesting payment token, please try again.';  
+      this.messageType = 'error'; // Set error message type  
+    },  
+  });  
+}
+
+
 
 }

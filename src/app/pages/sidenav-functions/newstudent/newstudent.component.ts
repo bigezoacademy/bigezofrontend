@@ -42,7 +42,7 @@ export class NewStudentComponent {
   // Function to generate a 7-digit provisional password
   generateProvisionalPassword(): string {
     var propassword:any=Math.floor(1000000 + Math.random() * 9000000).toString();
-    console.log(propassword);
+    console.log(`PROVISIONAL PASSWORD: ------------------ ${propassword}`);
     return propassword;
   }
 
@@ -65,10 +65,10 @@ export class NewStudentComponent {
       return;
     }
 
-    // Autogenerate the password if it's not provided
-    if (!this.password) {
+    
+   
       this.password = this.generateProvisionalPassword();
-    }
+   
 
     const newStudent = {
       firstName: this.firstName,
@@ -96,6 +96,7 @@ export class NewStudentComponent {
         next: () => {
           this.addStudentStatus = 'Student created successfully!';
           this.status = 'success';
+          console.log(`PASSWORD------------------- ${this.password}`)
           this.clearForm();
         },
         error: (err) => {

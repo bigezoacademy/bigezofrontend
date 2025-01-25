@@ -1,4 +1,84 @@
-<p>admin works!</p>
-<h1 class="text-center">
-  welcome : <span class="text-danger">{{ userId }}</span>
-</h1>
+<div>
+  <!-- Summary Section -->
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1 class="mb-3">Hello, Admin</h1>
+        <p>Here's a summary of your account activity for this week.</p>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row text-center mb-4">
+      <div class="col-md-3">
+        <div class="card p-3 ">
+          <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-cash-coin fs-1 text-primary"></i>
+          </div>
+          <h5 class="mt-2">Earned</h5>
+          <h2>$1,250</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 ">
+          <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-clock fs-1 text-success"></i>
+          </div>
+          <h5 class="mt-2">Hours Logged</h5>
+          <h2>35.5 hrs</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 ">
+          <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-hourglass-split fs-1 text-warning"></i>
+          </div>
+          <h5 class="mt-2">Avg. Time</h5>
+          <h2>2:55 hrs</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 ">
+          <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-graph-up-arrow fs-1 text-danger"></i>
+          </div>
+          <h5 class="mt-2">Weekly Growth</h5>
+          <h2>14.5%</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance and Goals -->
+    <div class="row">
+      <!-- Performance Chart -->
+      <div class="col-md-8 mx-auto my-auto">
+      Graph goes here
+      </div>
+
+      <!-- Goals Section -->
+      <div class="col-md-4">
+        <div class="card p-3 ">
+          <h5><i class="bi bi-bullseye me-2"></i>Goals</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-arrow-up-circle text-primary me-2"></i> Increase monthly revenue</span>
+              <span class="badge bg-primary rounded-pill">Mar 15</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-lightbulb text-warning me-2"></i> Launch new feature</span>
+              <span class="badge bg-warning rounded-pill">Oct 01</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-people text-success me-2"></i> Grow user base</span>
+              <span class="badge bg-success rounded-pill">Dec 12</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-star text-danger me-2"></i> Improve customer satisfaction</span>
+              <span class="badge bg-danger rounded-pill">Dec 15</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
