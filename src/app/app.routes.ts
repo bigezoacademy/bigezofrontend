@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { TermsComponent } from './pages/terms/terms.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -11,6 +10,7 @@ import { NewRequirementComponent } from './pages/sidenav-functions/newrequiremen
 import { NewStudentComponent } from './pages/sidenav-functions/newstudent/newstudent.component';
 import { StudentComponent } from './pages/sidenav-functions/student/student.component';
 import { PayComponent } from './pages/sidenav-functions/pay/pay.component';
+import { TransactionsComponent } from './pages/sidenav-functions/transactions/transactions.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Public route
@@ -25,6 +25,11 @@ export const routes: Routes = [
     children: [
       {path:'requirements',
         component:RequirementsComponent,
+        canActivate:[authGuard],
+        data:{role:['ROLE_ADMIN','ROLE_USER','ROLE_TEACHER']}
+      },
+      {path:'transactions',
+        component:TransactionsComponent,
         canActivate:[authGuard],
         data:{role:['ROLE_ADMIN','ROLE_USER','ROLE_TEACHER']}
       },

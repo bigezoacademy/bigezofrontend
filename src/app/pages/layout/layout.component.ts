@@ -27,6 +27,10 @@ ngOnInit(): void {
   this.name="School Admin";
   }
 }
+transactions():any{
+  this.router.navigateByUrl("transactions");
+    }
+
   terms():any{
 this.router.navigateByUrl("terms");
   }

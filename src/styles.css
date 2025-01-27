@@ -5,6 +5,7 @@
   --black: #000000;
   --lightgrey: #e9e9e9;
   --red: #b90202;
+  --semi-light-green:#92e65e;
 }
 .btn-success {
   background-color: var(--darkgreen);
@@ -13,7 +14,7 @@
   background-color: var(--darkgreen);
 }
 .text-success {
-  color: var(--darkgreen) !important;
+  color: var(--semi-light-green) !important;
 }
 .text-danger {
   color: var(--red);
@@ -27,7 +28,7 @@ body {
   overflow-x: hidden;
   margin: 0; /* Reset default margin */
 }
-h1,h2,h3,h4,h5,h6{
+.xyz{
   font-family: "Playfair", serif;
   font-optical-sizing: auto;
   font-weight: 800;
