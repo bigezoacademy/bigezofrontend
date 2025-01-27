@@ -8,8 +8,11 @@
         type="text"
         class="form-control w-50"
         placeholder="Search by Student Name or Reason"
+        (input)="handleSearch()"
         [(ngModel)]="searchQuery"
       />
+      
+
       <h5 class="text-primary"><span>{{ totalRows }}</span> rows</h5>
       <div class="d-flex justify-content-center align-items-center mt-3">
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
@@ -39,7 +42,7 @@
           <tr>
             <th>Student Name</th>
             <th>Amount (UGX)</th>
-            <th>Order Tracking ID</th>
+            <th>Transaction ID</th>
             <th>Reason</th>
             <th>Description</th>
             <th>Status</th>

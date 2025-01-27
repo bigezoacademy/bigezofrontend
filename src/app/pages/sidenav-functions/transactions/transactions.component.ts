@@ -182,19 +182,7 @@ export class TransactionsComponent {
   
   ];
 
-  filteredData() {
-    const searchLower = this.searchQuery.toLowerCase();
-    return this.data
-      .filter(
-        (item) =>
-          item.StudentName.toLowerCase().includes(searchLower) ||
-          item.Reason.toLowerCase().includes(searchLower)
-      )
-      .slice(
-        (this.currentPage - 1) * this.itemsPerPage,
-        this.currentPage * this.itemsPerPage
-      );
-  }
+ 
 
   get totalPages() {
     return Math.ceil(
@@ -225,6 +213,19 @@ export class TransactionsComponent {
         item.StudentName.toLowerCase().includes(searchLower) ||
         item.Reason.toLowerCase().includes(searchLower)
     ).length;
+  }
+  filteredData() {
+    const searchLower = this.searchQuery.toLowerCase();
+    return this.data
+      .filter(
+        (item) =>
+          item.StudentName.toLowerCase().includes(searchLower) ||
+          item.Reason.toLowerCase().includes(searchLower)
+      )
+      .slice(
+        (this.currentPage - 1) * this.itemsPerPage,
+        this.currentPage * this.itemsPerPage
+      );
   }
 
 
