@@ -17,6 +17,38 @@ export class PayComponent {
   paymentDetails = {
     location: '',
   };
+  studentid: number = 0;
+  studentname: string = '';
+  amount: number = 0;
+  order_tracking_id: string = '';
+  reason: string = '';
+  description: string = '';
+  statuscode: string = '';
+  status: string = '';
+  time: string = '';
+  level: number = 0;
+  term: string = '';
+  year: number = 0;
+  schooladminid: number = 0;
+
+  // Transaction array
+  transaction = [
+    {
+      studentid: this.studentid,
+      studentname: this.studentname,
+      amount: this.amount,
+      order_tracking_id: this.order_tracking_id,
+      reason: this.reason,
+      description: this.description,
+      statuscode: this.statuscode,
+      status: this.status,
+      time: this.time,
+      level: this.level,
+      term: this.term,
+      year: this.year,
+      schooladminid: this.schooladminid,
+    }
+  ];
   private router = inject(Router);
   private paymentService = inject(PaymentService);
   selectedItems: any[] = JSON.parse(
@@ -24,6 +56,8 @@ export class PayComponent {
   );
   showIframe = false;
   iframeUrl: string = '';
+
+ 
 
   calculateTotal(): number {
     return this.selectedItems.reduce(
@@ -51,7 +85,7 @@ export class PayComponent {
       currency: 'UGX',
       amount: 500.0,
       description: 'Payment description goes here',
-      callback_url: 'http://localhost:4200/student', // Set this as needed
+      callback_url: 'http://localhost:4200/transactions', // Set this as needed
       notification_id: environment.notificationId, // Retrieve from environment
       billing_address: {
         email_address: 'ochalfie@gmail.com',
