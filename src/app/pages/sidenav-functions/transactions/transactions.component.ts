@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { PaymentService } from '../../../services/payment.service';
 
 @Component({
   selector: 'app-transactions',
@@ -14,12 +16,28 @@ export class TransactionsComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalRows: number = 0;
+  studentid: number = 0;
+  studentname: string = '';
+  amount: number = 0;
+  order_tracking_id: string = '';
+  reason: string = '';
+  description: string = '';
+  statuscode: string = '';
+  status: string = '';
+  time: string = '';
+  level: number = 0;
+  term: string = '';
+  year: number = 0;
+  schooladminid: number = 0;
+
+  private router = inject(Router);
+    private paymentService = inject(PaymentService);
  data= [
   {  
       "StudentId": 1,
       "StudentName": "Aisha Namukasa",  
       "Amount": 150000,  
-      "order_tracking_id": "b945e4af-80a5-4ec1-8706-e03f8332fb04",  
+      "order_tracking_id": "9e937185-51a6-4137-8f17-dc3a188538e3",  
       "Reason": "School Fees",  
       "Description": "Paid Term 1 Fees",  
       "statusCode": "200",  
@@ -34,7 +52,7 @@ export class TransactionsComponent {
       "StudentId": 2,
       "StudentName": "Sylvia Nakato",  
       "Amount": 175000,  
-      "order_tracking_id": "m901e4af-80a5-4ec1-8706-e03f8332fb14",  
+      "order_tracking_id": "9e937185-51a6-4137-8fs7-dc3a188538e3",  
       "Reason": "School Fees",  
       "Description": "Paid Term 1 Fees",  
       "statusCode": "200",  
@@ -169,6 +187,25 @@ export class TransactionsComponent {
 
 
 
+transaction = [ 
+  {
+    studentid: this.studentid,
+    studentname: this.studentname,
+    amount: this.amount,
+    order_tracking_id: this.order_tracking_id,
+    reason: this.reason,
+    description: this.description,
+    statuscode: this.statuscode,
+    status: this.status,
+    time: this.time,
+    level: this.level,
+    term: this.term,
+    year: this.year,
+    schooladminid: this.schooladminid,
+  }
+];
+
+
  
 
   get totalPages() {
@@ -229,8 +266,49 @@ export class TransactionsComponent {
     // Initialize total rows on component load
     this.updateTotalRows();
   }
-  refresh(orderTrackingId: string) {
-    alert(`Refreshing data for Order Tracking ID: ${orderTrackingId}`);
-    // Here, you can add logic to refresh data, e.g., fetch updated details from a backend API.
+
+
+  refresh(orderTrackingId: string): void {
+    // Retrieve payment token from localStorage
+    const paymentToken = localStorage.getItem('paymentToken');
+    if (!paymentToken) {
+      console.error('Payment token is missing. Please request a token first.');
+      return;
+    }
+  
+    // Call the Pesapal API to fetch the transaction status
+    this.paymentService.getTransactionStatus(orderTrackingId, paymentToken).subscribe(
+      (response) => {
+        // Update the transaction object with new data from the API response
+        console.log(`TOKEN:-----------------${paymentToken}`);
+        this.transaction = [
+          {
+            studentid: this.studentid,
+            studentname: this.studentname,
+            amount: response.amount,
+            order_tracking_id: orderTrackingId,
+            reason: response.description,
+            description: response.payment_status_description,
+            statuscode: response.status_code,
+            status: response.status,
+            time: response.created_date,
+            level: this.level,
+            term: this.term,
+            year: this.year,
+            schooladminid: this.schooladminid,
+          },
+        ];
+  
+        // Log the updated transaction object for debugging
+        console.log('Updated Transaction:', this.transaction);
+      },
+      (error) => {
+        // Handle any errors during the API call
+        console.error('Error fetching transaction status:', error);
+        console.log(`TOKEN:-----------------${paymentToken}`);
+      }
+    );
   }
+  
+  
 }
