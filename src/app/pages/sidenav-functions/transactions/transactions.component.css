@@ -1,0 +1,15 @@
+:root {
+    --darkgreen: #528f41; /* Define the color variable */
+    --lightgreen: #daffcf;
+    --lightcream: #fffbef;
+    --black: #000000;
+    --lightgrey: #e9e9e9;
+    --red: #b90202;
+    --semi-light-green:#92e65e;
+  }
+.amount{
+    color: var(--red)
+}
+tr td{
+  font-size: 90% !important;
+}

@@ -10,6 +10,9 @@
 .btn-success {
   background-color: var(--darkgreen);
 }
+.badge .btn-success {
+  background-color: var(--darkgreen);
+}
 .btn-success:hover {
   background-color: var(--darkgreen);
 }
