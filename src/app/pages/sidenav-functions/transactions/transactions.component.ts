@@ -270,17 +270,17 @@ transaction = [
 
   refresh(orderTrackingId: string): void {
     // Retrieve payment token from localStorage
-    const paymentToken = localStorage.getItem('paymentToken');
-    if (!paymentToken) {
+    const transactionToken = localStorage.getItem('transactionToken');
+    if (!transactionToken) {
       console.error('Payment token is missing. Please request a token first.');
       return;
     }
   
     // Call the Pesapal API to fetch the transaction status
-    this.paymentService.getTransactionStatus(orderTrackingId, paymentToken).subscribe(
+    this.paymentService.getTransactionStatus(orderTrackingId, transactionToken).subscribe(
       (response) => {
         // Update the transaction object with new data from the API response
-        console.log(`TOKEN:-----------------${paymentToken}`);
+        console.log(`TRANSACTION TOKEN:-----------------${transactionToken}`);
         this.transaction = [
           {
             studentid: this.studentid,
@@ -305,7 +305,7 @@ transaction = [
       (error) => {
         // Handle any errors during the API call
         console.error('Error fetching transaction status:', error);
-        console.log(`TOKEN:-----------------${paymentToken}`);
+        console.log(`TOKEN:-----------------${transactionToken}`);
       }
     );
   }

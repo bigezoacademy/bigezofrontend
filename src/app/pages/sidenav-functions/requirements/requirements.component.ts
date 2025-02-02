@@ -23,7 +23,7 @@ export class RequirementsComponent {
   requirementsUrl: string = 'http://localhost:8080/api/requirements';
   requirements: any[] = []; // To store fetched requirements
   myyear: number = 2025; // Default year as number
-  mylevel: string = ''; // Default level as string
+  mylevel: string = localStorage.getItem('level') ?? ''; // Default level as string
   myterm: number = 1; // Default term as number
   myschool: string = '';
   schoolAdminId: number = 0; // Ensure schoolAdminId is a number

@@ -75,6 +75,7 @@ export class LoginComponent {
          localStorage.setItem('schoolAdminId', schoolAdminId.toString()); 
          localStorage.setItem('firstName',firstName);
          localStorage.setItem('lastName',lastName);
+         localStorage.setItem('level',res.data.level);
         }
         else{
          this.userId = res.data.userId;

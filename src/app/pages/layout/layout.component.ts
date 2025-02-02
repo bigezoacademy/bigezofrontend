@@ -1,7 +1,8 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Renderer2, ViewChild } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'app-layout',
@@ -12,6 +13,9 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class LayoutComponent {
   sidebarVisible: boolean = false;
+  message: string = ''; // To show success/error messages
+  messageType: string = ''; // To determine the type of message ('success' or 'error')
+
 
   constructor(private router: Router, private renderer: Renderer2) {}
 
@@ -28,7 +32,14 @@ ngOnInit(): void {
   }
 }
 transactions():any{
-  this.router.navigateByUrl("transactions");
+  try {
+    this.transactionToken();
+    this.router.navigateByUrl("transactions");
+  } catch (error) {
+    alert('Failed to get transaction token from server')
+  }
+ 
+  
     }
 
   terms():any{
@@ -49,6 +60,32 @@ this.router.navigateByUrl("terms");
               newstudent():any{
                 this.router.navigateByUrl("newstudent");
                   }
+
+
+                  paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";
+                 private paymentService=inject(PaymentService);
+
+                  transactionToken() {
+                    this.paymentService.requestPaymentToken().subscribe({
+                      next: (response: { token: string, expiryDate: string, error: any, status: string, message: string }) => {  
+                        // Handle the response here
+                        if (response.status === '200' && response.token) {
+                          const transactionToken = response.token;
+                          localStorage.setItem('transactionToken', transactionToken); // Store the token in local storage
+                          console.log('Payment token received and stored:', transactionToken);
+                        } else {
+                          console.error('Error: ' + response.message);
+                        }
+                      },  
+                      error: (err: any) => {  
+                        console.error('Error requesting payment token:', err);  
+                        this.message = 'Error requesting payment token, please try again.';  
+                        this.messageType = 'error'; // Set error message type  
+                      },  
+                    });  
+                  }
+
+
 
   logout():any{
     // Clear the local storage

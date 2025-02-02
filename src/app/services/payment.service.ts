@@ -48,9 +48,9 @@ export class PaymentService {
    * @param orderTrackingId The unique identifier for the transaction.
    * @returns An Observable containing the transaction status.
    */
-  getTransactionStatus(orderTrackingId: string, paymentToken: string): Observable<any> {
+  getTransactionStatus(orderTrackingId: string, transactionToken: string): Observable<any> {
     const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${paymentToken}`)
+      .set('Authorization', `Bearer ${transactionToken}`)
       .set('Content-Type', 'application/json');
   
     // Use CORS proxy for the GetTransactionStatus URL
