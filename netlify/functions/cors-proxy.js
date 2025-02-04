@@ -1,11 +1,9 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
-  const { httpMethod, queryStringParameters, headers } = event;
-
-  // Extract the target URL (with query parameters) from the query string
+  const { httpMethod, queryStringParameters, headers, body } = event;
   const targetUrl = queryStringParameters.url;
-  
+
   // Set headers to match what Pesapal expects
   const headersToForward = {
     ...headers,
@@ -16,26 +14,25 @@ exports.handler = async (event, context) => {
   const options = {
     method: httpMethod,
     headers: headersToForward,
+    body: body ? JSON.stringify(JSON.parse(body)) : null // Add body for POST requests
   };
 
   try {
     const response = await fetch(targetUrl, options);
-
     const contentType = response.headers.get('content-type');
     let responseBody = {};
 
     if (contentType && contentType.includes('application/json')) {
-      responseBody = await response.json();  // Handle JSON responses
+      responseBody = await response.json();
     } else {
-      responseBody = await response.text();  // Handle non-JSON responses (like plain text)
+      responseBody = await response.text();
     }
 
-    // Return the response back to the frontend
     return {
       statusCode: response.status,
       body: JSON.stringify(responseBody),
       headers: {
-        'Access-Control-Allow-Origin': '*',  // CORS headers
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
     };
