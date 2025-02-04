@@ -1,9 +1,9 @@
 [build]
   command = "ng build --prod"
-  publish = "dist"
+  publish = "dist/bigezo-frontend/browser"
 
 [[redirects]]
-  from = "/.netlify/functions/*"
+  from = "/functions/*"
   to = "/functions/:splat"
   status = 200
   force = true
