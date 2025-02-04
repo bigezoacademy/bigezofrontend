@@ -33,7 +33,7 @@ export class PaymentService {
   }
   getTransactionStatus(orderTrackingId: string, transactionToken: string): Observable<any> {
     const headers = new HttpHeaders()
-      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${transactionToken}`)
       .set('Content-Type', 'application/json');
   
     // Construct the proxy URL with the query parameter
