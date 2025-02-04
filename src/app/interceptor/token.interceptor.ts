@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   // Check if the request is for Pesapal API endpoints you want to exclude
-  if (req.url.includes('/api/pesapal/') || req.url.includes('https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest')) {
+  if (req.url.includes('/api/pesapal/')|| req.url.includes('/api/transactions/pesapal-status') || req.url.includes('https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest')) {
     // Don't modify the request for Pesapal API, simply pass it along
     return next(req);
   }
