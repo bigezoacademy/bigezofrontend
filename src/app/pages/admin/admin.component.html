@@ -1,114 +1,64 @@
-<div>
-  <!-- Summary Section -->
-  <div class="container my-4">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1 class="mb-3">Hello, Admin</h1>
-        <p>Here's a summary of your account activity for this week.</p>
+<div class="container my-4">
+  <div class="row">
+    <div class="col-12 text-left">
+      <h1 class="mb-3 text-danger">Analytics</h1>
+    </div>
+  </div>
+
+  <!-- Summary Cards Section (Existing) -->
+  <div class="row text-center mb-4">
+    <div class="col-md-6">
+      <div class="card p-3 mb-3">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-wallet2 text-success me-2"></i> Requirements revenue</span>
+            <span class="badge bg-success rounded-pill">UGX 743,000,000</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-people-fill text-secondary me-2"></i> Alumni Contributions</span>
+            <span class="badge bg-secondary rounded-pill">UGX 122,330,000</span>
+          </li>
+        </ul>
       </div>
     </div>
 
-  
-<div class="row text-center mb-4">
-  
-  
-   
-  
-    
-    <div class="col-md-4">
-      <!-- Performance & Academics -->
-    <div class="card  p-3 mb-3">
-      <h5><i class="bi bi-award me-2"></i>Performance & Academics</h5>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-file-earmark-text text-danger me-2"></i> Exam Reports Generated</span>
-          <span class="badge bg-danger rounded-pill">980 Reports</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-pencil-square text-warning me-2"></i> Scholarship Applications</span>
-          <span class="badge bg-warning rounded-pill">150 Applications</span>
-        </li>
-      </ul>
-    </div>
-    </div>
-    <div class="col-md-4">
-        <!-- Financial Insights -->
-    <div class="card  p-3 mb-3">
-      <h5><i class="bi bi-cash-coin me-2"></i>Financial Insights</h5>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-graph-up-arrow text-success me-2"></i> Increase Monthly Revenue</span>
-          <span class="badge bg-success rounded-pill">UGX 12M Collected</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-credit-card-2-front text-primary me-2"></i> School Fees Collection</span>
-          <span class="badge bg-primary rounded-pill">85% Paid</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-people-fill text-warning me-2"></i> Alumni Contributions</span>
-          <span class="badge bg-warning rounded-pill">UGX 3.5M</span>
-        </li>
-      </ul>
-    </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card   p-3 mb-3">
-          <h5><i class="bi bi-person-lines-fill me-2"></i>Student & Parent Engagement</h5>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-person-check text-info me-2"></i> Total Students Registered</span>
-              <span class="badge bg-info rounded-pill">1,250 Students</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-chat-dots text-secondary me-2"></i> Parent Communication (SMS)</span>
-              <span class="badge bg-secondary rounded-pill">2,400 Sent</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-whatsapp text-success me-2"></i> WhatsApp Engagement</span>
-              <span class="badge bg-success rounded-pill">65% Read Rate</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    
-   
-   
-    <div class="col-md-4">
- <!-- E-Shop & Online Canteen -->
- <div class="card  p-3 mb-3">
-  <h5><i class="bi bi-shop me-2"></i>E-Shop & Online Canteen</h5>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <span><i class="bi bi-cart-check text-primary me-2"></i> Top-Selling Item</span>
-      <span class="badge bg-primary rounded-pill">Juice Pack</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <span><i class="bi bi-wallet2 text-success me-2"></i> Mobile Money Transactions</span>
-      <span class="badge bg-success rounded-pill">320 Successful</span>
-    </li>
-  </ul>
-</div>
-    </div>
-  
-</div>
-    <!-- Performance and Goals -->
-    <div class="row">
-    <!-- Performance Chart -->
-<div class="col-md-6 mx-auto my-auto">
-  <canvas baseChart
-    [data]="performanceChartData"
-    [options]="performanceChartOptions"
-    chartType="line">
-  </canvas>
-</div>
+    <div class="col-md-6">
+      <div class="card p-3 mb-3">
+        <ul class="list-group list-group-flush">
 
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-person-check text-success me-2"></i> Students Registered</span>
+            <span class="badge bg-success rounded-pill">2,250</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-graph-up-arrow text-success me-2"></i> School Fees defaulters</span>
+            <span class="badge bg-success rounded-pill">423</span>
+          </li>
+         
+        </ul>
+      </div>
+    </div>
 
-      <!-- Goals Section -->
-      <div class="col-md-6">
-       
-        
    
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row">
+    <!-- Student Performance Chart -->
+    <div class="col-md-6">
+      <div class="graph p-3 mb-3">
+        <h5 class="text-center">Student Performance Over Terms</h5>
+        <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" chartType="line"></canvas>
+      </div>
+    </div>
+  
+    <!-- Gender Comparison Chart -->
+    <div class="col-md-6">
+      <div class="graph p-3 mb-3">
+        <h5 class="text-center">Boys vs Girls Enrollment Over Years</h5>
+        <canvas baseChart [data]="genderChartData" [options]="genderChartOptions" chartType="line"></canvas>
       </div>
     </div>
   </div>
+  
 </div>

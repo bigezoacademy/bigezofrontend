@@ -6,4 +6,12 @@ canvas {
     padding: 20px;
     border-radius: 10px;
   }
-  
+.badge{
+    padding: 5px 20px;
+    font-size: larger;
+
+}  
+.list-group-item{
+    margin: 3px;
+    padding: 10px;
+}
