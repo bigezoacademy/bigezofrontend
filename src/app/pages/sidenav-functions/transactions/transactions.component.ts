@@ -277,7 +277,7 @@ transaction = [
   
     this.paymentService.getTransactionStatus(orderTrackingId, transactionToken).subscribe(
       (response) => {
-        console.log('Transaction status retrieved successfully', response);
+        console.log('Transaction status retrieved successfully------', response);
         this.data = response;
       },
       (error) => {
