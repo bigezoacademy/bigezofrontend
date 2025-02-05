@@ -54,6 +54,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f6f6f6;
 }
 
 /* Hamburger button for small screens */

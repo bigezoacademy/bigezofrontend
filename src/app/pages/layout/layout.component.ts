@@ -15,6 +15,7 @@ export class LayoutComponent {
   sidebarVisible: boolean = false;
   message: string = ''; // To show success/error messages
   messageType: string = ''; // To determine the type of message ('success' or 'error')
+  schoolName:string='';
 
 
   constructor(private router: Router, private renderer: Renderer2) {}
@@ -28,7 +29,27 @@ name:any=localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
 
 ngOnInit(): void {
   if(this.accounttype==="ROLE_ADMIN"){
-  this.name="School Admin";
+    this.name="School Admin";
+    const adminId = localStorage.getItem("id");
+    const token = localStorage.getItem("Token"); // Assuming the token is stored in localStorage
+    if (adminId && token) {
+      fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        this.schoolName = data.schoolName;
+      })
+      .catch(error => {
+        console.error('Error fetching school name:', error);
+        this.message = 'Error fetching school name, please try again.';
+        this.messageType = 'error';
+      });
+    }
   }
 }
 transactions():any{

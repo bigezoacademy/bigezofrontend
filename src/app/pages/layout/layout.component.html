@@ -122,11 +122,13 @@
 
       <!-- User Profile Section (Aligned to the Right) -->
       <div class="user d-flex align-items-center ml-auto">
-        <button class="btn btn-outline-dark me-3" (click)="logout()">
+        <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{schoolName}}
+       
+        
+        
+        <button class="btn btn-dark mx-3 mx-md-5" (click)="logout()">
           Logout
         </button>
-        <span class="me-2">{{ name }}</span>
-        <i class="bi bi-person-circle" style="font-size: 1.5rem"></i>
       </div>
     </div>
 

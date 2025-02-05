@@ -42,23 +42,30 @@
    
   </div>
 
-  <!-- Charts Section -->
-  <div class="row">
-    <!-- Student Performance Chart -->
-    <div class="col-md-6">
-      <div class="graph p-3 mb-3">
-        <h5 class="text-center">Student Performance Over Terms</h5>
-        <canvas baseChart [data]="performanceChartData" [options]="performanceChartOptions" chartType="line"></canvas>
-      </div>
-    </div>
-  
-    <!-- Gender Comparison Chart -->
-    <div class="col-md-6">
-      <div class="graph p-3 mb-3">
-        <h5 class="text-center">Boys vs Girls Enrollment Over Years</h5>
-        <canvas baseChart [data]="genderChartData" [options]="genderChartOptions"></canvas>
-      </div>
+ <!-- 📊 Charts Section -->
+<div class="row">
+  <!-- 🏫 Student Performance Chart -->
+  <div class="col-md-6">
+    <div class="graph p-3 mb-3">
+      <h5 class="text-center">Students Registered</h5>
+      <canvas baseChart 
+              [data]="performanceChartData" 
+              [options]="performanceChartOptions" 
+              chartType="line">
+      </canvas>
     </div>
   </div>
-  
+
+  <!-- 🚹🚺 Boys vs Girls Chart -->
+  <div class="col-md-6">
+    <div class="graph p-3 mb-3">
+      <h5 class="text-center">Boys vs Girls Enrollment</h5>
+      <canvas baseChart
+      [data]="genderChartData"
+      [options]="genderChartOptions"
+      chartType="line">
+    </canvas>
+    </div>
+  </div>
 </div>
+
