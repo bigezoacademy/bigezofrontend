@@ -1,22 +1,22 @@
 
 
-ol {
+.ul {
     list-style-position: inside;
-    width: 600px;
     max-width: 100%;
-    background: white;
-    box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.15);
+    background: rgba(255, 255, 255, 0.05);
     padding: 0;
     margin: 0;
     border-radius: 0.1rem;
   }
   
   li {
-    padding: 0 0 0 1rem;
+    padding: 10px 20px;
+    list-style: none;
+    color: rgb(255, 255, 255);
   }
   
   li:not(:last-child) {
-    border-bottom: 1px solid lightblue;
+    border-bottom: 1px solid rgb(148, 128, 69);
   }
   
   li:first-child {
@@ -25,4 +25,7 @@ ol {
   
   li:last-child {
     margin-bottom: 1rem;
+  }
+  .ul li i{
+  color: rgb(255, 157, 0);
   }

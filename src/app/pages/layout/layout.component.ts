@@ -51,6 +51,9 @@ this.router.navigateByUrl("terms");
   requirements():any{
     this.router.navigateByUrl("requirements");
       }
+      schoolfees():any{
+        this.router.navigateByUrl("schoolfees");
+          }
       newrequirement():any{
         this.router.navigateByUrl("newrequirement");
           }

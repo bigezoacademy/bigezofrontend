@@ -11,6 +11,7 @@ import { NewStudentComponent } from './pages/sidenav-functions/newstudent/newstu
 import { StudentComponent } from './pages/sidenav-functions/student/student.component';
 import { PayComponent } from './pages/sidenav-functions/pay/pay.component';
 import { TransactionsComponent } from './pages/sidenav-functions/transactions/transactions.component';
+import { SchoolfeesComponent } from './pages/sidenav-functions/schoolfees/schoolfees.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Public route
@@ -37,6 +38,11 @@ export const routes: Routes = [
         component:NewRequirementComponent,
         canActivate:[authGuard],
         data:{role:'ROLE_ADMIN'}
+      },
+      {path:'schoolfees',
+        component:SchoolfeesComponent,
+        canActivate:[authGuard],
+        data:{role:['ROLE_ADMIN','ROLE_USER']}
       },
       {
         path: 'pay',
