@@ -12,6 +12,7 @@ import { StudentComponent } from './pages/sidenav-functions/student/student.comp
 import { PayComponent } from './pages/sidenav-functions/pay/pay.component';
 import { TransactionsComponent } from './pages/sidenav-functions/transactions/transactions.component';
 import { SchoolfeesComponent } from './pages/sidenav-functions/schoolfees/schoolfees.component';
+import { RequirementsdefaultersComponent } from './pages/sidenav-functions/requirementsdefaulters/requirementsdefaulters.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Public route
@@ -36,6 +37,11 @@ export const routes: Routes = [
       },
       {path:'newrequirement',
         component:NewRequirementComponent,
+        canActivate:[authGuard],
+        data:{role:'ROLE_ADMIN'}
+      },
+      {path:'requirementsdefaulters',
+        component:RequirementsdefaultersComponent,
         canActivate:[authGuard],
         data:{role:'ROLE_ADMIN'}
       },

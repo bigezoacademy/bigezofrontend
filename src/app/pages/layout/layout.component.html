@@ -22,7 +22,7 @@
         <a class="dropdown-item" (click)="newrequirement()">New Requirement</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="newrequirement()">Defaulters</a>
+        <a class="dropdown-item" (click)="requirementsdefaulters()" >Defaulters</a>
       </li>
     </ul>
     <a
@@ -122,9 +122,13 @@
 
       <!-- User Profile Section (Aligned to the Right) -->
       <div class="user d-flex align-items-center ml-auto">
-        <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{schoolName}}
+        <span *ngIf="accounttype === 'ROLE_ADMIN'">
+          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{schoolName}} <span class="text-danger"> Admin</span>
+        </span>
        
-        
+        <span *ngIf="accounttype === 'ROLE_USER'">
+          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{name}}
+        </span>
         
         <button class="btn btn-dark mx-3 mx-md-5" (click)="logout()">
           Logout
