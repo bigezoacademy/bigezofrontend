@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
-import { Chart, ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, Chart } from 'chart.js';
 
 @Component({
   selector: 'app-admin',
@@ -14,10 +14,10 @@ export class AdminComponent {
 
   // 🎯 Student Performance Chart
   performanceChartData: ChartConfiguration<'line'>['data'] = {
-    labels: ['Term 1', 'Term 2', 'Term 3'],
+    labels: ['2023', '2024', '2025'],
     datasets: [
       {
-        data: [1230, 1800, 2675],
+        data: [730, 1800, 2675],
         label: 'Students Enrolled',
         fill: false,
         borderColor: '#389b3e',
@@ -40,7 +40,7 @@ export class AdminComponent {
       },
       title: {
         display: true,
-        text: 'Student Enrollment Performance' // 📢 Added Title
+        text: 'Student Enrollment Statistics' // 📢 Added Title
       }
     },
     scales: {
@@ -55,11 +55,11 @@ export class AdminComponent {
     labels: ['2019', '2020', '2021', '2022', '2023'],
     datasets: [
       {
-        data: [450, 470, 500, 520, 540], // Boys data
+        data: [450, 770, 500, 820, 1540], // Boys data
         label: 'Boys',
         fill: false,
         borderColor: '#2f2f2f',          // 💙 Brighter Blue for contrast
-        backgroundColor: '#2f2f2f',
+        backgroundColor: 'transparent',
         tension: 0.4,
         pointBackgroundColor: '#2f2f2f',
         pointBorderColor: '#fff',
@@ -69,11 +69,11 @@ export class AdminComponent {
         pointStyle: 'triangle'           // 🔺 Triangle points
       },
       {
-        data: [430, 460, 490, 510, 530], // Girls data
+        data: [220, 460, 390, 510, 890], // Girls data
         label: 'Girls',
         fill: false,
         borderColor: '#de1e96',          // 💖 Light Pink
-        backgroundColor: '#de1e96',
+        backgroundColor: 'transparent',
         tension: 0.4,
         pointBackgroundColor: '#de1e96',
         pointBorderColor: '#fff',
@@ -110,4 +110,20 @@ export class AdminComponent {
       }
     }
   };
+
+  @ViewChild(BaseChartDirective) performanceChart: BaseChartDirective | undefined;
+  @ViewChild(BaseChartDirective) genderChart: BaseChartDirective | undefined;
+
+
+// Add this method to your component class
+
+downloadChart(chart: BaseChartDirective | undefined, chartName: string) {
+  if (chart && chart.chart) {
+    const link = document.createElement('a');
+    link.href = chart.chart.toBase64Image();
+    link.download = `${chartName}-chart.png`;
+    link.click();
+  }
+}
+
 }

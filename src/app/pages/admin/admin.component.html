@@ -46,6 +46,11 @@
 <div class="row">
   <!-- 🏫 Student Performance Chart -->
   <div class="col-md-6">
+    <!-- admin.component.html -->
+<div class="text-center">
+  <button class="btn btn-secondary graphbtn" (click)="downloadChart(performanceChart, 'registration')">Download Registration Chart <i class="bi bi-download ms-1"></i> </button>
+  
+</div>
     <div class="graph p-3 mb-3">
       <h5 class="text-center">Students Registered</h5>
       <canvas baseChart 
@@ -58,13 +63,16 @@
 
   <!-- 🚹🚺 Boys vs Girls Chart -->
   <div class="col-md-6">
+    
+<button class="d-none" (click)="downloadChart(genderChart, 'gender')">Download Gender Chart</button>
+
     <div class="graph p-3 mb-3">
       <h5 class="text-center">Boys vs Girls Enrollment</h5>
       <canvas baseChart
-      [data]="genderChartData"
-      [options]="genderChartOptions"
-      chartType="line">
-    </canvas>
+          [data]="genderChartData"
+          [options]="genderChartOptions"
+          chartType="line">
+      </canvas>
     </div>
   </div>
 </div>
