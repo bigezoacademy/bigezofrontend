@@ -23,7 +23,7 @@ export class NewStudentComponent {
   healthStatus: string = '';
   phone: string = '';
   email: string = '';
-  password: string = '';
+  studentPassword: string = '';
   club: string = '';
   level: string = '';
   enrollmentStatus: string = '';
@@ -33,6 +33,7 @@ export class NewStudentComponent {
   schoolAdminId: number | null = localStorage.getItem('id')
     ? Number(localStorage.getItem('id'))
     : null;
+  studentUsername: string | null = null;
 
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   years: number[] = [2025, 2024];
@@ -42,7 +43,7 @@ export class NewStudentComponent {
   // Function to generate a 7-digit provisional password
   generateProvisionalPassword(): string {
     var propassword: any = Math.floor(1000000 + Math.random() * 9000000).toString();
-    console.log(`PROVISIONAL PASSWORD: ------------------ ${propassword}`);
+   
     return propassword;
   }
 
@@ -65,7 +66,9 @@ export class NewStudentComponent {
       return;
     }
 
-    this.password = this.generateProvisionalPassword();
+    this.studentPassword = this.generateProvisionalPassword();
+    localStorage.setItem('studentPassword', this.studentPassword);
+    localStorage.setItem('studentUsername', this.studentNumber)
 
     const newStudent = {
       firstName: this.firstName,
@@ -76,7 +79,7 @@ export class NewStudentComponent {
       healthStatus: this.healthStatus,
       phone: this.phone,
       email: this.email,
-      password: this.password,
+      password: this.studentPassword,
       club: this.club,
       level: this.level,
       enrollmentStatus: this.enrollmentStatus,
@@ -93,9 +96,16 @@ export class NewStudentComponent {
         next: () => {
           this.addStudentStatus = 'Student created successfully!';
           this.status = 'success';
-          console.log(`PASSWORD------------------- ${this.password}`);
-          this.sendEmail();
-          this.sendSMS();
+          const studentPassword = localStorage.getItem('studentPassword');
+          if (studentPassword) {
+            this.studentPassword = studentPassword;
+          }
+          const studentUsername =localStorage.getItem('studentUsername');
+          if(studentUsername){
+
+            this.studentUsername = studentUsername;
+          }
+
           this.clearForm();
         },
         error: (err) => {
@@ -110,7 +120,7 @@ export class NewStudentComponent {
     const emailData = {
       to: this.email,
       subject: 'Your Account Details',
-      body: `Username: ${this.email}\nPassword: ${this.password}`
+      body: `Username: ${this.studentUsername}\nPassword: ${this.studentPassword}`
     };
 
     this.http.post('http://localhost:8080/api/send-email', emailData)
@@ -128,7 +138,7 @@ export class NewStudentComponent {
   sendSMS() {
     const smsData = {
       to: this.phone,
-      message: `Username: ${this.email}\nPassword: ${this.password}`
+      message: `Username: ${this.studentUsername}\nPassword: ${this.studentPassword}`
     };
 
     this.http.post('http://localhost:8080/api/send-sms', smsData)
@@ -152,7 +162,7 @@ export class NewStudentComponent {
     this.healthStatus = '';
     this.phone = '';
     this.email = '';
-    this.password = '';
+    this.studentPassword = '';
     this.club = '';
     this.level = '';
     this.enrollmentStatus = '';
