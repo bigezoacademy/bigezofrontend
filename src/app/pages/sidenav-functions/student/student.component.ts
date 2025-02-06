@@ -86,13 +86,26 @@ export class StudentComponent {
       student.lastName.toLowerCase().includes(search) ||
       student.studentNumber.toLowerCase().includes(search)
     );
+  
     this.currentPage = 1; // Reset to first page
+  
+    // Show detailed error message if no results found
+    if (this.filteredStudents.length === 0) {
+      this.message = `No ${this.myenrollmentStatus} students found in ${this.myyear}, class ${this.mylevel}.`;
+      this.messageType = 'error';
+    } else {
+      this.message = ''; // Clear any previous error message
+    }
   }
+  
+  
 
   editStudent(student: any) {
     this.isEditMode = true;
     this.currentStudent = { ...student };
+    console.log(this.currentStudent.enrollmentStatus); // Log to check if the value is set correctly
   }
+  
 
   sendSMS(student: any) {
     //this.isSmsMode = true;

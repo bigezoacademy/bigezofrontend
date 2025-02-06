@@ -73,7 +73,7 @@
 
   <!-- Search, Total Count & Pagination Info (Single Row) -->
   
-
+ 
   <!-- Students Table -->
   <div *ngIf="filteredStudents.length > 0">
     <div class="d-flex justify-content-between row align-items-center mb-3">
@@ -275,14 +275,18 @@
   <div class="row mb-3">
     <div class="col-md-4">
       <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
-      <input
+      <select
         [(ngModel)]="currentStudent.enrollmentStatus"
         id="enrollmentStatus"
-        type="text"
         class="form-control"
-        placeholder="Enrollment Status"
-      />
+      >
+        <option value="active">Active</option>
+        <option value="alumni">Alumni</option>
+        <option value="inactive">Inactive</option>
+      </select>
     </div>
+    
+    
     <div class="col-md-4">
       <label for="year" class="form-label">Year</label>
       <input
