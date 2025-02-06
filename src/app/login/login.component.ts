@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Console } from 'node:console';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -104,7 +105,7 @@ export class LoginComponent {
         }
       },
       (error) => {
-        alert('UNAUTHORIZED ACCESS!');
+        swal.fire('Error', 'UNAUTHORIZED ACCESS!', 'error');
       }
     );
   }
