@@ -90,18 +90,19 @@ export class LoginComponent {
 
         // Redirect based on this.role
         if (this.role === 'ROLE_ADMIN') {
+          swal.fire('Success', 'LOGGED IN AS ADMIN', 'success');
           this.router.navigate(['/admin']);
         } else if (this.role === 'ROLE_USER') {
-          alert('LOGGED IN AS STUDENT');
+          swal.fire('Success', 'LOGGED IN AS STUDENT', 'success');
           this.router.navigate(['/student']);
         } else if (this.role === 'ROLE_TEACHER') {
-          alert('LOGGED IN AS TEACHER');
+          swal.fire('Success', 'LOGGED IN AS TEACHER', 'success');
         } else if (this.role === 'ROLE_SUPPLIER') {
-          alert('LOGGED IN AS SUPPLIER');
+          swal.fire('Success', 'LOGGED IN AS SUPPLIER', 'success');
         } else if (this.role === 'ROLE_BIGEZOADMIN') {
-          alert('LOGGED IN AS BIGEZO ADMIN');
+          swal.fire('Success', 'LOGGED IN AS BIGEZO ADMIN', 'success');
         } else {
-          alert('UNKNOWN ROLE!');
+          swal.fire('Error', 'UNKNOWN ROLE', 'error');
         }
       },
       (error) => {
