@@ -41,7 +41,7 @@ export class NewStudentComponent {
 
   // Function to generate a 7-digit provisional password
   generateProvisionalPassword(): string {
-    var propassword:any=Math.floor(1000000 + Math.random() * 9000000).toString();
+    var propassword: any = Math.floor(1000000 + Math.random() * 9000000).toString();
     console.log(`PROVISIONAL PASSWORD: ------------------ ${propassword}`);
     return propassword;
   }
@@ -65,10 +65,7 @@ export class NewStudentComponent {
       return;
     }
 
-    
-   
-      this.password = this.generateProvisionalPassword();
-   
+    this.password = this.generateProvisionalPassword();
 
     const newStudent = {
       firstName: this.firstName,
@@ -96,7 +93,9 @@ export class NewStudentComponent {
         next: () => {
           this.addStudentStatus = 'Student created successfully!';
           this.status = 'success';
-          console.log(`PASSWORD------------------- ${this.password}`)
+          console.log(`PASSWORD------------------- ${this.password}`);
+          this.sendEmail();
+          this.sendSMS();
           this.clearForm();
         },
         error: (err) => {
@@ -104,6 +103,43 @@ export class NewStudentComponent {
           this.addStudentStatus = 'Error! Failed to create student.';
           console.error('Error creating student', err);
         },
+      });
+  }
+
+  sendEmail() {
+    const emailData = {
+      to: this.email,
+      subject: 'Your Account Details',
+      body: `Username: ${this.email}\nPassword: ${this.password}`
+    };
+
+    this.http.post('http://localhost:8080/api/send-email', emailData)
+      .subscribe({
+        next: () => {
+          alert('Email sent successfully!');
+        },
+        error: (err) => {
+          console.error('Error sending email', err);
+          alert('Failed to send email.');
+        }
+      });
+  }
+
+  sendSMS() {
+    const smsData = {
+      to: this.phone,
+      message: `Username: ${this.email}\nPassword: ${this.password}`
+    };
+
+    this.http.post('http://localhost:8080/api/send-sms', smsData)
+      .subscribe({
+        next: () => {
+          alert('SMS sent successfully!');
+        },
+        error: (err) => {
+          console.error('Error sending SMS', err);
+          alert('Failed to send SMS.');
+        }
       });
   }
 

@@ -18,7 +18,7 @@ export class AppComponent {
   constructor(private router:Router){
 
   }
-  terms():any{
+  contact():any{
 this.router.navigateByUrl("terms");
   }
 }

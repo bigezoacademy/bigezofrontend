@@ -2,12 +2,13 @@
   <h4 class="text-success pb-5">Create New Student</h4>
 
   <div *ngIf="status === 'success'" class="alert alert-success text-center">
-    {{ addStudentStatus }}
+    {{ addStudentStatus }}<br />
+    Username: {{ email }}<br />
+    Password: {{ password }}<br />
+    <button (click)="sendEmail()" class="btn btn-primary mt-2">Send to Email</button>
+    <button (click)="sendSMS()" class="btn btn-secondary mt-2">Send to SMS</button>
   </div>
-  <div
-    *ngIf="status === 'error' || status === null"
-    class="alert alert-danger text-center"
-  >
+  <div *ngIf="status === 'error' || status === null" class="alert alert-danger text-center">
     {{ addStudentStatus }}
   </div>
 

@@ -163,3 +163,9 @@ ul {
   color: var(--lightcream);
   padding: 20px;
 }
+
+.searchrow{
+  background-color: yellowgreen;
+  color: white;
+  padding: 5px;
+}

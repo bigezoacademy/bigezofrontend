@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { TermsComponent } from './pages/terms/terms.component';
+import { ContactComponent } from './pages/contact/contact.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -15,10 +15,11 @@ import { SchoolfeesComponent } from './pages/sidenav-functions/schoolfees/school
 import { RequirementsdefaultersComponent } from './pages/sidenav-functions/requirementsdefaulters/requirementsdefaulters.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent }, // Public route
+   // Public route
   { path: '', component: GeneralLayoutComponent,
     children:[
-      { path: 'terms', component: TermsComponent }, // Public route
+      { path: '', component: HomeComponent },
+      { path: 'contact', component: ContactComponent }, // Public route
     ]
    },
   {

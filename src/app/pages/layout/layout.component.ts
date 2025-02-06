@@ -63,7 +63,7 @@ transactions():any{
   
     }
 
-  terms():any{
+  contact():any{
 this.router.navigateByUrl("terms");
   }
   home():any{

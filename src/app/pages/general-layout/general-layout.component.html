@@ -14,10 +14,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#">How to use</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
         <li class="nav-item">
-          <a class="nav-link" (click)="terms()">Terms & Conditions</a>
+          <a class="nav-link" (click)="contact()">Contact</a>
         </li>
         <li class="nav-item">
           <a class="btn btn-success" (click)="login()">Login</a>
@@ -27,10 +26,8 @@
   </div>
 </nav>
 
-<div class="text-center">
-  <h1 class="display-3 text-success border-bottom">
-    THIS IS THE OUTER GENERAL LAYOUT
-  </h1>
+<div class="m-0">
+  
   <router-outlet></router-outlet>
 </div>
 

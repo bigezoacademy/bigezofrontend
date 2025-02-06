@@ -12,8 +12,8 @@ export class GeneralLayoutComponent {
   constructor(private router:Router){
 
   }
-  terms():any{
-this.router.navigateByUrl("terms");
+  contact():any{
+this.router.navigateByUrl("contact");
   }
 
   login():any{

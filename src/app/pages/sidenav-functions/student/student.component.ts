@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student',
@@ -68,6 +69,7 @@ export class StudentComponent {
     }).subscribe({
       next: (data) => {
         this.student = data;
+        console.log(this.student); 
         this.applyFilters();
       },
       error: (err) => {
@@ -108,8 +110,25 @@ export class StudentComponent {
   
 
   sendSMS(student: any) {
-    //this.isSmsMode = true;
-    this.currentStudent = { ...student };
+    Swal.fire({
+      title: `Send SMS to <span class="text-success">${student.firstName} ${student.lastName}</span>?`,
+      html: `Are you sure you want to send an SMS to this student?<br>Phone: <strong>${student.phone}</strong>`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, send it!'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        // Logic to send SMS goes here
+        this.currentStudent = { ...student };
+        Swal.fire(
+          'Sent!',
+          'SMS has been sent.',
+          'success'
+        );
+      }
+    });
   }
   updateStudent() {
     if (!this.currentStudent || this.isFormInvalid()) {
@@ -148,22 +167,38 @@ export class StudentComponent {
     this.message = '';
   }
 
-  deleteStudent(studentId: number) {
-    if (confirm('Are you sure you want to delete this student?')) {
-      this.http.delete(`${this.studentUrl}/${studentId}?schoolAdminId=${this.schoolAdminId}`)
-        .subscribe({
-          next: () => {
-            this.message = 'Student deleted successfully!';
-            this.messageType = 'success';
-            this.showstudents();
-          },
-          error: (err) => {
-            console.error('Error deleting student', err);
-            this.message = 'Error deleting student, please try again.';
-            this.messageType = 'error';
-          },
-        });
-    }
+  deleteStudent(studentId: number, student: any) {
+    Swal.fire({
+      title: `Delete <span class="text-danger">${student.firstName} ${student.lastName}</span>?`,
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.http.delete(`${this.studentUrl}/${studentId}?schoolAdminId=${this.schoolAdminId}`)
+          .subscribe({
+            next: () => {
+              Swal.fire(
+                'Deleted!',
+                'Student has been deleted.',
+                'success'
+              );
+              this.showstudents();
+            },
+            error: (err) => {
+              console.error('Error deleting student', err);
+              Swal.fire(
+                'Error!',
+                'Error deleting student, please try again.',
+                'error'
+              );
+            },
+          });
+      }
+    });
   }
 
   // Pagination Helpers
