@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core'; 
+import { HttpClient, HttpParams } from '@angular/common/http'; 
+import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -37,13 +37,14 @@ export class NewStudentComponent {
 
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   years: number[] = [2025, 2024];
+  studentEmail: string = localStorage.getItem('studentEmail') || '';
+  studentPhone: string = sessionStorage.getItem('studentPhone') || '';
 
   private http = inject(HttpClient);
 
   // Function to generate a 7-digit provisional password
   generateProvisionalPassword(): string {
     var propassword: any = Math.floor(1000000 + Math.random() * 9000000).toString();
-   
     return propassword;
   }
 
@@ -67,8 +68,12 @@ export class NewStudentComponent {
     }
 
     this.studentPassword = this.generateProvisionalPassword();
-    localStorage.setItem('studentPassword', this.studentPassword);
-    localStorage.setItem('studentUsername', this.studentNumber)
+
+    sessionStorage.setItem('studentPassword', this.studentPassword);
+    sessionStorage.setItem('studentUsername', this.studentNumber);
+    sessionStorage.setItem('studentPhone', this.phone);
+
+    localStorage.setItem('studentEmail', this.email);
 
     const newStudent = {
       firstName: this.firstName,
@@ -90,37 +95,33 @@ export class NewStudentComponent {
 
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
 
-    this.http
-      .post('http://localhost:8080/api/students', newStudent, { params })
-      .subscribe({
-        next: () => {
-          this.addStudentStatus = 'Student created successfully!';
-          this.status = 'success';
-          const studentPassword = localStorage.getItem('studentPassword');
-          if (studentPassword) {
-            this.studentPassword = studentPassword;
-          }
-          const studentUsername =localStorage.getItem('studentUsername');
-          if(studentUsername){
+    this.http.post('http://localhost:8080/api/students', newStudent, { params }).subscribe({
+      next: () => {
+        this.addStudentStatus = 'Student created successfully!';
+        this.status = 'success';
 
-            this.studentUsername = studentUsername;
-          }
+        // Use setTimeout to ensure the UI updates
+        setTimeout(() => {
+          this.studentPassword = sessionStorage.getItem('studentPassword') || '';
+          this.studentUsername = sessionStorage.getItem('studentUsername') || '';
+          this.phone = sessionStorage.getItem('studentPhone') || '';
+        });
 
-          this.clearForm();
-        },
-        error: (err) => {
-          this.status = 'error';
-          this.addStudentStatus = 'Error! Failed to create student.';
-          console.error('Error creating student', err);
-        },
-      });
+        this.clearForm();
+      },
+      error: (err) => {
+        this.status = 'error';
+        this.addStudentStatus = 'Error! Failed to create student.';
+        console.error('Error creating student', err);
+      },
+    });
   }
 
   sendEmail() {
     const emailData = {
       to: this.email,
       subject: 'Your Account Details',
-      body: `Username: ${this.studentUsername}\nPassword: ${this.studentPassword}`
+      body: `Hello ${this.firstName} ${this.lastName},\n\nYour account has been created successfully.\n\nDetails:\n- Username: ${this.studentUsername}\n- Password: ${this.studentPassword}\n- Class: ${this.level}\n- Year: ${this.year}\n- Term: ${this.enrollmentStatus}`
     };
 
     this.http.post('http://localhost:8080/api/send-email', emailData)
@@ -136,14 +137,19 @@ export class NewStudentComponent {
   }
 
   sendSMS() {
+    this.phone = sessionStorage.getItem('studentPhone') || '';
+    console.log('Phone value before sending SMS:', this.phone);
     const smsData = {
-      to: this.phone,
-      message: `Username: ${this.studentUsername}\nPassword: ${this.studentPassword}`
+      phone: this.phone,
+      message: `Hello ${this.firstName} ${this.lastName},\nYour account has been created successfully.\nDetails:\n- Username: ${this.studentUsername}\n- Password: ${this.studentPassword}\n- Class: ${this.level}\n- Year: ${this.year}\n- Term: ${this.enrollmentStatus}`
     };
 
-    this.http.post('http://localhost:8080/api/send-sms', smsData)
+    const url = `http://localhost:8080/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+
+    this.http.post(url, null, { responseType: 'text' })
       .subscribe({
         next: () => {
+          console.log(`SMS sent successfully! Phone: ${smsData.phone}`);
           alert('SMS sent successfully!');
         },
         error: (err) => {
@@ -154,6 +160,7 @@ export class NewStudentComponent {
   }
 
   clearForm() {
+    // Do not clear the session or localStorage data
     this.firstName = '';
     this.lastName = '';
     this.studentNumber = '';

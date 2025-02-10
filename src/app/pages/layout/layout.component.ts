@@ -28,10 +28,12 @@ name:any=localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
 
 
 ngOnInit(): void {
+  const token = localStorage.getItem("Token");
   if(this.accounttype==="ROLE_ADMIN"){
+   
     this.name="School Admin";
     const adminId = localStorage.getItem("id");
-    const token = localStorage.getItem("Token"); // Assuming the token is stored in localStorage
+     // Assuming the token is stored in localStorage
     if (adminId && token) {
       fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
         method: 'GET',
@@ -43,6 +45,7 @@ ngOnInit(): void {
       .then(response => response.json())
       .then(data => {
         this.schoolName = data.schoolName;
+        localStorage.setItem('schoolName', this.schoolName);
       })
       .catch(error => {
         console.error('Error fetching school name:', error);
@@ -50,6 +53,16 @@ ngOnInit(): void {
         this.messageType = 'error';
       });
     }
+  }
+  else if(!token){
+     // Clear the local storage
+     localStorage.clear();
+
+     // Optionally clear session storage if used
+     sessionStorage.clear();
+ 
+     // Navigate to the home or login page
+     this.router.navigateByUrl("");
   }
 }
 transactions():any{
