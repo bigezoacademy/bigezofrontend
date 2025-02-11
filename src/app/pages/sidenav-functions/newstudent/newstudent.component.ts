@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core'; 
-import { HttpClient, HttpParams } from '@angular/common/http'; 
-import { CommonModule } from '@angular/common'; 
+import { Component, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-newstudent',
@@ -18,6 +19,8 @@ export class NewStudentComponent {
   firstName: string = '';
   lastName: string = '';
   studentNumber: string = '';
+  sno:string='';
+  spass:string='';
   birthDate: string = '';
   residence: string = '';
   healthStatus: string = '';
@@ -30,10 +33,13 @@ export class NewStudentComponent {
   year: number | null = null;
   mother: string = '';
   father: string = '';
+  
   schoolAdminId: number | null = localStorage.getItem('id')
     ? Number(localStorage.getItem('id'))
     : null;
+
   studentUsername: string | null = null;
+  schoolName: string = localStorage.getItem('schoolName') || ''; // Fetch from localStorage
 
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   years: number[] = [2025, 2024];
@@ -42,10 +48,8 @@ export class NewStudentComponent {
 
   private http = inject(HttpClient);
 
-  // Function to generate a 7-digit provisional password
   generateProvisionalPassword(): string {
-    var propassword: any = Math.floor(1000000 + Math.random() * 9000000).toString();
-    return propassword;
+    return Math.floor(1000000 + Math.random() * 9000000).toString();
   }
 
   createStudent() {
@@ -59,22 +63,28 @@ export class NewStudentComponent {
       !this.phone ||
       !this.email ||
       !this.level ||
-      !this.enrollmentStatus ||
       !this.year ||
-      !this.schoolAdminId
+      !this.schoolAdminId ||
+      !this.schoolName
     ) {
       alert('Please fill in all required fields.');
       return;
     }
-
+  
     this.studentPassword = this.generateProvisionalPassword();
-
-    sessionStorage.setItem('studentPassword', this.studentPassword);
-    sessionStorage.setItem('studentUsername', this.studentNumber);
-    sessionStorage.setItem('studentPhone', this.phone);
-
+  
+    setTimeout(() => {
+      sessionStorage.setItem('studentPassword', this.studentPassword);
+      sessionStorage.setItem('studentUsername', this.studentNumber);
+      sessionStorage.setItem('studentPhone', this.phone);
+      sessionStorage.setItem('studentFirstName', this.firstName);
+      sessionStorage.setItem('studentLastName', this.lastName);
+      sessionStorage.setItem('studentLevel', this.level);
+      sessionStorage.setItem('studentYear', this.year?.toString() || '');
+    });
+  
     localStorage.setItem('studentEmail', this.email);
-
+  
     const newStudent = {
       firstName: this.firstName,
       lastName: this.lastName,
@@ -87,25 +97,19 @@ export class NewStudentComponent {
       password: this.studentPassword,
       club: this.club,
       level: this.level,
-      enrollmentStatus: this.enrollmentStatus,
       year: this.year,
       mother: this.mother,
       father: this.father,
     };
-
+  
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
-
+  
     this.http.post('http://localhost:8080/api/students', newStudent, { params }).subscribe({
       next: () => {
-        this.addStudentStatus = 'Student created successfully!';
+        this.addStudentStatus = `Account created successfully for ${this.firstName}_${this.lastName}.`;
         this.status = 'success';
-
-        // Use setTimeout to ensure the UI updates
-        setTimeout(() => {
-          this.studentPassword = sessionStorage.getItem('studentPassword') || '';
-          this.studentUsername = sessionStorage.getItem('studentUsername') || '';
-          this.phone = sessionStorage.getItem('studentPhone') || '';
-        });
+        this.sno=sessionStorage.getItem('studentUsername')||'';
+  this.spass=sessionStorage.getItem('studentPassword')||'';
 
         this.clearForm();
       },
@@ -116,14 +120,20 @@ export class NewStudentComponent {
       },
     });
   }
-
+  
   sendEmail() {
     const emailData = {
       to: this.email,
       subject: 'Your Account Details',
-      body: `Hello ${this.firstName} ${this.lastName},\n\nYour account has been created successfully.\n\nDetails:\n- Username: ${this.studentUsername}\n- Password: ${this.studentPassword}\n- Class: ${this.level}\n- Year: ${this.year}\n- Term: ${this.enrollmentStatus}`
+      body: `Hello ${this.firstName} ${this.lastName},\n\n` +
+            `Your account has been created successfully.\n\n` +
+            `Details:\n- Username: ${this.studentNumber}\n` +
+            `- Password: ${this.studentPassword}\n` +
+            `- Class: ${this.level}\n` +
+            `- Year: ${this.year}\n\n` +
+            `Thank you`
     };
-
+  
     this.http.post('http://localhost:8080/api/send-email', emailData)
       .subscribe({
         next: () => {
@@ -135,22 +145,35 @@ export class NewStudentComponent {
         }
       });
   }
-
+  
   sendSMS() {
-    this.phone = sessionStorage.getItem('studentPhone') || '';
-    console.log('Phone value before sending SMS:', this.phone);
+    let phone = sessionStorage.getItem('studentPhone') || '';
+  
+    if (phone.startsWith('0')) {
+      phone = '256' + phone.substring(1);
+    }
+  
     const smsData = {
-      phone: this.phone,
-      message: `Hello ${this.firstName} ${this.lastName},\nYour account has been created successfully.\nDetails:\n- Username: ${this.studentUsername}\n- Password: ${this.studentPassword}\n- Class: ${this.level}\n- Year: ${this.year}\n- Term: ${this.enrollmentStatus}`
+      phone: phone,
+      message: `Hello ${sessionStorage.getItem('studentFirstName')} ${sessionStorage.getItem('studentLastName')},\n` +
+               `Welcome to ${this.schoolName}!\n\n` +
+               `Your account has been created successfully.\n\n` +
+               `Login Details:\n` +
+               `- Username: ${sessionStorage.getItem('studentUsername')}\n` +
+               `- Password: ${sessionStorage.getItem('studentPassword')}\n\n` +
+               `Enrollment Information:\n` +
+               `- Class: ${sessionStorage.getItem('studentLevel')}\n` +
+               `- Year: ${sessionStorage.getItem('studentYear')}\n\n` +
+               `Thank you.`
     };
-
+  
     const url = `http://localhost:8080/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
-
+  
     this.http.post(url, null, { responseType: 'text' })
       .subscribe({
         next: () => {
           console.log(`SMS sent successfully! Phone: ${smsData.phone}`);
-          alert('SMS sent successfully!');
+            Swal.fire('Success', 'SMS sent successfully!', 'success');
         },
         error: (err) => {
           console.error('Error sending SMS', err);
@@ -158,9 +181,9 @@ export class NewStudentComponent {
         }
       });
   }
+  
 
   clearForm() {
-    // Do not clear the session or localStorage data
     this.firstName = '';
     this.lastName = '';
     this.studentNumber = '';
@@ -176,6 +199,8 @@ export class NewStudentComponent {
     this.year = null;
     this.mother = '';
     this.father = '';
+
+    // Retain admin ID
     this.schoolAdminId = localStorage.getItem('id')
       ? Number(localStorage.getItem('id'))
       : null;
