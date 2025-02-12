@@ -1,46 +1,58 @@
 <!-- Dropdown menus for Year, Term, and Class inside a row -->
 <div class="row mb-4" *ngIf="accounttype === 'ROLE_ADMIN'">
-  <div class="col-md-3 col-6">
-    <div class="mb-3">
-      <label for="year" class="form-label">Year</label>
-      <select id="year" class="form-select" [(ngModel)]="myyear">
-        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-      </select>
-    </div>
-  </div>
+ 
 
-  <div class="col-md-3 col-6">
-    <div class="mb-3">
-      <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
-      <select
-        id="enrollmentStatus"
-        class="form-select"
-        [(ngModel)]="myenrollmentStatus"
-      >
-        <option *ngFor="let status of enrollmentStatuses" [value]="status">
-          {{ status }}
-        </option>
-      </select>
+  
+ <div class="headeroptions  ">
+  <div class="row  m-0 col-md-9 p-1">
+    <div class="col-md-3 col-6">
+      <div class=" row">
+        <label for="year" class="col-md-4 col-6 col-form-label">Year</label>
+        <div class="col-md-8 col-6">
+          <select id="year" class="form-select" [(ngModel)]="myyear">
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div class="col-md-3 col-6">
-    <div class="mb-3">
-      <label for="level" class="form-label">Class Level</label>
-      <select id="level" class="form-select" [(ngModel)]="mylevel">
-        <option *ngFor="let level of levels" [value]="level">
-          {{ level }}
-        </option>
-      </select>
+  
+    <div class="col-md-3 col-6">
+      <div class="row">
+        <label for="enrollmentStatus" class="col-md-4 col-6 col-form-label">
+          Status
+        </label>
+        <div class="col-md-8 col-6">
+          <select id="enrollmentStatus" class="form-select" [(ngModel)]="myenrollmentStatus">
+            <option *ngFor="let status of enrollmentStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="col-md-3 col-6">
-    <div class="mb-3">
-      <button class="btn btn-dark ms-5" (click)="showstudents()">
-        View <i class="bi bi-eye mx-3"></i>
-      </button>
+  
+    <div class="col-md-3 col-6">
+      <div class=" row">
+        <label for="level" class="col-md-4 col-6 col-form-label">Class</label>
+        <div class="col-md-8 col-6">
+          <select id="level" class="form-select" [(ngModel)]="mylevel">
+            <option *ngFor="let level of levels" [value]="level">
+              {{ level }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
-  </div>
+  
+    <div class="col-md-3 col-6">
+      <div class=" d-flex justify-content-end">
+        <button class="btn btn-success" (click)="showstudents()">
+          View <i class="bi bi-eye mx-3"></i>
+        </button>
+      </div>
+    </div>
+  </div> 
+ </div>
 </div>
 <div class="feedback-container" *ngIf="paymentFeedback!==null">
  
@@ -74,7 +86,7 @@
   
  
   <!-- Students Table -->
-  <div *ngIf="filteredStudents.length > 0">
+  <div *ngIf="filteredStudents.length > 0" class="p-3">
     <div class="d-flex justify-content-between searchrow row align-items-center mb-3">
      <div class="col-md-4"> <input type="text" class="form-control" placeholder="Search student..." [(ngModel)]="searchText" (input)="applyFilters()"></div>
     <div class="col-md-4">

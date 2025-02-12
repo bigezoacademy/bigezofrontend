@@ -80,6 +80,7 @@ export class NewStudentComponent {
       sessionStorage.setItem('studentFirstName', this.firstName);
       sessionStorage.setItem('studentLastName', this.lastName);
       sessionStorage.setItem('studentLevel', this.level);
+      sessionStorage.setItem('accountType', this.level);
       sessionStorage.setItem('studentYear', this.year?.toString() || '');
     });
   
@@ -106,7 +107,7 @@ export class NewStudentComponent {
   
     this.http.post('http://localhost:8080/api/students', newStudent, { params }).subscribe({
       next: () => {
-        this.addStudentStatus = `Account created successfully for ${this.firstName}_${this.lastName}.`;
+        this.addStudentStatus = `  Account created successfully for ${this.firstName}_${this.lastName}.`;
         this.status = 'success';
         this.sno=sessionStorage.getItem('studentUsername')||'';
   this.spass=sessionStorage.getItem('studentPassword')||'';

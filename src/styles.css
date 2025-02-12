@@ -169,3 +169,10 @@ ul {
   color: white;
   padding: 5px;
 }
+.headeroptions{
+  background-color: #dddcdc;
+  color: black;
+  border-top:1px solid rgb(163, 163, 163);
+  border-bottom:1px solid rgb(163, 163, 163);
+}
+

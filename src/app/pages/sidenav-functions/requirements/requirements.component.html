@@ -1,47 +1,54 @@
 <!-- Dropdown menus for Year, Term, and Class inside a row -->
-<div class="row mb-4">
+<div class="row headeroptions p-1 mb-4">
   <div class="col-md-2 col-6">
-    <div class="mb-3">
-      <label for="year" class="form-label">Year</label>
-      <select id="year" class="form-select" [(ngModel)]="myyear">
-        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-      </select>
+    <div class="row">
+      <label for="year" class="col-md-4 col-6 col-form-label">Year</label>
+      <div class="col-md-8 col-6">
+        <select id="year" class="form-select" [(ngModel)]="myyear">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+      </div>
     </div>
   </div>
 
   <div class="col-md-2 col-6">
-    <div class="mb-3">
-      <label for="term" class="form-label">Term</label>
-      <select id="term" class="form-select" [(ngModel)]="myterm">
-        <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
-      </select>
+    <div class="row">
+      <label for="term" class="col-md-4 col-6 col-form-label">Term</label>
+      <div class="col-md-8 col-6">
+        <select id="term" class="form-select" [(ngModel)]="myterm">
+          <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
+        </select>
+      </div>
     </div>
   </div>
 
   <div class="col-md-2 col-6">
-    <div class="mb-3">
-      <label for="level" class="form-label">Class</label>
-      <select id="level" class="form-select" [(ngModel)]="mylevel">
-        <option *ngFor="let level of levels" [value]="level">
-          {{ level }}
-        </option>
-      </select>
+    <div class="row">
+      <label for="level" class="col-md-4 col-6 col-form-label">Class</label>
+      <div class="col-md-8 col-6">
+        <select id="level" class="form-select" [(ngModel)]="mylevel">
+          <option *ngFor="let level of levels" [value]="level">
+            {{ level }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
+
   <div class="col-md-2 col-6">
-   
-    <div class="mb-3">
-      <button class="btn btn-dark ms-5" (click)="showrequirements()">
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success" (click)="showrequirements()">
         View <i class="bi bi-eye mx-3"></i>
       </button>
     </div>
   </div>
 </div>
 
+
 <!-- Conditionally display success or error message -->
 <div
   *ngIf="message"
-  class="alert"
+  class="alert m-3"
   [ngClass]="{
     'alert-success': messageType === 'success',
     'alert-danger': messageType === 'error'
@@ -51,7 +58,7 @@
 </div>
 
 <!-- Conditionally display requirements or edit UI -->
-<div *ngIf="!isEditMode">
+<div *ngIf="!isEditMode" class="p-3">
   <h3 class="text-success p-3">Requirements</h3>
   <!-- Requirements Table -->
   <div *ngIf="requirements.length > 0">
