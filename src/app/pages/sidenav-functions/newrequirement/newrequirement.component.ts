@@ -28,7 +28,7 @@ export class NewRequirementComponent {
 
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   terms: number[] = [1, 2, 3];
-  years: number[] = [2025, 2024];
+  years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
 
   private http = inject(HttpClient);
   private router=inject(Router);

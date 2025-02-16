@@ -7,7 +7,7 @@
   --red: #b90202;
 }
 .sidebar {
-  background-color: #1e1e1e;
+  background-color: #2b2b2b;
   color: #fff;
   height: 100vh; /* Full viewport height */
   position: fixed; /* Fixed position on the left */
@@ -24,14 +24,19 @@
 }
 
 .sidebar a {
-  color: #fff;
+  color: #eae8e8;
   text-decoration: none;
+  font-weight: 300;
   display: block;
   padding: 10px;
 }
 
+a i{
+  color: #7491a6;
+}
+
 .sidebar a:hover {
-  background-color: #2e2e2e;
+  background-color: #1e1e1e;
 }
 
 .close-btn {

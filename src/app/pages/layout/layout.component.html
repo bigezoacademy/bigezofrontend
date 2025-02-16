@@ -16,10 +16,10 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
       <li>
-        <a class="dropdown-item" (click)="requirements()">View Requirements</a>
+        <a class="dropdown-item" (click)="requirements()"> <i class="bi me-2 bi-eye"></i>  View Requirements</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="newrequirement()">New Requirement</a>
+        <a class="dropdown-item" (click)="newrequirement()"> <i class="bi me-2 bi-plus"></i>  New Requirement</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
         <a class="dropdown-item" (click)="requirementsdefaulters()" >Defaulters</a>

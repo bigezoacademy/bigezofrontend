@@ -37,7 +37,13 @@ export class RequirementsComponent {
   messageType: string = ''; // To determine the type of message ('success' or 'error')
 
   // Define the possible values for year, term, and level
-  years: number[] = [2025, 2024]; // Example years
+  years: number[] = []; 
+
+ngOnInit() {
+  const currentYear = new Date().getFullYear();
+  this.years = Array.from({ length: 10 }, (_, i) => currentYear - i); // Generates last 10 years
+}
+
   terms: number[] = [1, 2, 3]; // Example terms
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7']; // Example levels
 

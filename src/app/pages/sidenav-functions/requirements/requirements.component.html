@@ -169,7 +169,7 @@
 </div>
 
 <!-- Edit UI -->
-<div *ngIf="isEditMode">
+<div class="p-3" *ngIf="isEditMode">
   <h3 class="p-3 text-success">Edit requirement</h3>
   <div class="row mb-3">
     <div class="col-md-4">
@@ -214,26 +214,20 @@
         placeholder="Class Level"
       />
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4"> 
       <label for="term" class="form-label">Term</label>
-      <input
-        [(ngModel)]="currentRequirement.term"
-        id="term"
-        type="number"
-        class="form-control"
-        placeholder="Term"
-      />
+      <select [(ngModel)]="currentRequirement.term" id="term" class="form-control">
+        <option *ngFor="let option of [1, 2, 3]" [value]="option">{{ option }}</option>
+      </select>
     </div>
+    
     <div class="col-md-4">
       <label for="year" class="form-label">Year</label>
-      <input
-        [(ngModel)]="currentRequirement.year"
-        id="year"
-        type="number"
-        class="form-control"
-        placeholder="Year"
-      />
+      <select [(ngModel)]="currentRequirement.year" id="year" class="form-control">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
     </div>
+    
   </div>
   <div class="row mb-3">
     <div class="col-md-4">
