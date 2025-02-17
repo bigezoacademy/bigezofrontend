@@ -54,7 +54,7 @@
   </div> 
  </div>
 </div>
-<div class="feedback-container" *ngIf="paymentFeedback!==null">
+<div class="feedback-container m-3" *ngIf="paymentFeedback!==null">
  
   <div *ngIf="orderTrackingId && merchantReference; else noFeedback">
     <h2>Payment Feedback</h2>
@@ -150,176 +150,199 @@
 
 <!-- Edit UI -->
 <!-- Edit UI -->
-<div class="row" *ngIf="isEditMode">
-  <div class="p-3 col-md-8" >
-    <h3 class="p-3 text-success">Edit student</h3>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="firstName" class="form-label">First Name</label>
-        <input
-          [(ngModel)]="currentStudent.firstName"
-          id="firstName"
-          type="text"
-          class="form-control"
-          placeholder="First Name"
-        />
+<div class="row m-0" *ngIf="isEditMode">
+  <div class="row">
+    <div class="pt-md-5 pt-0 col-md-8" >
+      <h3 class=" text-success">Edit student</h3>
+      <div class="row  p-md-3">
+        <div class="col-md-4">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            [(ngModel)]="currentStudent.firstName"
+            id="firstName"
+            type="text"
+            class="form-control"
+            placeholder="First Name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input
+            [(ngModel)]="currentStudent.lastName"
+            id="lastName"
+            type="text"
+            class="form-control"
+            placeholder="Last Name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="studentNumber" class="form-label">Student Number</label>
+          <input
+            [(ngModel)]="currentStudent.studentNumber"
+            id="studentNumber"
+            type="text"
+            class="form-control"
+            placeholder="Student Number"
+          />
+        </div>
       </div>
-      <div class="col-md-4">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input
-          [(ngModel)]="currentStudent.lastName"
-          id="lastName"
-          type="text"
-          class="form-control"
-          placeholder="Last Name"
-        />
+    
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="level" class="form-label">Class Level</label>
+          <input
+            [(ngModel)]="currentStudent.level"
+            id="level"
+            type="text"
+            class="form-control"
+            placeholder="Class Level"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="birthDate" class="form-label">Birth Date</label>
+          <input
+            [(ngModel)]="currentStudent.birthDate"
+            id="birthDate"
+            type="date"
+            class="form-control"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="residence" class="form-label">Residence</label>
+          <input
+            [(ngModel)]="currentStudent.residence"
+            id="residence"
+            type="text"
+            class="form-control"
+            placeholder="Residence"
+          />
+        </div>
       </div>
-      <div class="col-md-4">
-        <label for="studentNumber" class="form-label">Student Number</label>
-        <input
-          [(ngModel)]="currentStudent.studentNumber"
-          id="studentNumber"
-          type="text"
-          class="form-control"
-          placeholder="Student Number"
-        />
+    
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="mother" class="form-label">Mother</label>
+          <input
+            [(ngModel)]="currentStudent.mother"
+            id="mother"
+            type="text"
+            class="form-control"
+            placeholder="Mother's Name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="father" class="form-label">Father</label>
+          <input
+            [(ngModel)]="currentStudent.father"
+            id="father"
+            type="text"
+            class="form-control"
+            placeholder="Father's Name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            [(ngModel)]="currentStudent.phone"
+            id="phone"
+            type="text"
+            class="form-control"
+            placeholder="Phone Number"
+          />
+        </div>
       </div>
-    </div>
-  
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="level" class="form-label">Class Level</label>
-        <input
-          [(ngModel)]="currentStudent.level"
-          id="level"
-          type="text"
-          class="form-control"
-          placeholder="Class Level"
-        />
+    
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="email" class="form-label">Email</label>
+          <input
+            [(ngModel)]="currentStudent.email"
+            id="email"
+            type="email"
+            class="form-control"
+            placeholder="Email Address"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="club" class="form-label">Club</label>
+          <input
+            [(ngModel)]="currentStudent.club"
+            id="club"
+            type="text"
+            class="form-control"
+            placeholder="Club"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="healthStatus" class="form-label">Health Status</label>
+          <input
+            [(ngModel)]="currentStudent.healthStatus"
+            id="healthStatus"
+            type="text"
+            class="form-control"
+            placeholder="Health Status"
+          />
+        </div>
       </div>
-      <div class="col-md-4">
-        <label for="birthDate" class="form-label">Birth Date</label>
-        <input
-          [(ngModel)]="currentStudent.birthDate"
-          id="birthDate"
-          type="date"
-          class="form-control"
-        />
+    
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
+          <select
+            [(ngModel)]="currentStudent.enrollmentStatus"
+            id="enrollmentStatus"
+            class="form-control"
+          >
+            <option value="active">Active</option>
+            <option value="alumni">Alumni</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+        
+        
+        <div class="col-md-4">
+          <label for="year" class="form-label">Year</label>
+          <input
+            [(ngModel)]="currentStudent.year"
+            id="year"
+            type="number"
+            class="form-control"
+            placeholder="Year"
+          />
+        </div>
+    
+       
       </div>
-      <div class="col-md-4">
-        <label for="residence" class="form-label">Residence</label>
-        <input
-          [(ngModel)]="currentStudent.residence"
-          id="residence"
-          type="text"
-          class="form-control"
-          placeholder="Residence"
-        />
-      </div>
-    </div>
-  
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="mother" class="form-label">Mother</label>
-        <input
-          [(ngModel)]="currentStudent.mother"
-          id="mother"
-          type="text"
-          class="form-control"
-          placeholder="Mother's Name"
-        />
-      </div>
-      <div class="col-md-4">
-        <label for="father" class="form-label">Father</label>
-        <input
-          [(ngModel)]="currentStudent.father"
-          id="father"
-          type="text"
-          class="form-control"
-          placeholder="Father's Name"
-        />
-      </div>
-      <div class="col-md-4">
-        <label for="phone" class="form-label">Phone</label>
-        <input
-          [(ngModel)]="currentStudent.phone"
-          id="phone"
-          type="text"
-          class="form-control"
-          placeholder="Phone Number"
-        />
-      </div>
-    </div>
-  
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="email" class="form-label">Email</label>
-        <input
-          [(ngModel)]="currentStudent.email"
-          id="email"
-          type="email"
-          class="form-control"
-          placeholder="Email Address"
-        />
-      </div>
-      <div class="col-md-4">
-        <label for="club" class="form-label">Club</label>
-        <input
-          [(ngModel)]="currentStudent.club"
-          id="club"
-          type="text"
-          class="form-control"
-          placeholder="Club"
-        />
-      </div>
-      <div class="col-md-4">
-        <label for="healthStatus" class="form-label">Health Status</label>
-        <input
-          [(ngModel)]="currentStudent.healthStatus"
-          id="healthStatus"
-          type="text"
-          class="form-control"
-          placeholder="Health Status"
-        />
-      </div>
-    </div>
-  
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
-        <select
-          [(ngModel)]="currentStudent.enrollmentStatus"
-          id="enrollmentStatus"
-          class="form-control"
-        >
-          <option value="active">Active</option>
-          <option value="alumni">Alumni</option>
-          <option value="inactive">Inactive</option>
-        </select>
-      </div>
+    
       
-      
-      <div class="col-md-4">
-        <label for="year" class="form-label">Year</label>
-        <input
-          [(ngModel)]="currentStudent.year"
-          id="year"
-          type="number"
-          class="form-control"
-          placeholder="Year"
-        />
-      </div>
-  
+    </div>
+    <div class="col-md-4">
      
-    </div>
+        <img src="1.jpg" class="img-fluid" alt="" srcset="">
+        <div class="row bg-dark">
+          <div class="col-md-3 m-0">
+            <img src="1.jpeg" class="img-fluid" alt="" srcset="">
+          </div>
+          <div class="col-md-3 m-0">
+            <img src="2.jpeg" class="img-fluid" alt="" srcset="">
+          </div>
+          <div class="col-md-3 m-0">
+            <img src="3.jpeg" class="img-fluid" alt="" srcset="">
+          </div>
+          <div class="col-md-3 m-0">
+            <img src="4.jpeg" class="img-fluid" alt="" srcset="">
+          </div>
+        </div>
   
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <button class="btn btn-dark m-1" (click)="cancelEdit()">Cancel</button>
-        <button class="btn btn-success m-1" (click)="updateStudent()">
-          Update Student
-        </button>
-      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <button class="btn btn-dark m-1" (click)="cancelEdit()">Cancel</button>
+      <button class="btn btn-success m-1" (click)="updateStudent()">
+        Update Student
+      </button>
     </div>
   </div>
 </div>
+

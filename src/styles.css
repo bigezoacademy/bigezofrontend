@@ -17,10 +17,16 @@
   background-color: var(--darkgreen);
 }
 .text-success {
-  color: var(--semi-light-green) !important;
+  color: var(--darkgreen) !important;
+}
+.text-lightsuccess{
+  color: var(--semi-light-green) !important;  
 }
 .text-danger {
   color: var(--red);
+}
+.text-primary{
+  color: #023b75 !important;
 }
 body {
   font-family: "Poppins", serif ;
@@ -165,14 +171,33 @@ ul {
 }
 
 .searchrow{
-  background-color: yellowgreen;
-  color: white;
+  background-color: rgb(255, 255, 255);
   padding: 5px;
 }
 .headeroptions{
-  background-color: #dddcdc;
-  color: black;
-  border-top:1px solid rgb(163, 163, 163);
-  border-bottom:1px solid rgb(163, 163, 163);
+  background-color: #000000;
+  color: rgb(213, 213, 213);
+  border-top:1px solid rgb(63, 63, 63);
+  border-bottom:1px solid rgb(60, 60, 60);
+  padding: 5px;
+}
+.headeroptions select {
+  background-color: #333; /* Dark gray background */
+  color: rgb(195, 255, 186); /* White text */
+  border: 1px solid #313131; /* Subtle border */
+  padding: 5px;
+  border-radius: 5px;
 }
 
+
+th{
+  font-weight: 400;
+  color: var(--lightgrey) !important;
+  background-color: #001535 !important;
+}
+.logobg img{
+  width: 100px;
+}
+.logo{
+  border-bottom: 1px solid #777777;
+}

@@ -109,27 +109,60 @@ export class StudentComponent {
   }
   
 
+ 
   sendSMS(student: any) {
     Swal.fire({
-      title: `Send SMS to <span class="text-success">${student.firstName} ${student.lastName}</span>?`,
-      html: `Are you sure you want to send an SMS to this student?<br>Phone: <strong>${student.phone}</strong>`,
-      icon: 'question',
+    
+      html: `
+      <h4 class="bg-dark p-3 text-white">  SEND SMS  <i class="bi bi-send-fill"></i></h4>
+        <p>${student.firstName} ${student.lastName} : <strong> ${student.phone}</strong></p>
+        <form>
+          <textarea id="smsMessage" class="w-100 text-primary p-3" placeholder="Enter your message..." rows="4" style="width: 70%;"></textarea>
+          <p id="charCount" style="text-align: right; font-size: 14px; margin-top: 5px;">
+            0 / 160 (1 SMS)
+          </p>
+        </form>
+      `,
       showCancelButton: true,
       confirmButtonColor: '#28a745',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, send it!'
+      confirmButtonText: 'Send',
+      cancelButtonText: 'Cancel',
+      didOpen: () => {
+        const smsMessage = document.getElementById('smsMessage') as HTMLTextAreaElement;
+        const charCount = document.getElementById('charCount') as HTMLParagraphElement;
+  
+        smsMessage.addEventListener('input', () => {
+          const length = smsMessage.value.length;
+          const smsParts = Math.ceil(length / 160);
+          charCount.textContent = `${length} / 160 (${smsParts} SMS${smsParts > 1 ? 's' : ''})`;
+        });
+      },
+      preConfirm: () => {
+        const message = (document.getElementById('smsMessage') as HTMLTextAreaElement)?.value;
+        if (!message) {
+          Swal.showValidationMessage('Message cannot be empty!');
+          return false;
+        }
+        return { message };
+      }
     }).then((result: any) => {
       if (result.isConfirmed) {
+        const messageContent = result.value.message;
         // Logic to send SMS goes here
+        console.log(`Sending SMS to ${student.phone}: ${messageContent}`);
         this.currentStudent = { ...student };
+        
         Swal.fire(
           'Sent!',
-          'SMS has been sent.',
+          'SMS has been sent successfully.',
           'success'
         );
       }
     });
   }
+  
+  
   updateStudent() {
     if (!this.currentStudent || this.isFormInvalid()) {
       this.message = 'Please fill out all required fields correctly.';

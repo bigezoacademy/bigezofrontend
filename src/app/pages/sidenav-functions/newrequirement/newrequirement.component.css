@@ -18,8 +18,12 @@
 }
 
 .form-control {
-  border: 2px solid #000000;
+ 
 }
 .form-select {
-  border-bottom: 2px solid #000000;
+
 }
+
+textarea {
+  min-height:100px;
+} 

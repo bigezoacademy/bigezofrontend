@@ -58,7 +58,8 @@ a i{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f6f6f6;
+  background-color: #001535;
+  color: #f4feff;
 }
 
 /* Hamburger button for small screens */

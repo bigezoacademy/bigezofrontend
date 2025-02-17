@@ -2,9 +2,14 @@
   <!-- Sidebar -->
   <div class="sidebar" [ngClass]="{ show: sidebarVisible }">
     <button class="close-btn" (click)="toggleSidebar()">×</button>
-    <img src="logo.png" alt="Logo" class="mb-4" style="width: 120px" />
+ <div class="row p-3 logobg mb-3">
+  <div class="logo">
+    <img src="logo.png" alt="Logo" class=""  />
+  </div>
+  
+ </div>
     <a (click)="home()" *ngIf="accounttype === 'ROLE_ADMIN'">
-      <i class="bi me-2 bi-graph-up-arrow"></i> Analytics
+      <i class="bi me-3 bi-graph-up-arrow"></i> Analytics
     </a>
     <a
       class="d-flex align-items-center dropdown-toggle"
@@ -12,14 +17,14 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      <i class="bi me-2 bi-list-check"></i> Requirements
+      <i class="bi me-3 bi-list-check"></i> Requirements
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
       <li>
-        <a class="dropdown-item" (click)="requirements()"> <i class="bi me-2 bi-eye"></i>  View Requirements</a>
+        <a class="dropdown-item" (click)="requirements()"> <i class="bi me-3 bi-eye"></i>  View Requirements</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="newrequirement()"> <i class="bi me-2 bi-plus"></i>  New Requirement</a>
+        <a class="dropdown-item" (click)="newrequirement()"> <i class="bi me-3 bi-plus"></i>  New Requirement</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
         <a class="dropdown-item" (click)="requirementsdefaulters()" >Defaulters</a>
@@ -31,14 +36,14 @@
     data-bs-toggle="dropdown"
     aria-expanded="false"
   >
-    <i class="bi me-2 bi-cash-stack"></i>School Fees
+    <i class="bi me-3 bi-cash-stack"></i>School Fees
   </a>
   <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
     <li>
       <a class="dropdown-item" (click)="schoolfees()">History</a>
     </li>
     <li *ngIf="accounttype === 'ROLE_ADMIN'">
-      <a class="dropdown-item" >Set School Fees</a>
+      <a class="dropdown-item" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
     </li>
     <li *ngIf="accounttype === 'ROLE_ADMIN'">
       <a class="dropdown-item" >Defaulters</a>
@@ -50,18 +55,18 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      <i class="bi me-2 bi-list-check"></i> Canteen
+      <i class="bi me-3 bi-list-check"></i> Canteen
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="productsDropdown">
       <li>
-        <a class="dropdown-item">New Term Shopping</a>
+        <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>New Term Shopping</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item">New Product</a>
+        <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>New Product</a>
       </li>
     </ul>
 
-    <a href="#"> <i class="bi me-2 bi-journal-check"></i> Exam Results </a>
+    <a href="#"> <i class="bi me-3 bi-journal-check"></i> Exam Results </a>
 
     <a
       class="d-flex align-items-center dropdown-toggle"
@@ -69,20 +74,20 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      <i class="bi me-2 bi-chat-dots"></i> SMS
+      <i class="bi me-3 bi-chat-dots"></i> SMS
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="smsDropdown">
       <li>
-        <a class="dropdown-item">SMS Notifications</a>
+        <a class="dropdown-item"><i class="bi me-3 bi-eye"></i> SMS Notifications</a>
       </li>
       <li>
         <a class="dropdown-item" *ngIf="accounttype === 'ROLE_ADMIN'"
-          >Send single SMS</a
+          ><i class="bi me-3 bi-plus"></i>Send single SMS</a
         >
       </li>
       <li>
         <a class="dropdown-item" *ngIf="accounttype === 'ROLE_ADMIN'"
-          >Send Bulk SMS</a
+          ><i class="bi me-3 bi-plus"></i>Send Bulk SMS</a
         >
       </li>
     </ul>
@@ -94,26 +99,26 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      <i class="bi me-2 bi-database"></i> Database
+      <i class="bi me-3 bi-database"></i> Database
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
       <li>
-        <a class="dropdown-item" (click)="students()">View Students</a>
+        <a class="dropdown-item" (click)="students()"><i class="bi me-3 bi-eye"></i> View Students</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="newstudent()">New Student</a>
+        <a class="dropdown-item" (click)="newstudent()"><i class="bi me-3 bi-plus"></i>New Student</a>
       </li>
     </ul>
 
-    <a  (click)="transactions()"> <i class="bi me-2 bi-currency-dollar"></i> Transactions </a>
+    <a  (click)="transactions()"> <i class="bi me-3 bi-currency-dollar"></i> Transactions </a>
 
-    <a href="#"> <i class="bi me-2 bi-person"></i> Profile </a>
+    <a href="#"> <i class="bi me-3 bi-person"></i> Profile </a>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <!-- Header -->
-    <div class="header d-flex justify-content-between p-3 border-bottom">
+    <div class="header d-flex justify-content-between p-1 ">
       <!-- Hamburger Button for Small Screens -->
       <button class="hamburger-btn d-md-none" (click)="toggleSidebar()">
         ☰
@@ -123,14 +128,14 @@
       <!-- User Profile Section (Aligned to the Right) -->
       <div class="user d-flex align-items-center ml-auto">
         <span *ngIf="accounttype === 'ROLE_ADMIN'">
-          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{schoolName}} <span class="text-danger"> Admin</span>
+          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{schoolName}} <span class="text-lightsuccess"> Admin</span>
         </span>
        
         <span *ngIf="accounttype === 'ROLE_USER'">
           <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{name}}
         </span>
         
-        <button class="btn btn-dark mx-3 mx-md-5" (click)="logout()">
+        <button class="btn btn-sm btn-light mx-3 mx-md-5" (click)="logout()">
           Logout
         </button>
       </div>

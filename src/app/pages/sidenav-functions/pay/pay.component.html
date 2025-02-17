@@ -1,28 +1,27 @@
-<div *ngIf="!showIframe">
-  <h2>
+<div *ngIf="!showIframe" >
+  <h2 class="p-3">
     Payment Details
     <button type="button" class="btn btn-dark" (click)="goBack()">
       <i class="bi bi-arrow-left me-2"></i> Back to requirements
     </button>
   </h2>
   <form>
-    <div class="mb-3">
-      <label for="location" class="form-label">Location</label>
-      <input
-        type="text"
+    <div class=" d-flex align-items-center">
+           <input
+        type="text" hidden
         id="location"
         [(ngModel)]="paymentDetails.location"
         name="location"
-        class="form-control"
+        class="form-control w-50"
         placeholder="Enter your location"
-        required
       />
     </div>
-    <div class="p-3 py-5">
+    
+    <div class="p-3 ">
       <h3 class="pb-3 text-success">Selected Items</h3>
-      <ul>
-        <li *ngFor="let item of selectedItems">
-          {{ item.item }} - UGX
+      <ul class="list-unstyled">
+        <li *ngFor="let item of selectedItems" class="list-item p-1 border-bottom border-1 border-secondary">
+       <span class="text-success mx-2">{{item.quantity}}</span>   {{ item.item }} - UGX
           {{ item.unitCost * item.quantity | number : "1.0-0" }}
         </li>
       </ul>
@@ -39,7 +38,7 @@
   </form>
 </div>
 
-<div *ngIf="showIframe" class="iframe-container">
+<div *ngIf="showIframe" class="iframe-container p-md-5">
   <iframe
     [src]="iframeUrl || '' | safeUrl"
     width="100%"
