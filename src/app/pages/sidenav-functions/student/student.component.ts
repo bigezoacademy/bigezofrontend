@@ -19,8 +19,11 @@ export class StudentComponent {
   student: any[] = []; // Stores all students
   filteredStudents: any[] = []; // Stores students after filtering
 
-  myyear: number = 2025;
+  myyear: number = new Date().getFullYear();
   mylevel: string = '5';
+  years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+  enrollmentStatuses: string[] = ['active', 'alumni', 'inactive'];
+  levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   myenrollmentStatus: string = 'active';
   myschool: string = '';
   schoolAdminId: number = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : 0;
@@ -31,9 +34,7 @@ export class StudentComponent {
   message: string = '';
   messageType: string = '';
 
-  years: number[] = [2025, 2024];
-  enrollmentStatuses: string[] = ['active', 'alumni', 'inactive'];
-  levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
+
 
   private http = inject(HttpClient);
   orderTrackingId: string | null = null;
@@ -112,9 +113,8 @@ export class StudentComponent {
  
   sendSMS(student: any) {
     Swal.fire({
-    
       html: `
-      <h4 class="bg-dark p-3 text-white">  SEND SMS  <i class="bi bi-send-fill"></i></h4>
+        <h4 class="bg-dark p-3 text-white">SEND SMS <i class="bi bi-send-fill"></i></h4>
         <p>${student.firstName} ${student.lastName} : <strong> ${student.phone}</strong></p>
         <form>
           <textarea id="smsMessage" class="w-100 text-primary p-3" placeholder="Enter your message..." rows="4" style="width: 70%;"></textarea>
@@ -122,12 +122,26 @@ export class StudentComponent {
             0 / 160 (1 SMS)
           </p>
         </form>
+  
+        <!-- Cancel & Continue buttons (hidden by default) -->
+        <div id="cancelButtonContainer" style="display: none;">
+          <div class="row">
+            <div class="col-6">
+              <button id="cancelButton" class="btn btn-danger m-1 w-100">Cancel</button>
+            </div>
+            <div class="col-6">
+              <button id="continueButton" class="btn btn-success m-1 w-100">Continue typing...</button>
+            </div>
+          </div>
+        </div>
       `,
       showCancelButton: true,
-      confirmButtonColor: '#28a745',
-      cancelButtonColor: '#d33',
+      showConfirmButton: true,
       confirmButtonText: 'Send',
+      confirmButtonColor: '#28a745', // equivalent to btn-success
+      cancelButtonColor: '#343a40', // equivalent to btn-dark
       cancelButtonText: 'Cancel',
+      allowOutsideClick: false,  // Prevent closing by clicking outside
       didOpen: () => {
         const smsMessage = document.getElementById('smsMessage') as HTMLTextAreaElement;
         const charCount = document.getElementById('charCount') as HTMLParagraphElement;
@@ -136,6 +150,25 @@ export class StudentComponent {
           const length = smsMessage.value.length;
           const smsParts = Math.ceil(length / 160);
           charCount.textContent = `${length} / 160 (${smsParts} SMS${smsParts > 1 ? 's' : ''})`;
+        });
+  
+        // Show Cancel and Continue typing buttons when the user clicks Cancel
+        const cancelButtonContainer = document.getElementById('cancelButtonContainer');
+        const cancelButton = document.getElementById('cancelButton') as HTMLButtonElement;
+        const continueButton = document.getElementById('continueButton') as HTMLButtonElement;
+  
+        cancelButton.addEventListener('click', () => {
+          // Trigger confirmation dialog when the Cancel button is clicked
+          const cancelConfirmed = window.confirm("Are you sure you want to cancel?");
+          
+          if (cancelConfirmed) {
+            Swal.close(); // Close the Swal modal if the user confirmed cancelation
+          }
+        });
+  
+        continueButton.addEventListener('click', () => {
+          // Hide Cancel and Continue typing buttons and allow the user to continue typing
+          cancelButtonContainer!.style.display = 'none';
         });
       },
       preConfirm: () => {
@@ -147,20 +180,57 @@ export class StudentComponent {
         return { message };
       }
     }).then((result: any) => {
+      // If the user confirmed sending SMS
       if (result.isConfirmed) {
+        let phone = student.phone;
+  
+        // Phone validation: check if it starts with '0' and replace it with '256'
+        if (phone.startsWith('0')) {
+          phone = '256' + phone.substring(1); // Replace 0 with 256
+        }
+  
+        // Validate that the phone starts with '256'
+        if (!phone.startsWith('256')) {
+          Swal.fire('Invalid Phone Number', 'The phone number must start with 256.', 'error');
+          return;
+        }
+  
         const messageContent = result.value.message;
-        // Logic to send SMS goes here
-        console.log(`Sending SMS to ${student.phone}: ${messageContent}`);
-        this.currentStudent = { ...student };
-        
-        Swal.fire(
-          'Sent!',
-          'SMS has been sent successfully.',
-          'success'
-        );
+  
+        // Show loading progress while sending
+        Swal.fire({
+          title: 'Sending SMS...',
+          text: 'Please wait while the SMS is being sent.',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+  
+        // Send the SMS via API
+        const smsData = {
+          phone: phone,
+          message: messageContent
+        };
+  
+        const url = `http://localhost:8080/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+  
+        this.http.post(url, null, { responseType: 'text' })
+          .subscribe({
+            next: () => {
+              console.log(`SMS sent successfully! Phone: ${smsData.phone}`);
+              Swal.fire('Success', 'SMS sent successfully!', 'success');
+            },
+            error: (err) => {
+              console.error('Error sending SMS', err);
+              Swal.fire('Failed!', 'Error sending SMS.', 'error');
+            }
+          });
       }
     });
   }
+  
+  
   
   
   updateStudent() {

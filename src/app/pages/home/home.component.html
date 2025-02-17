@@ -18,13 +18,13 @@
     <ng-container *ngIf="showLogin">
       <app-login></app-login>
       <div class="text-center mt-3">
-        <a (click)="toggleView()" class="text-primary">Register your school?</a>
+        <a (click)="toggleView()" class="text-lightsuccess">Register your school?</a>
       </div>
     </ng-container>
     <ng-container *ngIf="!showLogin">
       <app-register></app-register>
       <div class="text-center mt-3">
-        <a (click)="toggleView()" class="text-primary">Login instead?</a>
+        <a (click)="toggleView()" class="text-lightsuccess">Login instead?</a>
       </div>
     </ng-container>
   </div>

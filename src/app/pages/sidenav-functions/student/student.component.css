@@ -20,4 +20,43 @@ input{
   color: #021c7b;
 }
 
+/* Style for the carousel control buttons (previous and next) */
+.carousel-control-prev, 
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  border-radius: 50%; /* Circular shape */
+  padding: 10px; /* Adds padding around the icon */
+  width: 40px; /* Set width */
+  height: 40px; /* Set height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease; /* Smooth transition for background */
+}
+
+.carousel-control-prev-icon, 
+.carousel-control-next-icon {
+  background-color: white; /* White color for the arrows */
+  width: 20px; /* Set icon size */
+  height: 20px; /* Set icon size */
+  border-radius: 50%; /* Optional: make the icons round */
+}
+
+/* On hover, change background color of the control buttons */
+.carousel-control-prev:hover, 
+.carousel-control-next:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+}
+
+/* Optional: Style for active control button if needed */
+.carousel-control-prev:focus, 
+.carousel-control-next:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Optional: add a focus effect */
+}
+
 

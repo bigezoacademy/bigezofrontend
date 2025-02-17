@@ -39,12 +39,17 @@
     <i class="bi me-3 bi-cash-stack"></i>School Fees
   </a>
   <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
-    <li>
-      <a class="dropdown-item" (click)="schoolfees()">History</a>
-    </li>
+   
     <li *ngIf="accounttype === 'ROLE_ADMIN'">
-      <a class="dropdown-item" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
+      <a class="dropdown-item" (click)="schoolfees()" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
     </li>
+    <li *ngIf="accounttype === 'ROLE_USER'">
+      <a class="dropdown-item"  (click)="schoolfees()" ><i class="bi me-3 bi-plus"></i>Pay School Fees</a>
+    </li>
+    <li>
+      <a class="dropdown-item" (click)="schoolfees()"><i class="bi me-3 bi-eye"></i> History</a>
+    </li>
+  
     <li *ngIf="accounttype === 'ROLE_ADMIN'">
       <a class="dropdown-item" >Defaulters</a>
     </li>
@@ -111,6 +116,7 @@
     </ul>
 
     <a  (click)="transactions()"> <i class="bi me-3 bi-currency-dollar"></i> Transactions </a>
+    <a  (click)="photos()" *ngIf="accounttype === 'ROLE_USER'"> <i class="bi me-3 bi-images"></i> My Photos </a>
 
     <a href="#"> <i class="bi me-3 bi-person"></i> Profile </a>
   </div>

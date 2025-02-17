@@ -1,1 +1,44 @@
-<p>schoolfees works!</p>
+<div class="row">
+    <div class="col-md-8 p-3">
+<h3 class="text-success">
+    Pay School Fees
+</h3>
+<div class="headeroptions  ">
+    <div class="row  m-0  p-1">
+      <div class="col-md-3 col-6">
+        <div class=" row">
+          <label for="year" class="col-md-4 col-6 col-form-label">Year</label>
+          <div class="col-md-8 col-6">
+            <select id="year" class="form-select" [(ngModel)]="myyear">
+              <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    
+     
+    
+      <div class="col-md-3 col-6">
+        <div class=" row">
+          <label for="level" class="col-md-4 col-6 col-form-label">Class</label>
+          <div class="col-md-8 col-6">
+            <select id="level" class="form-select" [(ngModel)]="mylevel">
+              <option *ngFor="let level of levels" [value]="level">
+                {{ level }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-md-3 col-6">
+        <div class=" d-flex justify-content-end">
+          <button class="btn btn-success" >
+            See Amount <i class="bi bi-eye mx-3"></i>
+          </button>
+        </div>
+      </div>
+    </div> 
+   </div>
+</div>
+</div>

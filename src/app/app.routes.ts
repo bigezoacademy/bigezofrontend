@@ -13,6 +13,7 @@ import { PayComponent } from './pages/sidenav-functions/pay/pay.component';
 import { TransactionsComponent } from './pages/sidenav-functions/transactions/transactions.component';
 import { SchoolfeesComponent } from './pages/sidenav-functions/schoolfees/schoolfees.component';
 import { RequirementsdefaultersComponent } from './pages/sidenav-functions/requirementsdefaulters/requirementsdefaulters.component';
+import { PhotosComponent } from './pages/sidenav-functions/photos/photos.component';
 
 export const routes: Routes = [
    // Public route
@@ -54,6 +55,12 @@ export const routes: Routes = [
       {
         path: 'pay',
         component: PayComponent,
+        canActivate: [authGuard],
+        data: { role: 'ROLE_USER' } // Only students can access
+      },
+      {
+        path: 'photos',
+        component: PhotosComponent,
         canActivate: [authGuard],
         data: { role: 'ROLE_USER' } // Only students can access
       },

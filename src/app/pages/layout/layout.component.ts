@@ -97,6 +97,9 @@ this.router.navigateByUrl("terms");
           students():any{
             this.router.navigateByUrl("student");
               }
+              photos():any{
+                this.router.navigateByUrl("photos");
+                  }
               newstudent():any{
                 this.router.navigateByUrl("newstudent");
                   }
