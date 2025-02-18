@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-newrequirement',
@@ -35,8 +36,27 @@ export class NewRequirementComponent {
 
   createRequirement() {
     // Check if all fields are filled before making the POST request
-    if (!this.item || !this.description || !this.unitCost || !this.level || !this.term || !this.year || !this.quantity || !this.schoolAdminId) {
-      alert('Please fill in all the fields.');
+    const missingFields = [];
+    if (!this.item) missingFields.push('item');
+    if (!this.description) missingFields.push('description');
+    if (!this.unitCost) missingFields.push('unit cost');
+    if (!this.level) missingFields.push('level');
+    if (!this.term) missingFields.push('term');
+    if (!this.year) missingFields.push('year');
+    if (!this.quantity) missingFields.push('quantity');
+    if (!this.schoolAdminId) missingFields.push('school admin ID');
+
+    if (missingFields.length > 1) {
+      Swal.fire({
+      icon: 'error',
+      text: 'Please fill in all the fields.',
+      });
+      return;
+    } else if (missingFields.length === 1) {
+      Swal.fire({
+      icon: 'error',
+      text: `Please fill in ${missingFields[0]}.`,
+      });
       return;
     }
 

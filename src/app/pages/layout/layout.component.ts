@@ -103,6 +103,9 @@ this.router.navigateByUrl("terms");
               newstudent():any{
                 this.router.navigateByUrl("newstudent");
                   }
+                  setschoolfees():any{
+                    this.router.navigateByUrl("newschoolfees");
+                      }
 
 
                   paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";

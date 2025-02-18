@@ -41,7 +41,7 @@
   <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
    
     <li *ngIf="accounttype === 'ROLE_ADMIN'">
-      <a class="dropdown-item" (click)="schoolfees()" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
+      <a class="dropdown-item" (click)="setschoolfees()" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
     </li>
     <li *ngIf="accounttype === 'ROLE_USER'">
       <a class="dropdown-item"  (click)="schoolfees()" ><i class="bi me-3 bi-plus"></i>Pay School Fees</a>

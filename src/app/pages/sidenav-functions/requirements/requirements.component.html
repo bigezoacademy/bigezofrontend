@@ -59,7 +59,7 @@
 
 <!-- Conditionally display requirements or edit UI -->
 <div *ngIf="!isEditMode" class="p-3">
-  <h3 class="text-success p-3">Requirements</h3>
+  <h3 class="text-success">Requirements</h3>
   <!-- Requirements Table -->
   <div *ngIf="requirements.length > 0">
     <div class="table-responsive mb-3">
@@ -73,7 +73,7 @@
             <th>Term</th>
             <th>Year</th>
             <th>Quantity</th>
-            <th>Total</th>
+            <th>Total(UgX)</th>
             <th *ngIf="accounttype === 'ROLE_ADMIN'">Action</th>
             <th *ngIf="accounttype === 'ROLE_USER'">
               Select
@@ -96,8 +96,8 @@
             <td>{{ requirement.term }}</td>
             <td>{{ requirement.year }}</td>
             <td>{{ requirement.quantity }}</td>
-            <td>
-              UGX
+            <td class="text-danger">
+             
               {{
                 requirement.unitCost * requirement.quantity | number : "1.0-0"
               }}
@@ -144,15 +144,16 @@
             </td>
           </tr>
         </tbody>
-        <tr class="totalrow p-3">
-          <td colspan="7" class="text-dark ps-3">Grand Total:</td>
-          <td>
-            UGX {{ calculateSelectedTotal() | number : "1.0-0" }}
-            <!-- Display Grand Total -->
-          </td>
-          <td></td>
-        </tr>
+       
       </table>
+      <p class="totalrow p-3 w-100 row">
+        <span colspan="7" class="text-dark ps-3 col-md-6">Grand Total:</span>
+        <span class="col-md-6 text-center">
+          UGX {{ calculateSelectedTotal() | number : "1.0-0" }}
+          <!-- Display Grand Total -->
+        </span>
+       
+      </p>
     </div>
     <!-- Pay Button -->
     <!-- Updated "Pay for Selected Items" Button -->
