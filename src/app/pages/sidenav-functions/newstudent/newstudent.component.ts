@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -45,8 +46,8 @@ export class NewStudentComponent {
   years: number[] = [2025, 2024];
   studentEmail: string = localStorage.getItem('studentEmail') || '';
   studentPhone: string = sessionStorage.getItem('studentPhone') || '';
-
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   generateProvisionalPassword(): string {
     return Math.floor(1000000 + Math.random() * 9000000).toString();
@@ -206,4 +207,8 @@ export class NewStudentComponent {
       ? Number(localStorage.getItem('id'))
       : null;
   }
+
+  students():any{
+    this.router.navigateByUrl("student");
+      }
 }

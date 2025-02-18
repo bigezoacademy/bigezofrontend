@@ -1,20 +1,23 @@
 <div class="container">
-  <h4 class="text-success pb-5">Create New Student</h4>
+  <h4 class="text-success pt-5 d-flex justify-content-between">
+    Create New Student
+    <button  class="btn btn-dark"  (click)="students()">  <i class="bi-arrow-left bi"></i> Students' List</button>
+  </h4>
 
   <div *ngIf="status === 'success'" class="alert alert-success text-center">
     <p class="">{{ addStudentStatus }}</p>
-   <div class="row">
-    <div class="col-md-6">
-      Username: <span class="text-center"> {{ sno }}</span> <br>
-      Password: <span class="text-center"> {{ spass }}</span>
+    <div class="row">
+      <div class="col-md-6">
+        Username: <span class="text-center"> {{ sno }}</span> <br>
+        Password: <span class="text-center"> {{ spass }}</span>
+      </div>
+      <div class="col-md-6">
+        <button (click)="sendEmail()" class="btn btn-primary m-1">Send to Email</button>
+        <button (click)="sendSMS()" class="btn btn-secondary m-1">Send to SMS</button>
+      </div>
     </div>
-    <div class="col-md-6">
-      <button (click)="sendEmail()" class="btn btn-primary m-1">Send to Email</button>
-    <button (click)="sendSMS()" class="btn btn-secondary m-1">Send to SMS</button>
-    </div>
-   </div>
-    
   </div>
+
   <div *ngIf="status === 'error' || status === null" class="alert alert-danger text-center">
     {{ addStudentStatus }}
   </div>
@@ -22,154 +25,80 @@
   <form (ngSubmit)="createStudent()">
     <div class="row">
       <!-- First Name Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="firstName"
-          class="form-control"
-          [(ngModel)]="firstName"
-          name="firstName"
-          placeholder="First Name"
-          required
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="firstName" class="form-control" [(ngModel)]="firstName" name="firstName" required placeholder="First Name" />
+        <label for="firstName">First Name</label>
       </div>
 
       <!-- Last Name Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="lastName"
-          class="form-control"
-          [(ngModel)]="lastName"
-          name="lastName"
-          placeholder="Last Name"
-          required
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="lastName" class="form-control" [(ngModel)]="lastName" name="lastName" required placeholder="Last Name" />
+        <label for="lastName">Last Name</label>
       </div>
 
       <!-- Student Number Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="studentNumber"
-          class="form-control"
-          [(ngModel)]="studentNumber"
-          name="studentNumber"
-          placeholder="Student Number"
-          required
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="studentNumber" class="form-control" [(ngModel)]="studentNumber" name="studentNumber" required placeholder="Student Number" />
+        <label for="studentNumber">Student Number</label>
       </div>
 
-      <!-- Birth Date Input with Floating Label -->
-      <div class="mb-3 col-md-4">
-        <div class="form-floating">
-          <input
-            id="birthDate"
-            type="date"
-            class="form-control"
-            [(ngModel)]="birthDate"
-            name="birthDate"
-            required
-          />
-          <label for="birthDate">Birthday</label>
-        </div>
+      <!-- Birth Date Input -->
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="birthDate" type="date" class="form-control" [(ngModel)]="birthDate" name="birthDate" required placeholder="Birthday" />
+        <label for="birthDate">Birthday</label>
       </div>
 
       <!-- Residence Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="residence"
-          class="form-control"
-          [(ngModel)]="residence"
-          name="residence"
-          placeholder="Residence"
-          required
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="residence" class="form-control" [(ngModel)]="residence" name="residence" required placeholder="Residence" />
+        <label for="residence">Residence</label>
       </div>
 
-      <!-- Health Status Input -->
+      <!-- Health Status Select -->
       <div class="mb-3 col-md-4">
-        <input
-          id="healthStatus"
-          class="form-control"
-          [(ngModel)]="healthStatus"
-          name="healthStatus"
-          placeholder="Health Status"
-          required
-        />
+        <label for="healthStatus" class="form-label">Health Status</label>
+        <select id="healthStatus" class="form-select" [(ngModel)]="healthStatus" name="healthStatus" required>
+          <option value="healthy" selected>Healthy</option>
+          <option value="sick">Sick</option>
+          <option value="medication">On Medication</option>
+          <option value="deceased">Deceased</option>
+        </select>
       </div>
 
       <!-- Phone Input -->
-      <div class="mb-3 col-md-4">
-      <input
-      id="phone"
-      type="tel"
-      class="form-control"
-      [(ngModel)]="phone"
-      name="phone"
-      placeholder="Phone"
-      required
-    />
-    </div>
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="phone" type="tel" class="form-control" [(ngModel)]="phone" name="phone" required placeholder="Phone" />
+        <label for="phone">Phone</label>
+      </div>
 
       <!-- Email Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="email"
-          type="email"
-          class="form-control"
-          [(ngModel)]="email"
-          name="email"
-          placeholder="Email"
-          required
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="email" type="email" class="form-control" [(ngModel)]="email" name="email" required placeholder="Email" />
+        <label for="email">Email</label>
       </div>
 
-      <!-- Password Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          hidden
-          id="password"
-          type="password"
-          class="form-control"
-          [(ngModel)]="studentPassword"
-          name="password"
-          placeholder="Password"
-          required
-        />
-      </div>
+      <!-- Password Input (Hidden) -->
+      <input hidden id="password" type="password" class="form-control" [(ngModel)]="studentPassword" name="password" />
 
       <!-- Club Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="club"
-          class="form-control"
-          [(ngModel)]="club"
-          name="club"
-          placeholder="Club"
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="club" class="form-control" [(ngModel)]="club" name="club" placeholder="Club" />
+        <label for="club">Club</label>
       </div>
 
       <!-- Level Select -->
       <div class="mb-3 col-md-4">
-        <select
-          id="level"
-          class="form-select"
-          [(ngModel)]="level"
-          name="level"
-          required
-        >
+        <label for="level" class="form-label">Level</label>
+        <select id="level" class="form-select" [(ngModel)]="level" name="level" required>
           <option value="" disabled selected>Select Level</option>
           <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
         </select>
       </div>
 
-      <!-- Enrollment Status Input with Selection Options -->
+      <!-- Enrollment Status Select -->
       <div class="mb-3 col-md-4">
-        <select
-          id="enrollmentStatus"
-          class="form-control"
-          [(ngModel)]="enrollmentStatus"
-          name="enrollmentStatus"
-          required
-        >
+        <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
+        <select id="enrollmentStatus" class="form-select" [(ngModel)]="enrollmentStatus" name="enrollmentStatus" required>
           <option value="" disabled selected>Choose Enrollment Status</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
@@ -179,51 +108,27 @@
 
       <!-- Year Select -->
       <div class="mb-3 col-md-4">
-        <select
-          id="year"
-          class="form-select"
-          [(ngModel)]="year"
-          name="year"
-          required
-        >
+        <label for="year" class="form-label">Year</label>
+        <select id="year" class="form-select" [(ngModel)]="year" name="year" required>
           <option value="" disabled selected>Select Year</option>
           <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
         </select>
       </div>
 
       <!-- Mother Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="mother"
-          class="form-control"
-          [(ngModel)]="mother"
-          name="mother"
-          placeholder="Mother's Name"
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="mother" class="form-control" [(ngModel)]="mother" name="mother" placeholder="Mother's Name" />
+        <label for="mother">Mother's Name</label>
       </div>
 
       <!-- Father Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          id="father"
-          class="form-control"
-          [(ngModel)]="father"
-          name="father"
-          placeholder="Father's Name"
-        />
+      <div class="mb-3 col-md-4 form-floating">
+        <input id="father" class="form-control" [(ngModel)]="father" name="father" placeholder="Father's Name" />
+        <label for="father">Father's Name</label>
       </div>
 
       <!-- Hidden School Admin Input -->
-      <div class="mb-3 col-md-4">
-        <input
-          hidden
-          id="schoolAdmin"
-          type="number"
-          class="form-control"
-          [(ngModel)]="schoolAdminId"
-          name="schoolAdminId"
-        />
-      </div>
+      <input hidden id="schoolAdmin" type="number" class="form-control" [(ngModel)]="schoolAdminId" name="schoolAdminId" />
 
       <!-- Submit Button -->
       <div class="mb-3 col-md-4"></div>

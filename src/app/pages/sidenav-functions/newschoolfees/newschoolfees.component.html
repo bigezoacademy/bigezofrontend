@@ -1,1 +1,144 @@
-<p>newschoolfees works!</p>
+<div class="container">
+    <h4 class="text-success pt-5 pb-1">Set School Fees</h4>
+  
+   <div class="row">
+    <div class="col-md-8">
+      <div *ngIf="status === 'success'" class="alert alert-success text-center">
+        {{ addschoolfeesstatus }}
+      </div>
+      <div
+        *ngIf="status === 'error' || status === null"
+        class="alert alert-danger text-center"
+      >
+        {{ addschoolfeesstatus }}
+      </div>
+    
+      <form (ngSubmit)="createschoolfees()">
+        <div class="row">
+          <!-- Item Input with Placeholder -->
+          <div class="mb-3 col-md-4">
+            <div class="">
+              <input
+                id="item"
+                class="form-control"
+                [(ngModel)]="item"
+                name="item"
+                placeholder="Item name"
+                required
+              />
+            </div>
+          </div>
+    
+          <!-- Description Textarea with Placeholder -->
+          <div class="mb-3 col-md-8">
+            <div class="">
+              <textarea
+                id="description"
+                class="form-control"
+                [(ngModel)]="description"
+                name="description"
+                placeholder="Description"
+                required
+              ></textarea>
+            </div>
+          </div>
+    
+          <!-- Unit Cost Input with Placeholder -->
+          <div class="mb-3 col-md-4">
+            <div class="">
+              <input
+                id="unitCost"
+                type="number"
+                class="form-control"
+                [(ngModel)]="unitCost"
+                placeholder="Unit Cost"
+                name="unitCost"
+                required
+              />
+            </div>
+          </div>
+    
+          <!-- Quantity Input -->
+          <div class="mb-3 col-md-4">
+            <div class="">
+              <input
+                id="quantity"
+                type="number"
+                class="form-control"
+                [(ngModel)]="quantity"
+                placeholder="Quantity"
+                name="quantity"
+                required
+              />
+            </div>
+          </div>
+    
+          <!-- Class Level Select with Placeholder -->
+          <div class="mb-3 col-md-4">
+            <div class="">
+              <select
+                id="level"
+                class="form-select"
+                [(ngModel)]="level"
+                name="level"
+                required
+              >
+                <option value="" disabled selected>Select Class</option>
+                <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
+              </select>
+            </div>
+          </div>
+    
+          <!-- Term Select with Placeholder -->
+          <div class="mb-3 col-md-4">
+            <div class="">
+              <select
+                id="term"
+                class="form-select"
+                [(ngModel)]="term"
+                name="term"
+                required
+              >
+                <option value="" class="text-secondary" disabled selected>
+                  Select Term
+                </option>
+                <option *ngFor="let t of terms" [value]="t">{{ t }}</option>
+              </select>
+            </div>
+          </div>
+    
+          <!-- Year Select with Placeholder -->
+          <div class="mb-3 col-md-4">
+            <div class="">
+              <select
+                id="year"
+                class="form-select"
+                [(ngModel)]="year"
+                name="year"
+                required
+              >
+                <option value="" disabled selected>Select Year</option>
+                <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
+              </select>
+            </div>
+          </div>
+          <input
+          hidden
+          id="schoolAdmin"
+          type="number"
+          class="form-control"
+          [(ngModel)]="schoolAdminId"
+          name="schoolAdminId"
+        />
+          <!-- Hidden School Admin Input -->
+          <div class="mb-3 col-md-4">
+            <button type="submit" class="btn btn-success">
+              Create schoolfees
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+   </div>
+  </div>
+  

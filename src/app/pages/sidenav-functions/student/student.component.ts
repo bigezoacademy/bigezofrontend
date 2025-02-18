@@ -20,7 +20,7 @@ export class StudentComponent {
   filteredStudents: any[] = []; // Stores students after filtering
 
   myyear: number = new Date().getFullYear();
-  mylevel: string = '5';
+  mylevel: string = '';
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
   enrollmentStatuses: string[] = ['active', 'alumni', 'inactive'];
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
