@@ -1,5 +1,9 @@
 <div class="container">
+  
   <h4 class="text-success pt-5 pb-1">Set School Fees</h4>
+  <div *ngIf="step === 2">
+    <h3 >for Year: <span class="text-success">{{myyear}}</span> , term: <span class="text-success">{{myterm}}</span> , class: <span class="text-success">{{mylevel}}</span> </h3>
+  </div>
 
   <!-- Step 1: Form for setting school fees -->
   <div *ngIf="step === 1">
@@ -23,25 +27,25 @@
           <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
         </select>
       </div>
-      <div class="col-md-2 col-6">
-        <button class="btn btn-success" (click)="createschoolfees()">Next step</button>
-      </div>
+     
+    </div>
+    <div class="row text-center p-5">
+      <button class="btn btn-lg btn-success col-md-3" (click)="createschoolfees()">
+        Next step  <i class="bi bi-chevron-right"></i> 
+      </button>
     </div>
   </div>
 
   <!-- Step 2: Fee Details Form -->
   <div *ngIf="step === 2">
-    <h2 class="text-success pt-5">
+    <h2 class="text-success pt-5 d-flex justify-content-between">
       <button class="btn btn-info" (click)="addDetail()"> <i class="bi bi-plus"></i> Add Fees Detail</button>
+      <button class="btn btn-secondary ml-auto" (click)="cancel()">X close</button>
     </h2>
+    
 
-    <!-- List of added items above the total -->
-    <ul class="list-group mb-4">
-      <li *ngFor="let detail of schoolFeesDetails" class="list-group-item">
-        <strong>{{ detail.item }}</strong> - {{ detail.description }}: <span class="text-danger">UgX {{ detail.amount | number:'1.0-0' }}</span>
-      </li>
-    </ul>
-
+   
+    
     <!-- Dynamic Fields for Fee Details -->
     <div *ngIf="isAddingDetail" class="row align-items-center mb-3">
       <div class="col-md-3">
@@ -61,7 +65,19 @@
 
     <!-- Display Total -->
     <h3>Total: <span class="text-secondary mx-1">UgX</span> <span class="text-danger"> {{ schoolFeesSetting.total | number:'1.0-0' }}</span> </h3>
-
-    <button class="btn btn-primary" (click)="saveFees()">Save Fees</button>
+    <ul class="list-group mb-4">
+      <!-- List with index for numbering -->
+      <li *ngFor="let detail, let i = index of schoolFeesDetails" class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <!-- Display index + 1 for numbering -->
+          <strong>{{ i + 1 }}. {{ detail.item }}</strong> - {{ detail.description }}: <span class="text-danger">UgX {{ detail.amount | number:'1.0-0' }}</span>
+        </div>
+        <!-- Remove Button -->
+        <button class="btn btn-info btn-sm" (click)="editDetail(i)">Edit</button>    <button class="btn btn-danger btn-sm" (click)="removeDetail(i)">Remove</button>
+      </li>
+    </ul>
+    <button class="btn btn-success" (click)="saveFees()">
+      <i class="bi bi-save"></i> Save Fees
+    </button>
   </div>
 </div>

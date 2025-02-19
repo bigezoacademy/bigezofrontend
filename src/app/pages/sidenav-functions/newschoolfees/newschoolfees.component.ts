@@ -16,10 +16,11 @@ export class NewschoolfeesComponent {
   myyear: number = new Date().getFullYear(); 
   mylevel: string = localStorage.getItem('level') ?? ''; 
   myterm: number = 1; 
-  schoolAdminId: number = 0; 
   step: number = 1; // Track the current step
   isAddingDetail: boolean = false; // Flag to check if new detail input is shown
   currentDetail: any = { item: '', description: '', amount: 0 }; // Temporary object for adding a new detail
+  editingIndex: number | undefined;
+  schoolAdminId: number | null = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : null;
 
   years: number[] = [];
   terms: number[] = [1, 2, 3];
@@ -30,6 +31,53 @@ export class NewschoolfeesComponent {
   ngOnInit() {
     const currentYear = new Date().getFullYear();
     this.years = Array.from({ length: 10 }, (_, i) => currentYear - i);
+  }
+
+ 
+  
+
+  addDetail(): void {
+    // Show the input fields to add a new detail
+    this.isAddingDetail = true;
+  }
+
+  cancelAddDetail(): void {
+    // Cancel the addition of a detail and hide the input fields
+    this.isAddingDetail = false;
+  }
+
+  editDetail(index: number): void {
+    const detailToEdit = this.schoolFeesDetails[index];
+    this.currentDetail = { ...detailToEdit }; // Copy the detail to currentDetail for editing
+    this.isAddingDetail = true; // Show the input fields for editing
+    this.editingIndex = index; // Track the index of the item being edited
+  }
+
+  addToList(detail: any): void {
+    if (detail.item && detail.description && detail.amount) {
+      if (this.editingIndex !== undefined) {
+        // If we are editing, update the existing item
+        this.schoolFeesDetails[this.editingIndex] = { ...detail };
+        this.editingIndex = undefined; // Reset the editing index
+      } else {
+        // If adding a new item, push to the list
+        this.schoolFeesDetails.push({ ...detail });
+      }
+      this.calculateTotal();
+      this.cancelAddDetail(); // Hide the input fields after adding or updating the detail
+    } else {
+      alert('Please fill all fields!');
+    }
+  }
+
+  removeDetail(index: number): void {
+    // Remove the item from the list
+    this.schoolFeesDetails.splice(index, 1);
+    this.calculateTotal(); // Recalculate total after removal
+  }
+
+  calculateTotal(): void {
+    this.schoolFeesSetting.total = this.schoolFeesDetails.reduce((sum, detail) => sum + (detail.amount || 0), 0);
   }
 
   createschoolfees(): void {
@@ -82,37 +130,6 @@ export class NewschoolfeesComponent {
         }
       });
   }
-  
-
-  addDetail(): void {
-    // Show the input fields to add a new detail
-    this.isAddingDetail = true;
-  }
-
-  cancelAddDetail(): void {
-    // Cancel the addition of a detail and hide the input fields
-    this.isAddingDetail = false;
-  }
-
-  addToList(detail: any): void {
-    // Add item to list without creating new input fields
-    if (detail.item && detail.description && detail.amount) {
-      this.schoolFeesDetails.push({ ...detail });
-      this.calculateTotal();
-      this.cancelAddDetail(); // Hide the input fields after adding the detail
-    } else {
-      alert('Please fill all fields!');
-    }
-  }
-
-  removeDetail(index: number): void {
-    this.schoolFeesDetails.splice(index, 1);
-    this.calculateTotal(); // Recalculate total after removal
-  }
-
-  calculateTotal(): void {
-    this.schoolFeesSetting.total = this.schoolFeesDetails.reduce((sum, detail) => sum + (detail.amount || 0), 0);
-  }
 
   saveFees(): void {
     const schoolFeesSettingId = localStorage.getItem('schoolFeesSettingId');
@@ -137,5 +154,11 @@ export class NewschoolfeesComponent {
           alert('An error occurred while saving fees.');
         }
       });
+  }
+  
+  cancel(): void {
+    // Clear the details and reset step to 1
+    this.schoolFeesDetails = [];
+    this.step = 1;
   }
 }
