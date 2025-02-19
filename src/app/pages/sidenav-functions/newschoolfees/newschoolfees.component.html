@@ -1,144 +1,67 @@
 <div class="container">
-    <h4 class="text-success pt-5 pb-1">Set School Fees</h4>
-  
-   <div class="row">
-    <div class="col-md-8">
-      <div *ngIf="status === 'success'" class="alert alert-success text-center">
-        {{ addschoolfeesstatus }}
+  <h4 class="text-success pt-5 pb-1">Set School Fees</h4>
+
+  <!-- Step 1: Form for setting school fees -->
+  <div *ngIf="step === 1">
+    <div class="row headeroptions p-1 mb-4">
+      <!-- Year, Term, Level Dropdowns -->
+      <div class="col-md-2 col-6">
+        <label for="year">Year</label>
+        <select id="year" class="form-select" [(ngModel)]="myyear">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
       </div>
-      <div
-        *ngIf="status === 'error' || status === null"
-        class="alert alert-danger text-center"
-      >
-        {{ addschoolfeesstatus }}
+      <div class="col-md-2 col-6">
+        <label for="term">Term</label>
+        <select id="term" class="form-select" [(ngModel)]="myterm">
+          <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
+        </select>
       </div>
-    
-      <form (ngSubmit)="createschoolfees()">
-        <div class="row">
-          <!-- Item Input with Placeholder -->
-          <div class="mb-3 col-md-4">
-            <div class="">
-              <input
-                id="item"
-                class="form-control"
-                [(ngModel)]="item"
-                name="item"
-                placeholder="Item name"
-                required
-              />
-            </div>
-          </div>
-    
-          <!-- Description Textarea with Placeholder -->
-          <div class="mb-3 col-md-8">
-            <div class="">
-              <textarea
-                id="description"
-                class="form-control"
-                [(ngModel)]="description"
-                name="description"
-                placeholder="Description"
-                required
-              ></textarea>
-            </div>
-          </div>
-    
-          <!-- Unit Cost Input with Placeholder -->
-          <div class="mb-3 col-md-4">
-            <div class="">
-              <input
-                id="unitCost"
-                type="number"
-                class="form-control"
-                [(ngModel)]="unitCost"
-                placeholder="Unit Cost"
-                name="unitCost"
-                required
-              />
-            </div>
-          </div>
-    
-          <!-- Quantity Input -->
-          <div class="mb-3 col-md-4">
-            <div class="">
-              <input
-                id="quantity"
-                type="number"
-                class="form-control"
-                [(ngModel)]="quantity"
-                placeholder="Quantity"
-                name="quantity"
-                required
-              />
-            </div>
-          </div>
-    
-          <!-- Class Level Select with Placeholder -->
-          <div class="mb-3 col-md-4">
-            <div class="">
-              <select
-                id="level"
-                class="form-select"
-                [(ngModel)]="level"
-                name="level"
-                required
-              >
-                <option value="" disabled selected>Select Class</option>
-                <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
-              </select>
-            </div>
-          </div>
-    
-          <!-- Term Select with Placeholder -->
-          <div class="mb-3 col-md-4">
-            <div class="">
-              <select
-                id="term"
-                class="form-select"
-                [(ngModel)]="term"
-                name="term"
-                required
-              >
-                <option value="" class="text-secondary" disabled selected>
-                  Select Term
-                </option>
-                <option *ngFor="let t of terms" [value]="t">{{ t }}</option>
-              </select>
-            </div>
-          </div>
-    
-          <!-- Year Select with Placeholder -->
-          <div class="mb-3 col-md-4">
-            <div class="">
-              <select
-                id="year"
-                class="form-select"
-                [(ngModel)]="year"
-                name="year"
-                required
-              >
-                <option value="" disabled selected>Select Year</option>
-                <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
-              </select>
-            </div>
-          </div>
-          <input
-          hidden
-          id="schoolAdmin"
-          type="number"
-          class="form-control"
-          [(ngModel)]="schoolAdminId"
-          name="schoolAdminId"
-        />
-          <!-- Hidden School Admin Input -->
-          <div class="mb-3 col-md-4">
-            <button type="submit" class="btn btn-success">
-              Create schoolfees
-            </button>
-          </div>
-        </div>
-      </form>
+      <div class="col-md-2 col-6">
+        <label for="level">Class</label>
+        <select id="level" class="form-select" [(ngModel)]="mylevel">
+          <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-6">
+        <button class="btn btn-success" (click)="createschoolfees()">Next step</button>
+      </div>
     </div>
-   </div>
   </div>
-  
+
+  <!-- Step 2: Fee Details Form -->
+  <div *ngIf="step === 2">
+    <h2 class="text-success pt-5">
+      <button class="btn btn-info" (click)="addDetail()"> <i class="bi bi-plus"></i> Add Fees Detail</button>
+    </h2>
+
+    <!-- List of added items above the total -->
+    <ul class="list-group mb-4">
+      <li *ngFor="let detail of schoolFeesDetails" class="list-group-item">
+        <strong>{{ detail.item }}</strong> - {{ detail.description }}: <span class="text-danger">UgX {{ detail.amount | number:'1.0-0' }}</span>
+      </li>
+    </ul>
+
+    <!-- Dynamic Fields for Fee Details -->
+    <div *ngIf="isAddingDetail" class="row align-items-center mb-3">
+      <div class="col-md-3">
+        <input class="form-control" type="text" [(ngModel)]="currentDetail.item" placeholder="Item" />
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" type="text" [(ngModel)]="currentDetail.description" placeholder="Description" />
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" type="number" [(ngModel)]="currentDetail.amount" (change)="calculateTotal()" placeholder="Amount" />
+      </div>
+      <div class="col-md-3 d-flex justify-content-center">
+        <button class="btn btn-sm btn-success m-1" (click)="addToList(currentDetail)">Add to List</button>
+        <button class="btn btn-danger btn-sm m-1" (click)="cancelAddDetail()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Display Total -->
+    <h3>Total: <span class="text-secondary mx-1">UgX</span> <span class="text-danger"> {{ schoolFeesSetting.total | number:'1.0-0' }}</span> </h3>
+
+    <button class="btn btn-primary" (click)="saveFees()">Save Fees</button>
+  </div>
+</div>

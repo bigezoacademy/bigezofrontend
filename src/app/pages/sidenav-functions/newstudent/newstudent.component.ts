@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ClubserviceService } from '../../../services/clubservice.service';
 
 @Component({
   selector: 'app-newstudent',
@@ -43,7 +44,24 @@ export class NewStudentComponent {
   schoolName: string = localStorage.getItem('schoolName') || ''; // Fetch from localStorage
 
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
-  years: number[] = [2025, 2024];
+  clubs: string[] =["Science","Mathematics","Debate","Music","Drama","Art","Dance","Sports"];
+
+  constructor(private clubService: ClubserviceService) {
+    this.fetchClubs();
+  }
+
+  fetchClubs() {
+    this.clubService.getClubs().subscribe({
+      next: (data: string[]) => {
+        this.clubs = data;
+      },
+      error: (err) => {
+        console.error('Error fetching clubs', err);
+      }
+    });
+  }
+  
+  years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
   studentEmail: string = localStorage.getItem('studentEmail') || '';
   studentPhone: string = sessionStorage.getItem('studentPhone') || '';
   private http = inject(HttpClient);
@@ -68,7 +86,7 @@ export class NewStudentComponent {
       !this.schoolAdminId ||
       !this.schoolName
     ) {
-      alert('Please fill in all required fields.');
+      Swal.fire('Error', 'Please fill in all required fields.', 'error');
       return;
     }
   
@@ -111,7 +129,7 @@ export class NewStudentComponent {
         this.addStudentStatus = `  Account created successfully for ${this.firstName}_${this.lastName}.`;
         this.status = 'success';
         this.sno=sessionStorage.getItem('studentUsername')||'';
-  this.spass=sessionStorage.getItem('studentPassword')||'';
+        this.spass=sessionStorage.getItem('studentPassword')||'';
 
         this.clearForm();
       },
@@ -119,6 +137,7 @@ export class NewStudentComponent {
         this.status = 'error';
         this.addStudentStatus = 'Error! Failed to create student.';
         console.error('Error creating student', err);
+        Swal.fire('Error', 'Failed to create student.', 'error');
       },
     });
   }
@@ -139,11 +158,11 @@ export class NewStudentComponent {
     this.http.post('http://localhost:8080/api/send-email', emailData)
       .subscribe({
         next: () => {
-          alert('Email sent successfully!');
+          Swal.fire('Success', 'Email sent successfully!', 'success');
         },
         error: (err) => {
           console.error('Error sending email', err);
-          alert('Failed to send email.');
+          Swal.fire('Error', 'Failed to send email.', 'error');
         }
       });
   }
@@ -175,11 +194,11 @@ export class NewStudentComponent {
       .subscribe({
         next: () => {
           console.log(`SMS sent successfully! Phone: ${smsData.phone}`);
-            Swal.fire('Success', 'SMS sent successfully!', 'success');
+          Swal.fire('Success', 'SMS sent successfully!', 'success');
         },
         error: (err) => {
           console.error('Error sending SMS', err);
-          alert('Failed to send SMS.');
+          Swal.fire('Error', 'Failed to send SMS.', 'error');
         }
       });
   }
@@ -210,5 +229,5 @@ export class NewStudentComponent {
 
   students():any{
     this.router.navigateByUrl("student");
-      }
+  }
 }

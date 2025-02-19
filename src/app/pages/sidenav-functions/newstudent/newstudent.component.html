@@ -58,7 +58,8 @@
       <div class="mb-3 col-md-4">
         <label for="healthStatus" class="form-label">Health Status</label>
         <select id="healthStatus" class="form-select" [(ngModel)]="healthStatus" name="healthStatus" required>
-          <option value="healthy" selected>Healthy</option>
+          <option value="" disabled selected>Select Health Status</option>
+          <option value="healthy">Healthy</option>
           <option value="sick">Sick</option>
           <option value="medication">On Medication</option>
           <option value="deceased">Deceased</option>
@@ -81,9 +82,12 @@
       <input hidden id="password" type="password" class="form-control" [(ngModel)]="studentPassword" name="password" />
 
       <!-- Club Input -->
-      <div class="mb-3 col-md-4 form-floating">
-        <input id="club" class="form-control" [(ngModel)]="club" name="club" placeholder="Club" />
-        <label for="club">Club</label>
+      <div class="mb-3 col-md-4">
+        <label for="club" class="form-label">Club</label>
+        <select id="club" class="form-select" [(ngModel)]="club" name="club" required>
+          <option value="" disabled selected>Select Club</option>
+          <option *ngFor="let club of clubs" [value]="club">{{ club }}</option>
+        </select>
       </div>
 
       <!-- Level Select -->
@@ -102,6 +106,8 @@
           <option value="" disabled selected>Choose Enrollment Status</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
+          <option value="suspended">Suspended</option>
+          <option value="expelled">Expelled</option>
           <option value="alumni">Alumni</option>
         </select>
       </div>

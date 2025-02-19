@@ -22,7 +22,7 @@ export class StudentComponent {
   myyear: number = new Date().getFullYear();
   mylevel: string = '';
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
-  enrollmentStatuses: string[] = ['active', 'alumni', 'inactive'];
+  enrollmentStatuses: string[] = ['active', 'inactive', 'suspended', 'expelled', 'alumni'];
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   myenrollmentStatus: string = 'active';
   myschool: string = '';
