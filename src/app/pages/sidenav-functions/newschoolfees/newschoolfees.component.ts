@@ -83,19 +83,17 @@ export class NewschoolfeesComponent {
   createschoolfees(): void {
     const schoolAdminId = localStorage.getItem('id');
     if (!schoolAdminId) {
-      alert('School Admin ID is missing.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Missing School Admin ID',
+        text: 'School Admin ID is required.',
+        confirmButtonText: 'OK'
+      });
       return;
     }
   
-    // Check if all required fields are selected
     if (!this.myyear || !this.myterm || !this.mylevel) {
-      // Determine which field is missing and show an alert
-      let missingItem = '';
-      if (!this.myyear) missingItem = 'Year';
-      else if (!this.myterm) missingItem = 'Term';
-      else if (!this.mylevel) missingItem = 'Class';
-  
-      // Show SweetAlert for missing selection
+      let missingItem = !this.myyear ? 'Year' : !this.myterm ? 'Term' : 'Class';
       Swal.fire({
         icon: 'warning',
         title: 'Missing Selection',
@@ -105,13 +103,52 @@ export class NewschoolfeesComponent {
       return;
     }
   
+    // Step 1: Check if entry already exists
+    this.http.get<number>(`http://localhost:8080/api/school-fees-settings/find?year=${this.myyear}&term=${this.myterm}&level=${this.mylevel}`)
+      .subscribe({
+        next: (existingId) => {
+          if (existingId) {
+            Swal.fire({
+              icon: 'info',
+              title: 'Entry Exists',
+              text: `An entry already exists with ID: ${existingId}`,
+              showCancelButton: true,
+              confirmButtonText: 'Edit Details',
+              cancelButtonText: 'Cancel'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                localStorage.setItem('schoolFeesSettingId', existingId.toString());
+                this.step = 2;
+                this.fetchSchoolFeesDetails(existingId); // Fetch the details
+              }
+            });
+          } else {
+            this.createNewSchoolFeesEntry();
+          }
+        },
+        error: (error) => {
+          console.error('Error checking existing entry:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while checking for existing entries.',
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+  }
+  
+  
+  // Function to create new school fees entry
+  private createNewSchoolFeesEntry(): void {
+    const schoolAdminId = Number(localStorage.getItem('id'));
     const schoolFeesSetting = {
       year: this.myyear.toString(),
       term: this.myterm.toString(),
       level: this.mylevel,
       total: 0,
       reason: 'schoolfees',
-      schoolAdmin: { id: Number(schoolAdminId) }
+      schoolAdmin: { id: schoolAdminId }
     };
   
     this.http.post<any>('http://localhost:8080/api/school-fees-settings', schoolFeesSetting)
@@ -121,15 +158,46 @@ export class NewschoolfeesComponent {
             localStorage.setItem('schoolFeesSettingId', response.id.toString());
             this.step = 2; // Move to next step
           } else {
-            alert('Failed to retrieve ID from response.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed',
+              text: 'Failed to retrieve ID from response.',
+              confirmButtonText: 'OK'
+            });
           }
         },
         error: (error) => {
           console.error('Error creating school fees setting:', error);
-          alert('An error occurred while setting school fees.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while setting school fees.',
+            confirmButtonText: 'OK'
+          });
         }
       });
   }
+
+  fetchSchoolFeesDetails(feesId: number): void {
+    this.http.get<any[]>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+      .subscribe({
+        next: (response) => {
+          this.schoolFeesDetails = response;
+          this.calculateTotal(); // Recalculate total after fetching
+        },
+        error: (error) => {
+          console.error('Error fetching school fees details:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to fetch school fees details.',
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+  }
+  
+  
 
   saveFees(): void {
     const schoolFeesSettingId = localStorage.getItem('schoolFeesSettingId');

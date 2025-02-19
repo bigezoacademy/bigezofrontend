@@ -1,6 +1,6 @@
-<div class="row" *ngIf="accounttype === 'ROLE_USER'">
+<div class="row">
     <div class="col-md-8 p-3">
-      <h3 class="text-success">Pay School Fees</h3>
+      <h3 class="text-success">See Existing Fees</h3>
       <div class="headeroptions">
         <div class="row m-0 p-1">
           <div class="col-md-3 col-sm-6  ">
@@ -47,7 +47,7 @@
       </div>
   
       <!-- Display fees only if the array is not empty -->
-  <div *ngIf="accounttype === 'ROLE_USER'" class="row ms-md-5 mt-3" >
+  <div  class="row ms-md-5 mt-3" >
       <div class="p-0 m-0 "  *ngIf="fees.length > 0">
         <ul class="list-unstyled">
           <li class="list-item pt-1 border-bottom border-1 border-secondary" *ngFor="let fee of fees; let i = index">
@@ -64,7 +64,7 @@
           </div>
           <div class="d-flex justify-content-end mb-5">
         
-            <button class="btn btn-danger" >
+            <button class="btn btn-danger" *nfIf="accounttype === 'ROLE_USER'">
               Pay <i class="bi bi-send-fill mx-3"></i>
             </button>
           </div>

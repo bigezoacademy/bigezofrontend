@@ -26,7 +26,7 @@ export class LayoutComponent {
 accounttype:any=localStorage.getItem("Role");
 name:any=localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
 
-
+seeExistingFees: boolean = false;
 ngOnInit(): void {
   const token = localStorage.getItem("Token");
   if(this.accounttype==="ROLE_ADMIN"){
@@ -91,6 +91,9 @@ this.router.navigateByUrl("terms");
       schoolfees():any{
         this.router.navigateByUrl("schoolfees");
           }
+          seeschoolfees():any{
+            this.router.navigateByUrl("schoolfees");
+              }
       newrequirement():any{
         this.router.navigateByUrl("newrequirement");
           }
