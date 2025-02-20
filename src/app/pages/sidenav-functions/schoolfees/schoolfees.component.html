@@ -1,79 +1,56 @@
-<div class="row" *ngIf="accounttype === 'ROLE_USER'">
-    <div class="col-md-8 p-3">
-      <h3 class="text-success">Pay School Fees</h3>
-      <div class="headeroptions">
-        <div class="row m-0 p-1">
-          <div class="col-md-3 col-sm-6  ">
-            <div class="row">
-              <label for="year" class="col-md-4  col-form-label">Year</label>
-              <div class="col-md-8">
-                <select id="year" class="form-select" [(ngModel)]="myyear">
-                  <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-3 col-sm-6  ">
-            <div class="row">
-              <label for="term" class="col-md-4 col-form-label">Term</label>
-              <div class="col-md-8 ">
-                <select id="term" class="form-select" [(ngModel)]="myterm">
-                  <option *ngFor="let term of terms" [value]="term">{{ term }}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6  ">
-            <div class="row">
-              <label for="level" class="col-md-4 col-form-label">Class</label>
-              <div class="col-md-8 ">
-                <select id="level" class="form-select" [(ngModel)]="mylevel">
-                  <option *ngFor="let level of levels" [value]="level">{{ level }}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-3 col-sm-6   ">
-            <div class="d-flex justify-content-end">
-              <button class="btn btn-success " (click)="displayAmounts()">
-                See Amount 
-              </button>
+<!-- src/app/components/schoolfees/schoolfees.component.html -->
+<div class="row">
+  <div class="col-md-8 p-3">
+    <h3 class="text-success">See School Fees</h3>
+    <div class="headeroptions">
+      <div class="row m-0 p-1">
+        <div class="col-md-3 col-sm-6">
+          <div class="row">
+            <label for="year" class="col-md-4 col-form-label">Year</label>
+            <div class="col-md-8">
+              <select id="year" class="form-select" [(ngModel)]="myyear">
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+              </select>
             </div>
           </div>
         </div>
-      </div>
-  
-      <!-- Display fees only if the array is not empty -->
-  <div *ngIf="accounttype === 'ROLE_USER'" class="row ms-md-5 mt-3" >
-      <div class="p-0 m-0 "  *ngIf="fees.length > 0">
-        <ul class="list-unstyled">
-          <li class="list-item pt-1 border-bottom border-1 border-secondary" *ngFor="let fee of fees; let i = index">
-            <p class="row">
-              <span class=" col-1 text-left">{{ i + 1 }}.</span>
-              <span class=" col-6 text-left">{{ fee.item }}</span>
-              <span class="col-5  text-left"> <span class="fw-normal text-secondary pe-1">UgX</span> <span class=" fw-bold text-primary">{{ fee.amount | number }}</span> </span>
-            </p>
-          </li>
-        </ul>
-        <div class="d-flex justify-content-end">
-            <h4 class="text-center p-3"><span class="fw-normal">Total: UgX </span>  <span class="text-danger fw-bold">{{ getTotalAmount() | number }}</span> </h4>
-
-          </div>
-          <div class="d-flex justify-content-end mb-5">
-        
-            <button class="btn btn-danger" >
-              Pay <i class="bi bi-send-fill mx-3"></i>
+        <div class="col-md-3 col-sm-6">
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-success" (click)="displayExistingFees()">
+              See existing fees
             </button>
           </div>
+        </div>
       </div>
-        
+    </div>
+    <div class="row ms-md-5 mt-3">
+      <div class="p-0 m-0">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Reason</th>
+              <th>Level</th>
+              <th>Term</th>
+              <th>Year</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fee of fees">
+              <td>{{ fee.id }}</td>
+              <td>{{ fee.reason }}</td>
+              <td>{{ fee.level }}</td>
+              <td>{{ fee.term }}</td>
+              <td>{{ fee.year }}</td>
+              <td>
+                <button class="btn btn-success btn-sm" (click)="viewFeesDetails(fee.id)">View</button>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
       </div>
-      
     </div>
   </div>
-
-  
-  
+</div>

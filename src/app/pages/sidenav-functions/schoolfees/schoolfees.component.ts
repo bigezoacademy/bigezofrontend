@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { SchoolFeesSetting } from '../../../school-fees-setting.model';
 
 @Component({
   selector: 'app-schoolfees',
@@ -12,74 +15,128 @@ import { Router } from '@angular/router';
 })
 export class SchoolfeesComponent implements OnInit {
   myyear: number = new Date().getFullYear();
-  mylevel: string = '1';
   myterm: number = 1;
-  schooladmin: string = 'admin123';
+  schooladmin: string = '';
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
-  levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
-  fees: any[] = []; // Stores fetched fee amounts
-  terms: number[] = [1, 2, 3];
-    message: string = ''; // To show success/error messages
-    messageType: string = ''; // To determine the type of message ('success' or 'error')
-    schoolName:string='';
-  
-  
-    constructor(private router: Router, private renderer: Renderer2) {}
-  
+  fees: SchoolFeesSetting[] = [];
+  message: string = '';
+  messageType: string = '';
+  schoolName: string = '';
+  adminId: string = '';
 
-  accounttype:any=localStorage.getItem("Role");
+  accounttype: any = localStorage.getItem('Role');
 
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem("Token");
-    if(this.accounttype==="ROLE_ADMIN"){
-     
-      const adminId = localStorage.getItem("id");
-       // Assuming the token is stored in localStorage
-      if (adminId && token) {
-        fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          this.schoolName = data.schoolName;
-          localStorage.setItem('schoolName', this.schoolName);
-        })
-        .catch(error => {
-          console.error('Error fetching school name:', error);
-          this.message = 'Error fetching school name, please try again.';
-          this.messageType = 'error';
-        });
-      }
-    }
-    else if(!token){
-       // Clear the local storage
-       localStorage.clear();
-  
-       // Optionally clear session storage if used
-       sessionStorage.clear();
-   
-       // Navigate to the home or login page
-       this.router.navigateByUrl("");
+    const token = localStorage.getItem('Token');
+    if (!token) {
+      localStorage.clear();
+      sessionStorage.clear();
+      this.router.navigateByUrl('');
     }
   }
 
-  displayAmounts(): void {
-    // Dummy data
-    this.fees = [
-      { item: 'Tuition', amount: 800000 },
-      { item: 'Library Fee', amount: 50000 },
-      { item: 'Exam Fee', amount: 100000 }
-    ];
-    console.log('Selected Year:', this.myyear);
-    console.log('Selected Level:', this.mylevel);
-    console.log('School Admin:', this.schooladmin);
+  displayExistingFees(): void {
+    this.setAdminId();
+    if (this.adminId) {
+      this.http.get<SchoolFeesSetting[]>(`http://localhost:8080/api/school-fees-settings/find-by-year-and-admin?year=${this.myyear}&schoolAdminId=${this.adminId}`)
+        .subscribe(
+          data => {
+            if (data && data.length > 0) {
+              this.fees = data;
+              Swal.fire({
+                title: 'Fees Retrieved',
+                text: `Number of returned values: ${data.length}`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
+            } else {
+              this.fees = [];
+              Swal.fire({
+                title: 'No Fees Found',
+                text: 'No school fees were found for the selected year.',
+                icon: 'info',
+                confirmButtonText: 'OK'
+              });
+            }
+          },
+          error => {
+            console.error('Error fetching fees:', error);
+            this.fees = [];
+            this.message = 'Error fetching fees, please try again.';
+            this.messageType = 'error';
+          }
+        );
+    }
   }
-  getTotalAmount(): number {
-    return this.fees.reduce((sum, fee) => sum + fee.amount, 0);
+
+  viewFeesDetails(feesId: number): void {
+    this.setAdminId();
+    this.http.get<any>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+      .subscribe(
+        (data) => {
+          if (!data || data.length === 0) {
+            Swal.fire({
+              title: 'No Details Found',
+              text: 'No school fees details found for this entry.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            return;
+          }
+
+          const detailsArray = Array.isArray(data) ? data : [data];
+          let totalAmount = detailsArray.reduce((sum, detail) => sum + detail.amount, 0);
+          let formattedTotalAmount = totalAmount.toLocaleString();
+
+          let detailsTable = `
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-start">ID</th>
+                  <th class="text-start">Item</th>
+                  <th class="text-start">Description</th>
+                  <th class="text-start">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${detailsArray.map(detail => `
+                  <tr>
+                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.id}</td>
+                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.item}</td>
+                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.description}</td>
+                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.amount.toLocaleString()}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+            <h2 class="text-end mt-3">Total: ${formattedTotalAmount}</h2>
+          `;
+
+          Swal.fire({
+            title: 'School Fees Details',
+            html: detailsTable,
+            confirmButtonText: 'Close'
+          });
+        },
+        (error) => {
+          console.error('Error fetching school fees details:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to fetch school fees details. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      );
+  }
+
+  private setAdminId(): void {
+    if (this.accounttype === 'ROLE_ADMIN') {
+      this.adminId = localStorage.getItem('id') || '';
+    } else if (this.accounttype === 'ROLE_USER') {
+      this.adminId = localStorage.getItem('schoolAdminId') || '';
+    }
   }
 }
