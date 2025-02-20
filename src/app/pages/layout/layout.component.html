@@ -45,7 +45,7 @@
       <a class="dropdown-item" (click)="setschoolfees()" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
     </li>
     <li *ngIf="accounttype === 'ROLE_USER'">
-      <a class="dropdown-item"  (click)="schoolfees()" ><i class="bi me-3 bi-plus"></i>Pay School Fees</a>
+      <a class="dropdown-item"  (click)="payschoolfees()" ><i class="bi me-3 bi-plus"></i>Pay School Fees</a>
     </li>
     <li>
       <a class="dropdown-item" (click)="seeschoolfees()"><i class="bi me-3 bi-eye"></i> See Existing Fees</a>
@@ -71,7 +71,7 @@
         <a class="dropdown-item" (click)="newrequirement()"> <i class="bi me-3 bi-plus"></i>  New Requirement</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="requirementsdefaulters()" >Defaulters</a>
+        <a class="dropdown-item" (click)="requirementsdefaulters()" > <i class="bi me-3 bi-cash"></i>Defaulters</a>
       </li>
     </ul>
 
@@ -85,10 +85,13 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="productsDropdown">
       <li>
-        <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>New Term Shopping</a>
+        <a class="dropdown-item" (click)=" products()" ><i class="bi me-3 bi-plus"></i>Products</a>
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
         <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>New Product</a>
+      </li>
+      <li class="d-none" *ngIf="accounttype === 'ROLE_ADMIN'">
+        <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>Categories</a>
       </li>
     </ul>
 
@@ -138,7 +141,7 @@
 
     <a  (click)="transactions()"> <i class="bi me-3 bi-currency-dollar"></i> Transactions </a>
     <a  (click)="photos()" *ngIf="accounttype === 'ROLE_USER'"> <i class="bi me-3 bi-images"></i> My Yearbooks </a>
-
+    <a  (click)="photos()" *ngIf="accounttype === 'ROLE_ADMIN'"> <i class="bi me-3 bi-images"></i> Yearbooks </a>
     <a href="#"> <i class="bi me-3 bi-person"></i> Profile </a>
   </div>
 

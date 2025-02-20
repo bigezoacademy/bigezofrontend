@@ -1,0 +1,20 @@
+<h1 class="display-4 alert m-1 text-success">PRODUCTS</h1>
+<div class="p-1 px-md-5 row">
+    <div class="col-md-3" *ngFor="let product of products">
+       <div class="m-1 productinlist shadow shadow-1">
+        <div class="text-center imgbox">
+            <img [src]="product.image" class="img-fluid" alt="{{ product.name }}">
+        </div>
+        <h3 class="p-1 text-dark bg-warning text-center">{{ product.name }}</h3>
+        <h5 class="p-3 text-dark text-center">
+            UgX <span class="text-danger fw-bold">{{ product.price | number }}</span> 
+            <button class="mx-2 btn btn-success">
+                <i class="bi bi-cart-plus"></i>
+            </button>
+            <button class="mx-2 btn btn-dark">
+                <i class="bi bi-eye-fill"></i>
+            </button>
+        </h5>
+       </div>
+    </div>
+</div>

@@ -91,6 +91,9 @@ this.router.navigateByUrl("terms");
       schoolfees():any{
         this.router.navigateByUrl("schoolfees");
           }
+          payschoolfees():any{
+            this.router.navigateByUrl("payschoolfees");
+              }
           seeschoolfees():any{
             this.router.navigateByUrl("schoolfees");
               }
@@ -109,6 +112,9 @@ this.router.navigateByUrl("terms");
                   setschoolfees():any{
                     this.router.navigateByUrl("newschoolfees");
                       }
+                      products():any{
+                        this.router.navigateByUrl("products");
+                          }
 
 
                   paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";

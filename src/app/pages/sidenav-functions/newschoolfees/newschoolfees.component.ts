@@ -72,6 +72,17 @@ export class NewschoolfeesComponent {
 
   removeDetail(index: number): void {
     // Remove the item from the list
+    this.http
+        .delete(`http://localhost:8080/api/school-fees-details/${this.schoolAdminId}`)
+        .subscribe({
+          next: () => {
+           alert('Detail successfully!'); 
+          },
+          error: (err) => {
+            alert(`Error deleting detail ${err}`);
+         
+          },
+        });
     this.schoolFeesDetails.splice(index, 1);
     this.calculateTotal(); // Recalculate total after removal
   }
@@ -202,7 +213,12 @@ export class NewschoolfeesComponent {
   saveFees(): void {
     const schoolFeesSettingId = localStorage.getItem('schoolFeesSettingId');
     if (!schoolFeesSettingId) {
-      alert('School Fees Setting ID is missing.');
+      Swal.fire({
+        icon: 'error',
+        text: `School Fees Setting ID is missing`,
+        confirmButtonText: 'OK'
+      });
+    
       return;
     }
 
@@ -215,11 +231,23 @@ export class NewschoolfeesComponent {
     this.http.post<any>('http://localhost:8080/api/school-fees-details', this.schoolFeesDetails)
       .subscribe({
         next: (response) => {
-          alert('Fees saved successfully!');
+          console.log(this.schoolFeesDetails);
+        
+          Swal.fire({
+            icon: 'success',
+            text: 'Fees saved successfully!',
+            confirmButtonText: 'OK'
+          });
         },
         error: (error) => {
-          console.error('Error saving fees:', error);
+         
           alert('An error occurred while saving fees.');
+          Swal.fire({
+            icon: 'error',
+            text: `An error occurred while saving fees,  ${error}`,
+            confirmButtonText: 'OK'
+          });
+          
         }
       });
   }

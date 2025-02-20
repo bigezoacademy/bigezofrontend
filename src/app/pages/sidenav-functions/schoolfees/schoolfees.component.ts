@@ -45,17 +45,11 @@ export class SchoolfeesComponent implements OnInit {
           data => {
             if (data && data.length > 0) {
               this.fees = data;
-              Swal.fire({
-                title: 'Fees Retrieved',
-                text: `Number of returned values: ${data.length}`,
-                icon: 'success',
-                confirmButtonText: 'OK'
-              });
+              this.message=` Found  ${data.length} rows`;
             } else {
               this.fees = [];
               Swal.fire({
                 title: 'No Fees Found',
-                text: 'No school fees were found for the selected year.',
                 icon: 'info',
                 confirmButtonText: 'OK'
               });
@@ -71,18 +65,16 @@ export class SchoolfeesComponent implements OnInit {
     }
   }
 
-  viewFeesDetails(feesId: number): void {
+  viewFeesDetails(feesId: number,feesYear:string,feesLevel:string,feesTerm:string): void {
     this.setAdminId();
     this.http.get<any>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
       .subscribe(
         (data) => {
           if (!data || data.length === 0) {
-            Swal.fire({
-              title: 'No Details Found',
-              text: 'No school fees details found for this entry.',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
+         
+              this.message = 'No data found'; 
+              this.messageType = 'success';
+          
             return;
           }
 
@@ -91,6 +83,8 @@ export class SchoolfeesComponent implements OnInit {
           let formattedTotalAmount = totalAmount.toLocaleString();
 
           let detailsTable = `
+          <h3 class="text-success p-3">Fees Details</h3>
+          <h5 class="bg-warning p-3 text-secondary"> Year: <span class="text-dark me-1">${this.myyear}</span>,Class: <span class="text-dark me-1">${feesLevel}</span>, Term: <span class="text-dark me-1">${feesTerm}</span>    </h5>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -111,11 +105,11 @@ export class SchoolfeesComponent implements OnInit {
                 `).join('')}
               </tbody>
             </table>
-            <h2 class="text-end mt-3">Total: ${formattedTotalAmount}</h2>
+          <p>Total:  <span class="text-end mt-3 fw-normal" style="font-size:30px;">  UGX <span class="text-danger fw-bold">  ${formattedTotalAmount}</span> </span></p>
           `;
 
           Swal.fire({
-            title: 'School Fees Details',
+          
             html: detailsTable,
             confirmButtonText: 'Close'
           });

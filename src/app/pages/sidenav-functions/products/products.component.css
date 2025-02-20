@@ -1,0 +1,12 @@
+.productinlist img{
+    max-height: 200px;
+    margin-left:auto;
+    text-align: center;
+}
+.productinlist{
+    background-color: rgb(255, 255, 255);
+}
+.imgbox{
+text-align: center !important;
+padding: 20px;
+}

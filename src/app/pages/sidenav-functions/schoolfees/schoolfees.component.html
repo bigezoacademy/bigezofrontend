@@ -1,6 +1,6 @@
 <!-- src/app/components/schoolfees/schoolfees.component.html -->
 <div class="row">
-  <div class="col-md-8 p-3">
+  <div class="col-md-10 p-3">
     <h3 class="text-success">See School Fees</h3>
     <div class="headeroptions">
       <div class="row m-0 p-1">
@@ -23,7 +23,22 @@
         </div>
       </div>
     </div>
-    <div class="row ms-md-5 mt-3">
+
+    
+<!-- Conditionally display success or error message -->
+
+
+    <div class="row mx-md-5 mt-3">
+      <div
+*ngIf="message"
+class="alert m-3"
+[ngClass]="{
+  'alert-success': messageType === 'success',
+  'alert-danger': messageType === 'error'
+}"
+>
+{{ message }}
+</div>
       <div class="p-0 m-0">
         <table class="table table-bordered">
           <thead>
@@ -44,7 +59,7 @@
               <td>{{ fee.term }}</td>
               <td>{{ fee.year }}</td>
               <td>
-                <button class="btn btn-success btn-sm" (click)="viewFeesDetails(fee.id)">View</button>
+                <button class="btn btn-success btn-sm" (click)="viewFeesDetails(fee.id,fee.year,fee.level,fee.term)">View</button>
               </td>
               
             </tr>
