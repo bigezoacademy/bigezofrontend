@@ -29,3 +29,16 @@
   .ul li i{
   color: rgb(255, 157, 0);
   }
+.boldtext{
+  color: rgb(255, 255, 255);
+
+}
+.bg-transparent{
+  background-color: rgba(254, 254, 254, 0.08) !important;
+}
+.boldtext span{
+  font-size: 200%;
+}
+.bg-danger{
+  background-color: rgb(136, 6, 6) !important;
+}

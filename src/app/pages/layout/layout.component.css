@@ -10,13 +10,13 @@
   background-color: #000215;
   color: #fff;
   height: 100vh; /* Full viewport height */
-  position: fixed; /* Fixed position on the left */
+  position: fixed; 
   top: 0;
-  left: -250px; /* Initially hidden off-screen */
-  width: 250px; /* Set the width of the sidebar */
+  left: -250px; 
+  width: 250px; 
   padding-top: 20px;
-  z-index: 100; /* Ensures the sidebar stays above other content */
-  transition: left 0.3s ease-in-out; /* Slide-in/out animation */
+  z-index: 100; 
+  transition: left 0.3s ease-in-out; 
 }
 
 .sidebar.show {
