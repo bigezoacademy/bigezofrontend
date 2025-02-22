@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newschoolfees',
@@ -28,8 +29,14 @@ export class NewschoolfeesComponent {
   schoolFeesSetting: any = { total: 0 }; // To hold the total school fees
   schoolFeesDetails: any[] = []; // To hold the fee details
   deletedDetails: number[] = []; // Stores IDs of deleted details
+  accountType:any=localStorage.getItem('Role')||null;
 
+  router=inject(Router);
   ngOnInit() {
+    
+    if(this.accountType!='ROLE_ADMIN'){
+      this.router.navigate(['/']);
+    }
     const currentYear = new Date().getFullYear();
     this.years = Array.from({ length: 10 }, (_, i) => currentYear - i);
   }

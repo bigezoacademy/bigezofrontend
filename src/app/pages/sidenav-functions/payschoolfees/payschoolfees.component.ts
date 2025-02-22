@@ -74,6 +74,10 @@ export class PaySchoolfeesComponent implements OnInit {
     }
   }
 
+  viewFeesDetails(year:any,level:any,term:any){
+
+  }
+
   displayAmounts(): void {
     
     if(this.accounttype==="ROLE_USER"){
