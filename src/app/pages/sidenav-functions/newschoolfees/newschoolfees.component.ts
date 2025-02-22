@@ -27,6 +27,7 @@ export class NewschoolfeesComponent {
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   schoolFeesSetting: any = { total: 0 }; // To hold the total school fees
   schoolFeesDetails: any[] = []; // To hold the fee details
+  deletedDetails: number[] = []; // Stores IDs of deleted details
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();
@@ -70,22 +71,7 @@ export class NewschoolfeesComponent {
     }
   }
 
-  removeDetail(index: number): void {
-    // Remove the item from the list
-    this.http
-        .delete(`http://localhost:8080/api/school-fees-details/${this.schoolAdminId}`)
-        .subscribe({
-          next: () => {
-           alert('Detail successfully!'); 
-          },
-          error: (err) => {
-            alert(`Error deleting detail ${err}`);
-         
-          },
-        });
-    this.schoolFeesDetails.splice(index, 1);
-    this.calculateTotal(); // Recalculate total after removal
-  }
+ 
 
   calculateTotal(): void {
     this.schoolFeesSetting.total = this.schoolFeesDetails.reduce((sum, detail) => sum + (detail.amount || 0), 0);
@@ -209,16 +195,24 @@ export class NewschoolfeesComponent {
   }
   
   
+  
 
+  removeDetail(index: number): void {
+    const detail = this.schoolFeesDetails[index];
+
+    if (detail.id) {
+      // Store the ID of the deleted detail
+      this.deletedDetails.push(detail.id);
+    }
+
+    // Remove the item from the list
+    this.schoolFeesDetails.splice(index, 1);
+    this.calculateTotal();
+  }
   saveFees(): void {
     const schoolFeesSettingId = localStorage.getItem('schoolFeesSettingId');
     if (!schoolFeesSettingId) {
-      Swal.fire({
-        icon: 'error',
-        text: `School Fees Setting ID is missing`,
-        confirmButtonText: 'OK'
-      });
-    
+      alert('School Fees Setting ID is missing.');
       return;
     }
 
@@ -227,34 +221,48 @@ export class NewschoolfeesComponent {
       detail.schoolFeesSetting = { id: Number(schoolFeesSettingId) };
     });
 
-    // Save the details to the API
+    // Save updated details
     this.http.post<any>('http://localhost:8080/api/school-fees-details', this.schoolFeesDetails)
       .subscribe({
-        next: (response) => {
-          console.log(this.schoolFeesDetails);
-        
-          Swal.fire({
-            icon: 'success',
-            text: 'Fees saved successfully!',
-            confirmButtonText: 'OK'
-          });
+        next: () => {
+          alert('Fees saved successfully!');
+          
+          // Now delete removed details from database
+          this.deleteRemovedDetails();
         },
         error: (error) => {
-         
+          console.error('Error saving fees:', error);
           alert('An error occurred while saving fees.');
-          Swal.fire({
-            icon: 'error',
-            text: `An error occurred while saving fees,  ${error}`,
-            confirmButtonText: 'OK'
-          });
-          
         }
       });
   }
-  
+
+  deleteRemovedDetails(): void {
+    if (this.deletedDetails.length === 0) return; // No deleted items
+
+    this.deletedDetails.forEach((id) => {
+      this.http.delete(`http://localhost:8080/api/school-fees-details/${id}`)
+        .subscribe({
+          next: () => {
+            console.log(`Detail with ID ${id} deleted successfully.`);
+          },
+          error: (err) => {
+            console.error(`Error deleting detail ID ${id}:`, err);
+          }
+        });
+    });
+
+    // Clear the deleted details list
+    this.deletedDetails = [];
+  }
+
   cancel(): void {
-    // Clear the details and reset step to 1
+    this.schoolFeesSetting.total = 0;
     this.schoolFeesDetails = [];
+    this.deletedDetails = [];
     this.step = 1;
   }
+ 
+  
+ 
 }
