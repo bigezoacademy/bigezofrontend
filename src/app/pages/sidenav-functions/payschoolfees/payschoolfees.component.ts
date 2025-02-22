@@ -28,6 +28,7 @@ export class PaySchoolfeesComponent implements OnInit {
     messageType: string = ''; // To determine the type of message ('success' or 'error')
     schoolName:string='';
     schoolAdminId:any=null;
+    adminId: string = '';
   
   
     constructor(private router: Router, private renderer: Renderer2) {}
@@ -74,9 +75,7 @@ export class PaySchoolfeesComponent implements OnInit {
     }
   }
 
-  viewFeesDetails(year:any,level:any,term:any){
 
-  }
 
   displayAmounts(): void {
     
@@ -141,10 +140,12 @@ export class PaySchoolfeesComponent implements OnInit {
   }
 
     fetchSchoolFeesDetails(feesId: number): void {
+      
       this.http.get<any[]>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
         .subscribe({
           next: (response) => {
             this.fees = response;
+            console.log('Fees details:', response);
             this.getTotalAmount(); // Recalculate total after fetching
           },
           error: (error) => {
@@ -162,5 +163,52 @@ export class PaySchoolfeesComponent implements OnInit {
   getTotalAmount(): number {
     return this.fees.reduce((sum, fee) => sum + fee.amount, 0);
   }
+
+  viewFeesDetails(feesYear: string, feesLevel: string, feesTerm: string): void {
+    this.setAdminId();
+  
+    this.http.get<number>(`http://localhost:8080/api/school-fees-settings/find-by-year-term-level-and-admin?year=${feesYear}&term=${feesTerm}&level=${feesLevel}&schoolAdminId=${this.adminId}`)
+      .subscribe({
+        next: (response) => {
+          console.log('Fees response:', response);
+  
+          // Check if response contains a valid feesId (not null or undefined)
+          if (response != null) {
+            const feesId = response;  // Assuming response is the feesId (Long)
+            console.log('Fees ID:', feesId);
+  
+            // Now fetch the school fees details using the feesId
+            this.fetchSchoolFeesDetails(feesId);
+          } else {
+            // Handle case where no feesId was found
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No fees settings found for the provided parameters.',
+              confirmButtonText: 'OK'
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching school fees details:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `Failed to fetch school fees details: ${error.message}`,
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+  }
+    
+  
+  
+    private setAdminId(): void {
+      if (this.accounttype === 'ROLE_ADMIN') {
+        this.adminId = localStorage.getItem('id') || '';
+      } else if (this.accounttype === 'ROLE_USER') {
+        this.adminId = localStorage.getItem('schoolAdminId') || '';
+      }
+    }
 }
 
