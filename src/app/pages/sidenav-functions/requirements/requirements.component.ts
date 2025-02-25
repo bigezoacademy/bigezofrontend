@@ -218,7 +218,7 @@ ngOnInit() {
   }
 
   payForSelectedItems() {
-    this.requestPaymentToken();
+  
     const selectedCheckboxes = document.querySelectorAll(
         'input.selectRow:checked'
     ) as NodeListOf<HTMLInputElement>;
@@ -241,8 +241,8 @@ ngOnInit() {
         selectedItems: this.selectedItems,
         totalAmount,
     }); */
-
-    this.router.navigate(['/pay']); // Redirect to the payment page
+    this.requestPaymentToken();
+   
 }
 
 paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";
@@ -254,7 +254,10 @@ requestPaymentToken() {
       if (response.status === '200' && response.token) {
         const paymentToken = response.token;
         localStorage.setItem('paymentToken', paymentToken); // Store the token in local storage
-        console.log('Payment token received and stored:', paymentToken);
+        sessionStorage.setItem('paymentToken', paymentToken);
+        sessionStorage.setItem('paymentTokenExpiry', '300');
+        console.log('Payment token received and stored:', '');
+        this.router.navigate(['/pay']); // Redirect to the payment page
       } else {
         console.error('Error: ' + response.message);
       }

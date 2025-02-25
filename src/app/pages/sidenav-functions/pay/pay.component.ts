@@ -103,7 +103,7 @@ export class PayComponent {
       },
     };
   
-    const paymentToken = localStorage.getItem('paymentToken');
+    const paymentToken = sessionStorage.getItem('paymentToken')||null;
     if (!paymentToken) {
       console.error('Payment token is missing. Please request a token first.');
       return;
