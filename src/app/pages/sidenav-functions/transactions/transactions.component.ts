@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PaymentService } from '../../../services/payment.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-transactions',
@@ -29,6 +30,8 @@ export class TransactionsComponent {
   term: string = '';
   year: number = 0;
   schooladminid: number = 0;
+
+  
 
   private router = inject(Router);
     private paymentService = inject(PaymentService);
@@ -267,28 +270,63 @@ transaction = [
     this.updateTotalRows();
   }
 
+  
+  transactionId = ''; // Store user input
+  transactionStatus: any = null; // Type the transaction status properly
+  errorMessage: string | null = null;
 
-  refresh(orderTrackingId: string): void {
-    const transactionToken = localStorage.getItem('transactionToken');
-    if (!transactionToken) {
-      console.error('Payment token is missing. Please request a token first.');
+  checkStatus(transactionId: string): void {
+    this.transactionId = transactionId;
+
+    if (!this.transactionId) {
+      this.errorMessage = 'Please enter a transaction ID';
+      this.transactionStatus = null; // Clear previous status
       return;
     }
-  
-    this.paymentService.getTransactionStatus(orderTrackingId, transactionToken).subscribe(
-      (response) => {
-        console.log('Transaction status retrieved successfully------', response);
-        this.data = response;
+
+    this.paymentService.getPaymentStatus(this.transactionId).subscribe({
+      next: (response) => {
+        this.transactionStatus = response; // Ensure 'response' contains necessary data
+        this.errorMessage = null;
+
+        // Format the response to display it properly in the Swal popup
+        const statusDetails = `
+          <strong>Transaction ID:</strong> ${this.transactionStatus.order_tracking_id}<br>
+          <strong>Payment Method:</strong> ${this.transactionStatus.payment_method}<br>
+          <strong>Amount:</strong> ${this.transactionStatus.amount}<br>
+          <strong>Status:</strong> ${this.transactionStatus.payment_status_description}<br>
+          <strong>Created Date:</strong> ${this.transactionStatus.createdDate}<br>
+          <strong>Confirmation Code:</strong> ${this.transactionStatus.confirmation_code}<br>
+          <strong>Merchant Reference:</strong> ${this.transactionStatus.merchant_reference}<br>
+          <strong>Status Code:</strong> ${this.transactionStatus.status_code}<br>
+          <strong>Currency:</strong> ${this.transactionStatus.currency}<br>
+          <strong>Message:</strong> ${this.transactionStatus.message}
+        `;
+
+        // Show a SweetAlert popup with the formatted result
+        Swal.fire({
+          title: 'Transaction Status',
+          html: statusDetails, // Use html to format the message
+          icon: 'success',
+          allowOutsideClick: false,
+          confirmButtonText: 'Close'
+        });
       },
-      (error) => {
-        console.error('Error retrieving transaction status', error.error ? error.error.message : error);
+      error: (error: any) => {
+        this.errorMessage = `Failed to fetch transaction status for ${this.transactionId}`;
+        this.transactionStatus = null; // Clear previous status
+
+        // Show an error alert
+        Swal.fire({
+          title: 'Error',
+          text: this.errorMessage,
+          icon: 'error', // Show error icon
+          confirmButtonText: 'Close'
+        });
       }
-   );
-   
+    });
   }
   
-
-
   
   
 }

@@ -248,28 +248,23 @@ ngOnInit() {
 paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";
 
 requestPaymentToken() {
-  this.paymentService.requestPaymentToken().subscribe({
-    next: (response: { token: string, expiryDate: string, error: any, status: string, message: string }) => {  
-      // Handle the response here
-      if (response.status === '200' && response.token) {
-        const paymentToken = response.token;
-        localStorage.setItem('paymentToken', paymentToken); // Store the token in local storage
-        sessionStorage.setItem('paymentToken', paymentToken);
-        sessionStorage.setItem('paymentTokenExpiry', '300');
-        console.log('Payment token received and stored:', '');
-        this.router.navigate(['/pay']); // Redirect to the payment page
-      } else {
-        console.error('Error: ' + response.message);
-      }
-    },  
-    error: (err) => {  
-      console.error('Error requesting payment token:', err);  
-      this.message = 'Error requesting payment token, please try again.';  
-      this.messageType = 'error'; // Set error message type  
-    },  
-  });  
+this.fetchToken();
 }
 
+tokenResponse: any;
+
+
+fetchToken() {
+  this.paymentService.getPesapalToken().subscribe({
+    next: (response) => {
+      console.log('Pesapal Token Response:', response);
+      this.tokenResponse = response;
+    },
+    error: (error) => {
+      console.error('Error fetching token:', error);
+    }
+  });
+}
 
 
 }

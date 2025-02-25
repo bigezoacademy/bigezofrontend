@@ -103,29 +103,7 @@ export class PayComponent {
       },
     };
   
-    const paymentToken = sessionStorage.getItem('paymentToken')||null;
-    if (!paymentToken) {
-      console.error('Payment token is missing. Please request a token first.');
-      return;
-    }
-  
-    this.paymentService.submitPayment(paymentToken, paymentBody).subscribe({
-      next: (response) => {
-        console.log('Payment successfully submitted:', response);
-        const redirectUrl = response.redirect_url;
-        if (redirectUrl) {
-          this.iframeUrl = redirectUrl; // Set the iframe URL
-          this.showIframe = true; // Show the iframe
-          console.log('Redirect URL set:', redirectUrl);
-        } else {
-          console.error('Redirect URL not found in the response');
-        }
-      },
-      error: (err) => {
-        console.error('Error submitting payment:', err);
-        // Handle error response
-      },
-    });
+
   }
   
 }
