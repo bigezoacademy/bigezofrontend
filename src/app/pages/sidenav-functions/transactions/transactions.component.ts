@@ -289,7 +289,6 @@ transaction = [
         this.transactionStatus = response; // Ensure 'response' contains necessary data
         this.errorMessage = null;
 
-        // Format the response to display it properly in the Swal popup
         const statusDetails = `
           <strong>Transaction ID:</strong> ${this.transactionStatus.order_tracking_id}<br>
           <strong>Payment Method:</strong> ${this.transactionStatus.payment_method}<br>

@@ -77,6 +77,7 @@ export class LoginComponent {
          localStorage.setItem('firstName',firstName);
          localStorage.setItem('lastName',lastName);
          localStorage.setItem('level',res.data.level);
+         localStorage.setItem('showcart','true');
         }
         else{
          this.userId = res.data.userId;
