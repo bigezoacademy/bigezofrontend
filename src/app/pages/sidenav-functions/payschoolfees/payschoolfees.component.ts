@@ -4,6 +4,7 @@ import { Component, inject, OnInit, Renderer2 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { PaymentService } from '../../../services/payment.service';
 
 @Component({
   selector: 'app-payschoolfees',
@@ -15,6 +16,45 @@ import Swal from 'sweetalert2';
 
 
 export class PaySchoolfeesComponent implements OnInit {
+
+constructor(private router: Router, private renderer: Renderer2,private paymentService: PaymentService) {}
+makePayment() {
+  const paymentInfo = {
+    id: "AA1122-3344ZZs",
+    currency: "UGX",
+    amount: 500.00,
+    description: "Testing Bigezo Payment API",
+    callback_url: "https://www.grealm.org",
+    redirect_mode: "",
+    notification_id: "5bbe0e70-32aa-4204-b00b-dc4bd606fa7f",
+    branch: "Store Name - HQ",
+    billing_address: {
+      email_address: "ochalfie@gmail.com",
+      phone_number: "0704678948",
+      country_code: "UG",
+      first_name: "John",
+      middle_name: "",
+      last_name: "Doe",
+      line_1: "Pesapal Limited",
+      line_2: "",
+      city: "",
+      state: "",
+      postal_code: "",
+      zip_code: ""
+    }
+  };
+
+  // Call the submitPayment method from PaymentService with just the paymentInfo
+  this.paymentService.submitPayment(paymentInfo).subscribe({
+    next: (response) => {
+      console.log('Payment submitted successfully:', response);
+    },
+    error: (error) => {
+      console.error('Error submitting payment:', error);
+    }
+  });
+}
+
  private http = inject(HttpClient);
   myyear: number = new Date().getFullYear(); 
   mylevel: string = localStorage.getItem('level') ?? ''; 
@@ -31,7 +71,7 @@ export class PaySchoolfeesComponent implements OnInit {
     adminId: string = '';
   
   
-    constructor(private router: Router, private renderer: Renderer2) {}
+    
   
 
   accounttype:any=localStorage.getItem("Role");
@@ -171,16 +211,11 @@ export class PaySchoolfeesComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('Fees response:', response);
-  
-          // Check if response contains a valid feesId (not null or undefined)
           if (response != null) {
-            const feesId = response;  // Assuming response is the feesId (Long)
+            const feesId = response;
             console.log('Fees ID:', feesId);
-  
-            // Now fetch the school fees details using the feesId
             this.fetchSchoolFeesDetails(feesId);
           } else {
-            // Handle case where no feesId was found
             Swal.fire({
               icon: 'error',
               title: 'Error',

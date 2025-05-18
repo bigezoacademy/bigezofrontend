@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,14 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  submitPayment(orderRequest: any): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/submit`, orderRequest);
-  }
+submitPayment(orderRequest: any): Observable<string> {
+  return this.http.post<string>(`${this.apiUrl}/submit`, orderRequest).pipe(
+    catchError((error) => {
+      console.error('Payment submission failed', error);
+      return throwError(error); // Propagate the error
+    })
+  );
+}
 
   getPaymentStatus(orderTrackingId: string): Observable<string> {
     return this.http.get<string>(`http://localhost:8080/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
