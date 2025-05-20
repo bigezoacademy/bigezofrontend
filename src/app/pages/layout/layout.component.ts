@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Renderer2, ViewChild } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
@@ -136,7 +135,12 @@ this.router.navigateByUrl("terms");
     this.router.navigateByUrl("");
   }
 
-
+  hideSidebarOnNav(): void {
+    // Hide sidebar only on small screens (e.g., < 768px)
+    if (window.innerWidth < 768) {
+      this.sidebarVisible = false;
+    }
+  }
 
   
 }

@@ -1,69 +1,80 @@
 <!-- Dropdown menus for Year, Term, and Class inside a row -->
 <div class="row mb-4" *ngIf="accounttype === 'ROLE_ADMIN'">
- 
+  <div class="headeroptions">
+    <div class="row m-0 col-md-9 p-1">
+      <div class="col-md-3 col-6">
+        <div class="row">
+          <label for="year" class="col-md-4 col-6 col-form-label">Year</label>
+          <div class="col-md-8 col-6">
+            <select id="year" class="form-select" [(ngModel)]="myyear">
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-  
- <div class="headeroptions  ">
-  <div class="row  m-0 col-md-9 p-1">
-    <div class="col-md-3 col-6">
-      <div class=" row">
-        <label for="year" class="col-md-4 col-6 col-form-label">Year</label>
-        <div class="col-md-8 col-6">
-          <select id="year" class="form-select" [(ngModel)]="myyear">
-            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-          </select>
+      <div class="col-md-3 col-6">
+        <div class="row">
+          <label for="enrollmentStatus" class="col-md-4 col-6 col-form-label">
+            Status
+          </label>
+          <div class="col-md-8 col-6">
+            <select
+              id="enrollmentStatus"
+              class="form-select"
+              [(ngModel)]="myenrollmentStatus">
+              <option
+                *ngFor="let status of enrollmentStatuses"
+                [value]="status">
+                {{ status }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="row">
+          <label for="level" class="col-md-4 col-6 col-form-label">Class</label>
+          <div class="col-md-8 col-6">
+            <select id="level" class="form-select" [(ngModel)]="mylevel">
+              <option *ngFor="let level of levels" [value]="level">
+                {{ level }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success" (click)="showstudents()">
+            View <i class="bi bi-eye mx-3"></i>
+          </button>
         </div>
       </div>
     </div>
-  
-    <div class="col-md-3 col-6">
-      <div class="row">
-        <label for="enrollmentStatus" class="col-md-4 col-6 col-form-label">
-          Status
-        </label>
-        <div class="col-md-8 col-6">
-          <select id="enrollmentStatus" class="form-select" [(ngModel)]="myenrollmentStatus">
-            <option *ngFor="let status of enrollmentStatuses" [value]="status">
-              {{ status }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-md-3 col-6">
-      <div class=" row">
-        <label for="level" class="col-md-4 col-6 col-form-label">Class</label>
-        <div class="col-md-8 col-6">
-          <select id="level" class="form-select" [(ngModel)]="mylevel">
-            <option *ngFor="let level of levels" [value]="level">
-              {{ level }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-md-3 col-6">
-      <div class=" d-flex justify-content-end">
-        <button class="btn btn-success" (click)="showstudents()">
-          View <i class="bi bi-eye mx-3"></i>
-        </button>
-      </div>
-    </div>
-  </div> 
- </div>
+  </div>
 </div>
-<div class="feedback-container m-3" *ngIf="paymentFeedback!==null">
- 
+<div class="feedback-container m-3" *ngIf="paymentFeedback !== null">
   <div *ngIf="orderTrackingId && merchantReference; else noFeedback">
     <h2>Payment Feedback</h2>
-    <p><strong>Order Tracking ID:</strong> <span class="text-success ms-3">{{ orderTrackingId }}</span></p>
-    <p><strong>Merchant Reference:</strong><span class="text-success ms-3"> {{ merchantReference }}</span></p>
+    <p>
+      <strong>Order Tracking ID:</strong>
+      <span class="text-success ms-3">{{ orderTrackingId }}</span>
+    </p>
+    <p>
+      <strong>Merchant Reference:</strong
+      ><span class="text-success ms-3"> {{ merchantReference }}</span>
+    </p>
   </div>
   <ng-template #noFeedback>
     <h2>Payment Feedback</h2>
-    <p class="text-danger">No feedback available. Please ensure the payment was successful.</p>
+    <p class="text-danger">
+      No feedback available. Please ensure the payment was successful.
+    </p>
   </ng-template>
 </div>
 
@@ -74,29 +85,47 @@
   [ngClass]="{
     'alert-success': messageType === 'success',
     'alert-danger': messageType === 'error'
-  }"
->
+  }">
   {{ message }}
 </div>
 
 <!-- Conditionally display students or edit UI -->
 <div *ngIf="!isEditMode">
- 
   <!-- Search, Total Count & Pagination Info (Single Row) -->
-  
- 
+
   <!-- Students Table -->
   <div *ngIf="filteredStudents.length > 0" class="p-3">
-    <div class="d-flex justify-content-between searchrow row align-items-center mb-3">
-     <div class="col-md-4"> <input type="text" class="form-control" placeholder="Search student..." [(ngModel)]="searchText" (input)="applyFilters()"></div>
-    <div class="col-md-4">
-      <span class="text-dark ">Total Results: <i class="text-danger">{{ filteredStudents.length }}</i> | Page {{ currentPage }} of {{ totalPages }}</span>
- 
-    </div> 
-    <div class="col-md-4">
-      <button class="btn btn-dark mx-1" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-      <button class="btn btn-dark mx-1" (click)="nextPage()" [disabled]="currentPage >= totalPages">Next</button>
-    </div> 
+    <div
+      class="d-flex justify-content-between searchrow row align-items-center mb-3">
+      <div class="col-md-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search student..."
+          [(ngModel)]="searchText"
+          (input)="applyFilters()" />
+      </div>
+      <div class="col-md-4">
+        <span class="text-dark"
+          >Total Results:
+          <i class="text-danger">{{ filteredStudents.length }}</i> | Page
+          {{ currentPage }} of {{ totalPages }}</span
+        >
+      </div>
+      <div class="col-md-4">
+        <button
+          class="btn btn-dark mx-1"
+          (click)="prevPage()"
+          [disabled]="currentPage === 1">
+          Previous
+        </button>
+        <button
+          class="btn btn-dark mx-1"
+          (click)="nextPage()"
+          [disabled]="currentPage >= totalPages">
+          Next
+        </button>
+      </div>
     </div>
     <div class="table-responsive mb-3">
       <table class="table">
@@ -121,43 +150,47 @@
             <td>{{ student.phone }}</td>
             <td *ngIf="accounttype === 'ROLE_ADMIN'">
               <!-- Edit Button -->
-              <button class="btn btn-sm btn-primary m-1" (click)="editStudent(student)">
+              <button
+                class="btn btn-sm btn-primary m-1"
+                (click)="editStudent(student)">
                 <i class="bi bi-pencil"></i>
               </button>
-            
+
               <!-- Delete Button -->
-              <button class="btn btn-sm btn-danger m-1 d-none" (click)="deleteStudent(student.id, student)">
+              <button
+                class="btn btn-sm btn-danger m-1 d-none"
+                (click)="deleteStudent(student.id, student)">
                 <i class="bi bi-trash"></i>
               </button>
-            
+
               <!-- SMS Button -->
-              <button class="btn btn-sm btn-success m-1" (click)="sendSMS(student)">
+              <button
+                class="btn btn-sm btn-success m-1"
+                (click)="sendSMS(student)">
                 <i class="bi bi-chat-text"></i> SMS
               </button>
-              <button class="btn btn-sm btn-danger m-1" (click)="deleteStudent(student.id, student)">
-                <i class="bi bi-envelope"></i> Email
+              <button
+                class="btn btn-sm btn-danger m-1"
+                (click)="deleteStudent(student.id, student)">
+                <i class="bi bi-trash"></i> Delete
               </button>
             </td>
-            
-            
           </tr>
         </tbody>
       </table>
     </div>
-    
+
     <!-- Pagination Controls -->
-   
   </div>
 </div>
-
 
 <!-- Edit UI -->
 <!-- Edit UI -->
 <div class="row m-0" *ngIf="isEditMode">
   <div class="row">
-    <div class="pt-md-5 pt-0 col-md-8" >
-      <h3 class=" text-success">Edit student</h3>
-      <div class="row ">
+    <div class="pt-md-5 pt-0 col-md-8">
+      <h3 class="text-success">Edit student</h3>
+      <div class="row">
         <div class="col-md-4">
           <label for="firstName" class="form-label">First Name</label>
           <input
@@ -165,8 +198,7 @@
             id="firstName"
             type="text"
             class="form-control"
-            placeholder="First Name"
-          />
+            placeholder="First Name" />
         </div>
         <div class="col-md-4">
           <label for="lastName" class="form-label">Last Name</label>
@@ -175,8 +207,7 @@
             id="lastName"
             type="text"
             class="form-control"
-            placeholder="Last Name"
-          />
+            placeholder="Last Name" />
         </div>
         <div class="col-md-4">
           <label for="studentNumber" class="form-label">Student Number</label>
@@ -185,11 +216,10 @@
             id="studentNumber"
             type="text"
             class="form-control"
-            placeholder="Student Number"
-          />
+            placeholder="Student Number" />
         </div>
       </div>
-    
+
       <div class="row mb-3">
         <div class="col-md-4">
           <label for="level" class="form-label">Class Level</label>
@@ -198,8 +228,7 @@
             id="level"
             type="text"
             class="form-control"
-            placeholder="Class Level"
-          />
+            placeholder="Class Level" />
         </div>
         <div class="col-md-4">
           <label for="birthDate" class="form-label">Birth Date</label>
@@ -207,8 +236,7 @@
             [(ngModel)]="currentStudent.birthDate"
             id="birthDate"
             type="date"
-            class="form-control"
-          />
+            class="form-control" />
         </div>
         <div class="col-md-4">
           <label for="residence" class="form-label">Residence</label>
@@ -217,11 +245,10 @@
             id="residence"
             type="text"
             class="form-control"
-            placeholder="Residence"
-          />
+            placeholder="Residence" />
         </div>
       </div>
-    
+
       <div class="row mb-3">
         <div class="col-md-4">
           <label for="mother" class="form-label">Mother</label>
@@ -230,8 +257,7 @@
             id="mother"
             type="text"
             class="form-control"
-            placeholder="Mother's Name"
-          />
+            placeholder="Mother's Name" />
         </div>
         <div class="col-md-4">
           <label for="father" class="form-label">Father</label>
@@ -240,8 +266,7 @@
             id="father"
             type="text"
             class="form-control"
-            placeholder="Father's Name"
-          />
+            placeholder="Father's Name" />
         </div>
         <div class="col-md-4">
           <label for="phone" class="form-label">Phone</label>
@@ -250,11 +275,10 @@
             id="phone"
             type="text"
             class="form-control"
-            placeholder="Phone Number"
-          />
+            placeholder="Phone Number" />
         </div>
       </div>
-    
+
       <div class="row mb-3">
         <div class="col-md-4">
           <label for="email" class="form-label">Email</label>
@@ -263,8 +287,7 @@
             id="email"
             type="email"
             class="form-control"
-            placeholder="Email Address"
-          />
+            placeholder="Email Address" />
         </div>
         <div class="col-md-4">
           <label for="club" class="form-label">Club</label>
@@ -273,8 +296,7 @@
             id="club"
             type="text"
             class="form-control"
-            placeholder="Club"
-          />
+            placeholder="Club" />
         </div>
         <div class="col-md-4">
           <label for="healthStatus" class="form-label">Health Status</label>
@@ -283,28 +305,27 @@
             id="healthStatus"
             type="text"
             class="form-control"
-            placeholder="Health Status"
-          />
+            placeholder="Health Status" />
         </div>
       </div>
-    
+
       <div class="row mb-3">
         <div class="col-md-4">
-          <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
+          <label for="enrollmentStatus" class="form-label"
+            >Enrollment Status</label
+          >
           <select
             [(ngModel)]="currentStudent.enrollmentStatus"
             id="enrollmentStatus"
-            class="form-control"
-          >
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="suspended">Suspended</option>
-          <option value="expelled">Expelled</option>
-          <option value="alumni">Alumni</option>
+            class="form-control">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="suspended">Suspended</option>
+            <option value="expelled">Expelled</option>
+            <option value="alumni">Alumni</option>
           </select>
         </div>
-        
-        
+
         <div class="col-md-4">
           <label for="year" class="form-label">Year</label>
           <input
@@ -312,41 +333,40 @@
             id="year"
             type="number"
             class="form-control"
-            placeholder="Year"
-          />
+            placeholder="Year" />
         </div>
-    
-       
       </div>
-    
-      
     </div>
     <div class="col-md-4 row pt-md-5">
-     
-      <div id="carousel" class="carousel slide  pt-md-5" data-bs-ride="carousel">
+      <div id="carousel" class="carousel slide pt-md-5" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="4.jpeg" class="d-block w-100" alt="Image 1">
+            <img src="4.jpeg" class="d-block w-100" alt="Image 1" />
           </div>
           <div class="carousel-item">
-            <img src="2.jpeg" class="d-block w-100" alt="Image 2">
+            <img src="2.jpeg" class="d-block w-100" alt="Image 2" />
           </div>
           <div class="carousel-item">
-            <img src="3.jpeg" class="d-block w-100" alt="Image 3">
+            <img src="3.jpeg" class="d-block w-100" alt="Image 3" />
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carousel"
+          data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carousel"
+          data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
-      
-       
-  
     </div>
   </div>
   <div class="row mb-3">
@@ -358,4 +378,3 @@
     </div>
   </div>
 </div>
-

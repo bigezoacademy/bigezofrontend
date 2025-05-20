@@ -2,16 +2,16 @@
   <!-- Sidebar -->
   <div class="sidebar" [ngClass]="{ show: sidebarVisible }">
     <button class="close-btn" (click)="toggleSidebar()">×</button>
- <div class="row p-3 logobg mb-3">
-  <div class="logo">
-    <img src="logo.png" alt="Logo" class=""  />
-  </div>
-  
- </div>
- <a (click)="home()" *ngIf="accounttype === 'ROLE_USER'">
-  <i class="bi me-3 bi-pen"></i> News
-</a>
-<a *ngIf="accounttype === 'ROLE_ADMIN'"
+    <div class="row p-3 logobg mb-3">
+      <div class="logo">
+        <img src="logo.png" alt="Logo" class="" />
+      </div>
+    </div>
+    <a (click)="home(); hideSidebarOnNav()" *ngIf="accounttype === 'ROLE_USER'">
+      <i class="bi me-3 bi-pen"></i> News
+    </a>
+    <a
+      *ngIf="accounttype === 'ROLE_ADMIN'"
       class="d-flex align-items-center dropdown-toggle"
       id="newsDropdown"
       data-bs-toggle="dropdown"
@@ -21,40 +21,51 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="newsDropdown">
       <li>
-        <a class="dropdown-item" > <i class="bi me-3 bi-eye"></i>  View News</a>
+        <a class="dropdown-item" (click)="hideSidebarOnNav()">
+          <i class="bi me-3 bi-eye"></i> View News</a
+        >
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" > <i class="bi me-3 bi-plus"></i>  Create News</a>
+        <a class="dropdown-item" (click)="hideSidebarOnNav()">
+          <i class="bi me-3 bi-plus"></i> Create News</a
+        >
       </li>
-    
     </ul>
-    <a (click)="home()" *ngIf="accounttype === 'ROLE_ADMIN'">
+    <a
+      (click)="home(); hideSidebarOnNav()"
+      *ngIf="accounttype === 'ROLE_ADMIN'"
+    >
       <i class="bi me-3 bi-graph-up-arrow"></i> Analytics
     </a>
     <a
-    class="d-flex align-items-center dropdown-toggle"
-    id="feesDropdown"
-    data-bs-toggle="dropdown"
-    aria-expanded="false"
-  >
-    <i class="bi me-3 bi-cash-stack"></i>School Fees
-  </a>
-  <ul class="dropdown-menu bg-dark" aria-labelledby="feesDropdown">
-   
-    <li *ngIf="accounttype === 'ROLE_ADMIN'">
-      <a class="dropdown-item" (click)="setschoolfees()" ><i class="bi me-3 bi-plus"></i>Set School Fees</a>
-    </li>
-    <li *ngIf="accounttype === 'ROLE_USER'">
-      <a class="dropdown-item"  (click)="payschoolfees()" ><i class="bi me-3 bi-plus"></i>Pay School Fees</a>
-    </li>
-    <li>
-      <a class="dropdown-item" (click)="seeschoolfees()"><i class="bi me-3 bi-eye"></i> See Existing Fees</a>
-    </li>
-  
-    <li *ngIf="accounttype === 'ROLE_ADMIN'">
-      <a class="dropdown-item" >Defaulters</a>
-    </li>
-  </ul>
+      class="d-flex align-items-center dropdown-toggle"
+      id="feesDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <i class="bi me-3 bi-cash-stack"></i>School Fees
+    </a>
+    <ul class="dropdown-menu bg-dark" aria-labelledby="feesDropdown">
+      <li *ngIf="accounttype === 'ROLE_ADMIN'">
+        <a class="dropdown-item" (click)="setschoolfees(); hideSidebarOnNav()"
+          ><i class="bi me-3 bi-plus"></i>Set School Fees</a
+        >
+      </li>
+      <li *ngIf="accounttype === 'ROLE_USER'">
+        <a class="dropdown-item" (click)="payschoolfees(); hideSidebarOnNav()"
+          ><i class="bi me-3 bi-plus"></i>Pay School Fees</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" (click)="seeschoolfees(); hideSidebarOnNav()"
+          ><i class="bi me-3 bi-eye"></i> See Existing Fees</a
+        >
+      </li>
+
+      <li *ngIf="accounttype === 'ROLE_ADMIN'">
+        <a class="dropdown-item" (click)="hideSidebarOnNav()">Defaulters</a>
+      </li>
+    </ul>
     <a
       class="d-flex align-items-center dropdown-toggle"
       id="requirementsDropdown"
@@ -65,13 +76,22 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
       <li>
-        <a class="dropdown-item" (click)="requirements()"> <i class="bi me-3 bi-eye"></i>  View Requirements</a>
+        <a class="dropdown-item" (click)="requirements(); hideSidebarOnNav()">
+          <i class="bi me-3 bi-eye"></i> View Requirements</a
+        >
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="newrequirement()"> <i class="bi me-3 bi-plus"></i>  New Requirement</a>
+        <a class="dropdown-item" (click)="newrequirement(); hideSidebarOnNav()">
+          <i class="bi me-3 bi-plus"></i> New Requirement</a
+        >
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="requirementsdefaulters()" > <i class="bi me-3 bi-cash"></i>Defaulters</a>
+        <a
+          class="dropdown-item"
+          (click)="requirementsdefaulters(); hideSidebarOnNav()"
+        >
+          <i class="bi me-3 bi-cash"></i>Defaulters</a
+        >
       </li>
     </ul>
 
@@ -85,17 +105,25 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="productsDropdown">
       <li>
-        <a class="dropdown-item" (click)=" products()" ><i class="bi me-3 bi-plus"></i>Products</a>
+        <a class="dropdown-item" (click)="products(); hideSidebarOnNav()"
+          ><i class="bi me-3 bi-plus"></i>Products</a
+        >
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>New Product</a>
+        <a class="dropdown-item" (click)="hideSidebarOnNav()"
+          ><i class="bi me-3 bi-plus"></i>New Product</a
+        >
       </li>
       <li class="d-none" *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item"><i class="bi me-3 bi-plus"></i>Categories</a>
+        <a class="dropdown-item" (click)="hideSidebarOnNav()"
+          ><i class="bi me-3 bi-plus"></i>Categories</a
+        >
       </li>
     </ul>
 
-    <a href="#"> <i class="bi me-3 bi-journal-check"></i> Exam Results </a>
+    <a href="#" (click)="hideSidebarOnNav()">
+      <i class="bi me-3 bi-journal-check"></i> Exam Results
+    </a>
 
     <a
       class="d-flex align-items-center dropdown-toggle"
@@ -107,15 +135,23 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="smsDropdown">
       <li>
-        <a class="dropdown-item"><i class="bi me-3 bi-eye"></i> SMS Notifications</a>
+        <a class="dropdown-item" (click)="hideSidebarOnNav()"
+          ><i class="bi me-3 bi-eye"></i> SMS Notifications</a
+        >
       </li>
       <li>
-        <a class="dropdown-item" *ngIf="accounttype === 'ROLE_ADMIN'"
+        <a
+          class="dropdown-item"
+          *ngIf="accounttype === 'ROLE_ADMIN'"
+          (click)="hideSidebarOnNav()"
           ><i class="bi me-3 bi-plus"></i>Send single SMS</a
         >
       </li>
       <li>
-        <a class="dropdown-item" *ngIf="accounttype === 'ROLE_ADMIN'"
+        <a
+          class="dropdown-item"
+          *ngIf="accounttype === 'ROLE_ADMIN'"
+          (click)="hideSidebarOnNav()"
           ><i class="bi me-3 bi-plus"></i>Send Bulk SMS</a
         >
       </li>
@@ -132,25 +168,46 @@
     </a>
     <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
       <li>
-        <a class="dropdown-item" (click)="students()"><i class="bi me-3 bi-eye"></i> View Students</a>
+        <a class="dropdown-item" (click)="students(); hideSidebarOnNav()"
+          ><i class="bi me-3 bi-eye"></i> View Students</a
+        >
       </li>
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
-        <a class="dropdown-item" (click)="newstudent()"><i class="bi me-3 bi-plus"></i>New Student</a>
+        <a class="dropdown-item" (click)="newstudent(); hideSidebarOnNav()"
+          ><i class="bi me-3 bi-plus"></i>New Student</a
+        >
       </li>
     </ul>
 
-    <a  (click)="transactions()"> <i class="bi me-3 bi-currency-dollar"></i> Transactions </a>
-    <a  (click)="photos()" *ngIf="accounttype === 'ROLE_USER'"> <i class="bi me-3 bi-images"></i> My Yearbooks </a>
-    <a  (click)="photos()" *ngIf="accounttype === 'ROLE_ADMIN'"> <i class="bi me-3 bi-images"></i> Yearbooks </a>
-    <a href="#"> <i class="bi me-3 bi-person"></i> Profile </a>
+    <a (click)="transactions(); hideSidebarOnNav()">
+      <i class="bi me-3 bi-currency-dollar"></i> Transactions
+    </a>
+    <a
+      (click)="photos(); hideSidebarOnNav()"
+      *ngIf="accounttype === 'ROLE_USER'"
+    >
+      <i class="bi me-3 bi-images"></i> My Yearbooks
+    </a>
+    <a
+      (click)="photos(); hideSidebarOnNav()"
+      *ngIf="accounttype === 'ROLE_ADMIN'"
+    >
+      <i class="bi me-3 bi-images"></i> Yearbooks
+    </a>
+    <a href="#" (click)="hideSidebarOnNav()">
+      <i class="bi me-3 bi-person"></i> Profile
+    </a>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <!-- Header -->
-    <div class="header d-flex justify-content-between p-1 ">
+    <div class="header d-flex justify-content-between p-1">
       <!-- Hamburger Button for Small Screens -->
-      <button class="hamburger-btn text-light d-md-none" (click)="toggleSidebar()">
+      <button
+        class="hamburger-btn text-light d-md-none"
+        (click)="toggleSidebar()"
+      >
         ☰
       </button>
       <p class="bigezoapp">Bigezo App</p>
@@ -158,13 +215,15 @@
       <!-- User Profile Section (Aligned to the Right) -->
       <div class="user d-flex align-items-center ml-auto">
         <span *ngIf="accounttype === 'ROLE_ADMIN'">
-          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{schoolName}} <span class="text-lightsuccess"> Admin</span>
+          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>
+          {{ schoolName }} <span class="text-lightsuccess"> Admin</span>
         </span>
-       
+
         <span *ngIf="accounttype === 'ROLE_USER'">
-          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>  {{name}}
+          <i class="bi bi-person-circle me-3" style="font-size: 1.5rem"></i>
+          {{ name }}
         </span>
-        
+
         <button class="btn btn-sm btn-light mx-3 mx-md-5" (click)="logout()">
           Logout
         </button>
@@ -179,7 +238,7 @@
     <div class="footer">
       <p>
         “Fear God, and give Glory to Him” ... Rev 14:6–7 <br />
-        <strong>Bigezo Technologies 2025</strong>
+        <strong>&copy; G-Realm Studio 2025</strong>
       </p>
     </div>
   </div>
