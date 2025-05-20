@@ -19,7 +19,7 @@
     >
       <i class="bi me-3 bi-list-check"></i> News
     </a>
-    <ul class="dropdown-menu bg-dark" aria-labelledby="newsDropdown">
+    <ul class="dropdown-menu" aria-labelledby="newsDropdown">
       <li>
         <a class="dropdown-item" (click)="hideSidebarOnNav()">
           <i class="bi me-3 bi-eye"></i> View News</a
@@ -45,7 +45,7 @@
     >
       <i class="bi me-3 bi-cash-stack"></i>School Fees
     </a>
-    <ul class="dropdown-menu bg-dark" aria-labelledby="feesDropdown">
+    <ul class="dropdown-menu" aria-labelledby="feesDropdown">
       <li *ngIf="accounttype === 'ROLE_ADMIN'">
         <a class="dropdown-item" (click)="setschoolfees(); hideSidebarOnNav()"
           ><i class="bi me-3 bi-plus"></i>Set School Fees</a
@@ -74,7 +74,7 @@
     >
       <i class="bi me-3 bi-list-check"></i> Requirements
     </a>
-    <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
+    <ul class="dropdown-menu" aria-labelledby="requirementsDropdown">
       <li>
         <a class="dropdown-item" (click)="requirements(); hideSidebarOnNav()">
           <i class="bi me-3 bi-eye"></i> View Requirements</a
@@ -103,7 +103,7 @@
     >
       <i class="bi me-3 bi-list-check"></i> Canteen
     </a>
-    <ul class="dropdown-menu bg-dark" aria-labelledby="productsDropdown">
+    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
       <li>
         <a class="dropdown-item" (click)="products(); hideSidebarOnNav()"
           ><i class="bi me-3 bi-plus"></i>Products</a
@@ -133,7 +133,7 @@
     >
       <i class="bi me-3 bi-chat-dots"></i> SMS
     </a>
-    <ul class="dropdown-menu bg-dark" aria-labelledby="smsDropdown">
+    <ul class="dropdown-menu" aria-labelledby="smsDropdown">
       <li>
         <a class="dropdown-item" (click)="hideSidebarOnNav()"
           ><i class="bi me-3 bi-eye"></i> SMS Notifications</a
@@ -166,7 +166,7 @@
     >
       <i class="bi me-3 bi-database"></i> Database
     </a>
-    <ul class="dropdown-menu bg-dark" aria-labelledby="requirementsDropdown">
+    <ul class="dropdown-menu" aria-labelledby="requirementsDropdown">
       <li>
         <a class="dropdown-item" (click)="students(); hideSidebarOnNav()"
           ><i class="bi me-3 bi-eye"></i> View Students</a
@@ -210,7 +210,9 @@
       >
         ☰
       </button>
-      <p class="bigezoapp">Bigezo App</p>
+      <p class="bigezoapp">
+        <img src="logow.png" alt="Bigezo" class="logo" />
+      </p>
 
       <!-- User Profile Section (Aligned to the Right) -->
       <div class="user d-flex align-items-center ml-auto">
@@ -235,7 +237,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer">
+    <div class="footer mt-5">
       <p>
         “Fear God, and give Glory to Him” ... Rev 14:6–7 <br />
         <strong>&copy; G-Realm Studio 2025</strong>

@@ -5,7 +5,7 @@
   --black: #000000;
   --lightgrey: #e9e9e9;
   --red: #b90202;
-  --semi-light-green:#92e65e;
+  --semi-light-green: #92e65e;
 }
 .btn-success {
   background-color: var(--darkgreen);
@@ -19,29 +19,23 @@
 .text-success {
   color: var(--darkgreen) !important;
 }
-.text-lightsuccess{
-  color: var(--semi-light-green) !important;  
+.text-lightsuccess {
+  color: var(--semi-light-green) !important;
 }
 .text-danger {
   color: var(--red);
 }
-.text-primary{
+.text-primary {
   color: #023b75 !important;
 }
 body {
-  font-family: "Poppins", serif ;
+  font-family: "Poppins", serif;
   font-weight: 500;
   font-style: normal;
-  background-color: #eeeeee;
+  background: linear-gradient(45deg, #dadada, #ffffff);
   color: #000000;
   overflow-x: hidden;
   margin: 0; /* Reset default margin */
-}
-.xyz{
-  font-family: "Playfair", serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
 }
 
 .form-floating {
@@ -96,7 +90,7 @@ body {
   background-color: var(--lightcream);
 }
 .navbar-brand {
-  font-weight: bold;
+  font-weight: 500;
   font-size: 1.5rem;
 }
 .hero {
@@ -170,15 +164,15 @@ ul {
   padding: 20px;
 }
 
-.searchrow{
+.searchrow {
   background-color: rgb(255, 255, 255);
   padding: 5px;
 }
-.headeroptions{
+.headeroptions {
   background-color: #000000;
   color: rgb(213, 213, 213);
-  border-top:1px solid rgb(63, 63, 63);
-  border-bottom:1px solid rgb(60, 60, 60);
+  border-top: 1px solid rgb(63, 63, 63);
+  border-bottom: 1px solid rgb(60, 60, 60);
   padding: 5px;
 }
 .headeroptions select {
@@ -189,15 +183,14 @@ ul {
   border-radius: 5px;
 }
 
-
-th{
-  font-weight: 400;
+th {
+  font-weight: 500;
   color: var(--lightgrey) !important;
   background-color: #001535 !important;
 }
-.logobg img{
+.logobg img {
   width: 100px;
 }
-.logo{
+.logo {
   border-bottom: 1px solid #777777;
 }

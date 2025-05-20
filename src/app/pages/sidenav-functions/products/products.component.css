@@ -1,99 +1,104 @@
-.productinlist img{
-  
+.productinlist img {
 }
-.productinlist{
-    background-color: rgb(255, 255, 255);
+.productinlist {
+  background-color: rgb(255, 255, 255);
 }
-.imgbox{
-text-align: center !important;
-padding: 20px;
+.imgbox {
+  text-align: center !important;
+  padding: 20px;
 }
-h4{
-    font-weight: bold;
+h4 {
+  font-weight: 500;
 }
 
 .imgbox {
-    height: 200px; /* Adjust height as needed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; /* Prevents image from overflowing */
+  height: 200px; /* Adjust height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Prevents image from overflowing */
 }
 
 .imgbox img {
-    height: 100% !important;
-    width: auto; /* Keeps aspect ratio */
-    object-fit: contain; /* Ensures the image fits nicely */
+  height: 100% !important;
+  width: auto; /* Keeps aspect ratio */
+  object-fit: contain; /* Ensures the image fits nicely */
 }
 /* Ensure Owl Carousel navigation is properly positioned */
 .owl-nav {
-    position: absolute !important;
-    top: 50% !important;
-    width: 100% !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    transform: translateY(-50%) !important;
-    z-index: 10 !important;
+  position: absolute !important;
+  top: 50% !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
 }
 
 /* Style next & previous buttons */
-.owl-prev, .owl-next {
-    background-color: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent background */
-    color: white !important; /* White arrow color */
-    font-size: 24px !important; /* Larger icons */
-    width: 40px !important;
-    height: 40px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%; /* Circular button */
-    transition: background 0.3s ease-in-out;
+.owl-prev,
+.owl-next {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ) !important; /* Semi-transparent background */
+  color: white !important; /* White arrow color */
+  font-size: 24px !important; /* Larger icons */
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Circular button */
+  transition: background 0.3s ease-in-out;
 }
 
 /* Hover effect for the arrows */
-.owl-prev:hover, .owl-next:hover {
-    background-color: rgba(0, 0, 0, 0.8) !important; /* Darker on hover */
+.owl-prev:hover,
+.owl-next:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important; /* Darker on hover */
 }
 
 /* Adjust left and right arrow positions */
 .owl-prev {
-    position: absolute;
-    left: -15px !important; /* Move left arrow */
+  position: absolute;
+  left: -15px !important; /* Move left arrow */
 }
 
 .owl-next {
-    position: absolute;
-    right: -15px !important; /* Move right arrow */
+  position: absolute;
+  right: -15px !important; /* Move right arrow */
 }
 
 /* Style Bootstrap Icons */
-.owl-prev i, .owl-next i {
-    font-size: 24px !important; /* Make the icons bigger */
-    color: white; /* White color for the icons */
+.owl-prev i,
+.owl-next i {
+  font-size: 24px !important; /* Make the icons bigger */
+  color: white; /* White color for the icons */
 }
-
 
 /* Style for the search bar */
 .input-group {
-    width: 100%;
+  width: 100%;
 }
 
 .input-group input {
-    
-    padding-left: 15px;
+  padding-left: 15px;
 }
 
 .input-group button {
-    border-radius: 0 20px 20px 0;
-    padding-left: 20px;
-    padding-right: 20px;
+  border-radius: 0 20px 20px 0;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 input::placeholder {
-    color: #6c757d;
+  color: #6c757d;
 }
 
 /* Add some space for the icon */
 button i {
-    margin-right: 5px;
+  margin-right: 5px;
 }

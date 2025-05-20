@@ -237,34 +237,17 @@ ngOnInit() {
     localStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
     localStorage.setItem('totalAmount', totalAmount.toString());
 
-    /* console.log('Selected items and total amount stored in local storage:', {
+   console.log('Selected items and total amount stored in local storage:', {
         selectedItems: this.selectedItems,
         totalAmount,
-    }); */
-    this.requestPaymentToken();
+    });
+
    
 }
 
-paytokenapiUrl = "http://localhost:8080/api/pesapal/request-token";
-
-requestPaymentToken() {
-this.fetchToken();
-}
-
-tokenResponse: any;
 
 
-fetchToken() {
-  this.paymentService.getPesapalToken().subscribe({
-    next: (response) => {
-      console.log('Pesapal Token Response:', response);
-      this.tokenResponse = response;
-    },
-    error: (error) => {
-      console.error('Error fetching token:', error);
-    }
-  });
-}
+
 
 
 }

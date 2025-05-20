@@ -1,39 +1,41 @@
-
 <div class="row">
-    <div class="col-md-2">
-        <h1 class="display-4 alert m-1 text-success">
-            <img src="top.png" style="width: 200px;" alt="" srcset="">
-        </h1>
+  <div class="col-md-2">
+    <h1 class="display-4 alert m-1 text-success">
+      <button class="btn"><i class="bi bi-list"></i></button>>
+    </h1>
+  </div>
+  <div class="col-md-10 row">
+    <div class="col-md-6">
+      <div class="input-group mt-3">
+        <input
+          type="text"
+          class="form-control border border-2"
+          placeholder="Search for products..."
+          aria-label="Search"
+          aria-describedby="search-button" />
+        <button class="btn btn-danger" type="button" id="search-button">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
     </div>
-    <div class="col-md-10 row">
-        <div class="col-md-6">
-            <div class="input-group">
-                <input type="text" class="form-control border border-2" placeholder="Search for products..." aria-label="Search" aria-describedby="search-button">
-                <button class="btn btn-primary" type="button" id="search-button">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
-        </div>
-        
-    </div>
+  </div>
 </div>
 <div class="p-1 row px-md-5 carousel-cause owl-carousel">
-    <div class="" *ngFor="let product of products">
-        <div class="m-3 productinlist rounded rounded-2">
-            <div class="text-center imgbox">
-                <img [src]="product.image" class="h-100" alt="{{ product.name }}">
-            </div>
-            <h4 class="p-1 text-dark border-bottom border-1 text-center mx-2">
-                {{ product.name }}
-            </h4>
-            <h5 class="p-3 text-dark text-center">
-                UgX <span class="text-danger fw-bold">{{ product.price | number }}</span>
-                <button class="mx-2 btn btn-success">
-                    <i class="bi bi-cart-plus me-1"></i> Get
-                </button>
-            </h5>
-        </div>
+  <div class="" *ngFor="let product of products">
+    <div class="m-3 productinlist rounded rounded-2">
+      <div class="text-center imgbox">
+        <img [src]="product.image" class="h-100" alt="{{ product.name }}" />
+      </div>
+      <h4 class="p-1 text-dark border-bottom border-1 text-center mx-2">
+        {{ product.name }}
+      </h4>
+      <h5 class="p-3 text-dark text-center">
+        UgX
+        <span class="text-danger fw-bold">{{ product.price | number }}</span>
+        <button class="mx-2 btn btn-success">
+          <i class="bi bi-cart-plus me-1"></i> Get
+        </button>
+      </h5>
     </div>
+  </div>
 </div>
-
-

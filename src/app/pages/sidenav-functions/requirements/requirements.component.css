@@ -11,8 +11,8 @@ th {
   text-align: left;
   border-bottom: 2px solid #000;
 }
-td{
-  font-weight: 400;
+td {
+  font-weight: 500;
 }
 tr:has(.selectRow:checked) > td {
   font-weight: 600;
