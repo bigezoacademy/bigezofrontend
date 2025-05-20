@@ -34,10 +34,11 @@ makePayment() {
     description: description
   }).subscribe({
     next: (response) => {
+      console.log('Full payment response:', response); // Print the whole response for debugging
       this.isProcessingPayment = false;
-      // Check for redirectUrl in the response
-      if (response && response.redirectUrl) {
-        this.paymentRedirectUrl = response.redirectUrl;
+      // Check for redirect_url in the response (snake_case from backend)
+      if (response && response.redirect_url) {
+        this.paymentRedirectUrl = response.redirect_url;
         this.paymentDone = true;
       } else if (response && response.error) {
         Swal.fire({

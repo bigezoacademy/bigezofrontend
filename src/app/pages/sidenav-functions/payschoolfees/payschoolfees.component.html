@@ -1,65 +1,5 @@
 <div class="row" *ngIf="accounttype === 'ROLE_USER'">
   <div class="col-md-8 p-3">
-    <h3 class="text-success">Pay School Fees</h3>
-    <div class="headeroptions">
-      <div class="row m-0 p-1">
-        <div class="col-md-3 col-sm-6">
-          <div class="row">
-            <label for="year" class="col-md-4 col-form-label">Year</label>
-            <div class="col-md-8">
-              <select id="year" class="form-select" [(ngModel)]="myyear">
-                <option *ngFor="let year of years" [value]="year">
-                  {{ year }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6">
-          <div class="row">
-            <label for="term" class="col-md-4 col-form-label">Term</label>
-            <div class="col-md-8">
-              <select id="term" class="form-select" [(ngModel)]="myterm">
-                <option *ngFor="let term of terms" [value]="term">
-                  {{ term }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6">
-          <div class="row">
-            <label for="level" class="col-md-4 col-form-label">Class</label>
-            <div class="col-md-8">
-              <select id="level" class="form-select" [(ngModel)]="mylevel">
-                <option *ngFor="let level of levels" [value]="level">
-                  {{ level }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 col-sm-6">
-          <div class="d-flex justify-content-end">
-            <button
-              class="btn btn-success"
-              (click)="
-                viewFeesDetails(
-                  myyear.toString(),
-                  mylevel.toString(),
-                  myterm.toString()
-                )
-              ">
-              See Amount
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Display progress indicator when payment is processing -->
     <app-progress-indicator
       *ngIf="isProcessingPayment"></app-progress-indicator>
@@ -75,6 +15,66 @@
         accounttype === 'ROLE_USER' && !isProcessingPayment && !paymentDone
       "
       class="row ms-md-5 mt-3">
+      <h3 class="text-success">Pay School Fees</h3>
+      <div class="headeroptions">
+        <div class="row m-0 p-1">
+          <div class="col-md-3 col-sm-6">
+            <div class="row">
+              <label for="year" class="col-md-4 col-form-label">Year</label>
+              <div class="col-md-8">
+                <select id="year" class="form-select" [(ngModel)]="myyear">
+                  <option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6">
+            <div class="row">
+              <label for="term" class="col-md-4 col-form-label">Term</label>
+              <div class="col-md-8">
+                <select id="term" class="form-select" [(ngModel)]="myterm">
+                  <option *ngFor="let term of terms" [value]="term">
+                    {{ term }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6">
+            <div class="row">
+              <label for="level" class="col-md-4 col-form-label">Class</label>
+              <div class="col-md-8">
+                <select id="level" class="form-select" [(ngModel)]="mylevel">
+                  <option *ngFor="let level of levels" [value]="level">
+                    {{ level }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6">
+            <div class="d-flex justify-content-end">
+              <button
+                class="btn btn-success"
+                (click)="
+                  viewFeesDetails(
+                    myyear.toString(),
+                    mylevel.toString(),
+                    myterm.toString()
+                  )
+                ">
+                See Amount
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         *ngIf="message !== ''"
         class="alert alert-danger text-center"

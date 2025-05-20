@@ -1,22 +1,13 @@
 <div class="payment-callback-container">
-  <h2>Payment Callback</h2>
-  <ng-container *ngIf="redirectUrl; else doneMsg">
+  <ng-container *ngIf="redirectUrl">
     <p class="text-success">Redirecting to payment iframe...</p>
     <iframe
-      [src]="redirectUrl"
+      [src]="redirectUrl | safeUrl"
       width="100%"
       height="600"
       frameborder="0"
       allowfullscreen
     ></iframe>
-    <script>
-      console.log("Payment Iframe URL:", "{{redirectUrl}}");
-    </script>
+    <div class="mt-2 small text-muted">Iframe URL: {{ redirectUrl }}</div>
   </ng-container>
-  <ng-template #doneMsg>
-    <p>
-      Your payment process has returned to this page. You may close this window
-      or return to the application.
-    </p>
-  </ng-template>
 </div>
