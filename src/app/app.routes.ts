@@ -17,6 +17,7 @@ import { PhotosComponent } from './pages/sidenav-functions/photos/photos.compone
 import { NewschoolfeesComponent } from './pages/sidenav-functions/newschoolfees/newschoolfees.component';
 import { PaySchoolfeesComponent } from './pages/sidenav-functions/payschoolfees/payschoolfees.component';
 import { ProductsComponent } from './pages/sidenav-functions/products/products.component';
+import { PaymentCallbackComponent } from './payment-callback/payment-callback.component';
 
 export const routes: Routes = [
    // Public route
@@ -52,6 +53,11 @@ export const routes: Routes = [
       },
       {path:'schoolfees',
         component:SchoolfeesComponent,
+        canActivate:[authGuard],
+        data:{role:['ROLE_ADMIN','ROLE_USER']}
+      },
+       {path:'payment-callback',
+        component:PaymentCallbackComponent,
         canActivate:[authGuard],
         data:{role:['ROLE_ADMIN','ROLE_USER']}
       },

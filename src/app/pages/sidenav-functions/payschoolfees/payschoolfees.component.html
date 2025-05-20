@@ -60,40 +60,36 @@
       </div>
     </div>
 
-    <!-- Display fees only if the array is not empty -->
-    <div *ngIf="accounttype === 'ROLE_USER'" class="row ms-md-5 mt-3">
-      <div
-        *ngIf="message !== ''"
-        class="alert alert-danger text-center"
-        role="alert">
+    <!-- Display progress indicator when payment is processing -->
+    <app-progress-indicator *ngIf="isProcessingPayment"></app-progress-indicator>
+
+    <!-- Show payment callback when payment is done -->
+    <app-payment-callback *ngIf="paymentDone"></app-payment-callback>
+
+    <!-- Display fees only if the array is not empty and not processing/done -->
+    <div *ngIf="accounttype === 'ROLE_USER' && !isProcessingPayment && !paymentDone" class="row ms-md-5 mt-3">
+      <div *ngIf="message !== ''" class="alert alert-danger text-center" role="alert">
         {{ message }}
       </div>
       <div class="p-0 m-0" *ngIf="fees.length > 0">
         <ul class="list-unstyled">
-          <li
-            class="list-item pt-1 border-bottom border-1 border-secondary"
-            *ngFor="let fee of fees; let i = index">
+          <li class="list-item pt-1 border-bottom border-1 border-secondary" *ngFor="let fee of fees; let i = index">
             <p class="row">
               <span class="col-1 text-left">{{ i + 1 }}.</span>
               <span class="col-6 text-left">{{ fee.item }}</span>
               <span class="col-5 text-left">
                 <span class="fw-normal text-secondary pe-1">UgX</span>
-                <span class="fw-bold text-primary">{{
-                  fee.amount | number
-                }}</span>
+                <span class="fw-bold text-primary">{{ fee.amount | number }}</span>
               </span>
             </p>
           </li>
-          <li
-            class="list-item pt-1 bgtotal border-bottom border-1 border-secondary">
+          <li class="list-item pt-1 bgtotal border-bottom border-1 border-secondary">
             <h3 class="row">
               <span class="col-1 text-left"></span>
               <span class="col-6 text-left">Total:</span>
               <span class="col-5 text-left">
                 <span class="fw-normal text-secondary pe-1">UgX</span>
-                <span class="fw-bold text-danger">
-                  {{ getTotalAmount() | number }}</span
-                >
+                <span class="fw-bold text-danger">{{ getTotalAmount() | number }}</span>
               </span>
             </h3>
           </li>

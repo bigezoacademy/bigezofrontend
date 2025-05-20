@@ -5,52 +5,65 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { PaymentService } from '../../../services/payment.service';
+import { ProgressIndicatorComponent } from '../../progress-indicator.component';
+import { PaymentCallbackComponent } from '../../../payment-callback/payment-callback.component';
 
 @Component({
   selector: 'app-payschoolfees',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ProgressIndicatorComponent, PaymentCallbackComponent],
   templateUrl: './payschoolfees.component.html',
   styleUrl: './payschoolfees.component.css'
 })
 
 
 export class PaySchoolfeesComponent implements OnInit {
+  isProcessingPayment = false;
+  paymentDone = false;
 
 constructor(private router: Router, private renderer: Renderer2,private paymentService: PaymentService) {}
 makePayment() {
-  const paymentInfo = {
-    id: "AA1122-3344ZZs",
-    currency: "UGX",
-    amount: 500.00,
-    description: "Testing Bigezo Payment API",
-    callback_url: "https://www.grealm.org",
-    redirect_mode: "",
-    notification_id: "5bbe0e70-32aa-4204-b00b-dc4bd606fa7f",
-    branch: "Store Name - HQ",
-    billing_address: {
-      email_address: "ochalfie@gmail.com",
-      phone_number: "0704678948",
-      country_code: "UG",
-      first_name: "John",
-      middle_name: "",
-      last_name: "Doe",
-      line_1: "Pesapal Limited",
-      line_2: "",
-      city: "",
-      state: "",
-      postal_code: "",
-      zip_code: ""
-    }
-  };
-
-  // Call the submitPayment method from PaymentService with just the paymentInfo
-  this.paymentService.submitPayment(paymentInfo).subscribe({
+  this.isProcessingPayment = true;
+  this.paymentDone = false;
+  // Dynamic description for school fees
+  const description = `School fees for term${this.myterm},${this.myyear},p.${this.mylevel}`;
+  this.paymentService.makePayment({
+    amount: this.getTotalAmount(),
+    description: description
+  }).subscribe({
     next: (response) => {
-      console.log('Payment submitted successfully:', response);
+      this.isProcessingPayment = false;
+      this.paymentDone = true;
+      // Check for error in the response body (for non-HTTP errors)
+      if (response && response.error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Payment Error',
+          text: response.error.message || 'There was an error submitting your payment.'
+        });
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: 'Payment Submitted',
+          text: 'Your payment was submitted successfully.'
+        });
+      }
     },
     error: (error) => {
-      console.error('Error submitting payment:', error);
+      this.isProcessingPayment = false;
+      this.paymentDone = false;
+      // Handle HTTP/network errors
+      let errorMsg = 'There was an error submitting your payment.';
+      if (error && error.error && error.error.error && error.error.error.message) {
+        errorMsg = error.error.error.message;
+      } else if (error && error.message) {
+        errorMsg = error.message;
+      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Payment Error',
+        text: errorMsg
+      });
     }
   });
 }
