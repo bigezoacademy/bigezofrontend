@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-payment-callback',
   standalone: true,
+  imports: [CommonModule, SafeUrlPipe],
   template: `
     <div class="payment-callback-container">
       <h2>Payment Callback</h2>
-      <p>Your payment process has returned to this page. You may close this window or return to the application.</p>
+      <ng-container *ngIf="redirectUrl; else doneMsg">
+        <iframe [src]="redirectUrl | safeUrl" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+      </ng-container>
+      <ng-template #doneMsg>
+        <p>Your payment process has returned to this page. You may close this window or return to the application.</p>
+      </ng-template>
     </div>
   `,
   styles: [`
@@ -22,4 +30,6 @@ import { Component } from '@angular/core';
     h2 { color: #2e7d32; }
   `]
 })
-export class PaymentCallbackComponent {}
+export class PaymentCallbackComponent {
+  @Input() redirectUrl: string | null = null;
+}

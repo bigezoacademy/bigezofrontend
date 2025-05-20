@@ -20,11 +20,13 @@ import { PaymentCallbackComponent } from '../../../payment-callback/payment-call
 export class PaySchoolfeesComponent implements OnInit {
   isProcessingPayment = false;
   paymentDone = false;
+  paymentRedirectUrl: string = '';
 
 constructor(private router: Router, private renderer: Renderer2,private paymentService: PaymentService) {}
 makePayment() {
   this.isProcessingPayment = true;
   this.paymentDone = false;
+  this.paymentRedirectUrl = '';
   // Dynamic description for school fees
   const description = `School fees for term${this.myterm},${this.myyear},p.${this.mylevel}`;
   this.paymentService.makePayment({
@@ -33,9 +35,11 @@ makePayment() {
   }).subscribe({
     next: (response) => {
       this.isProcessingPayment = false;
-      this.paymentDone = true;
-      // Check for error in the response body (for non-HTTP errors)
-      if (response && response.error) {
+      // Check for redirectUrl in the response
+      if (response && response.redirectUrl) {
+        this.paymentRedirectUrl = response.redirectUrl;
+        this.paymentDone = true;
+      } else if (response && response.error) {
         Swal.fire({
           icon: 'error',
           title: 'Payment Error',
@@ -47,6 +51,7 @@ makePayment() {
           title: 'Payment Submitted',
           text: 'Your payment was submitted successfully.'
         });
+        this.paymentDone = true;
       }
     },
     error: (error) => {
