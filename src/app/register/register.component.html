@@ -158,14 +158,18 @@
 
     <!-- District -->
     <div class="form-floating mb-3">
-      <input
-        type="text"
+      <select
         id="district"
         formControlName="district"
-        class="form-control"
-        placeholder="District"
-      />
-      <label for="district">District</label>
+        class="form-select"
+        aria-label="Select District"
+      >
+        <option value="" disabled selected>Select District</option>
+        <option *ngFor="let district of districts" [value]="district">
+          {{ district }}
+        </option>
+      </select>
+
       <div
         *ngIf="
           registerForm.get('district')?.invalid &&

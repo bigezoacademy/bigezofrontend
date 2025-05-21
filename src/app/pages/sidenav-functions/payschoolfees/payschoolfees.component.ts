@@ -199,22 +199,26 @@ makePayment() {
   }
 
     fetchSchoolFeesDetails(feesId: number): void {
-      
       this.http.get<any[]>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
         .subscribe({
           next: (response) => {
             this.fees = response;
+            this.message = '';
             console.log('Fees details:', response);
             this.getTotalAmount(); // Recalculate total after fetching
           },
           error: (error) => {
             console.error('Error fetching school fees details:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Failed to fetch school fees details.',
-              confirmButtonText: 'OK'
-            });
+            this.fees = [];
+            if (error.status === 404) {
+              this.message = 'No fee details found for the selected entry.';
+            } else if (error.status === 400) {
+              this.message = 'Error fetching data, server is down. Contact system admin';
+            } else if (error.status === 500) {
+              this.message = 'Fees for selected entries does not exist, contact school admin.';
+            } else {
+              this.message = 'Failed to fetch school fees details.';
+            }
           }
         });
     }
@@ -235,22 +239,22 @@ makePayment() {
             console.log('Fees ID:', feesId);
             this.fetchSchoolFeesDetails(feesId);
           } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'No fees settings found for the provided parameters.',
-              confirmButtonText: 'OK'
-            });
+            this.fees = [];
+            this.message = 'No fees settings found for the provided parameters.';
           }
         },
         error: (error) => {
           console.error('Error fetching school fees details:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: `Failed to fetch school fees details: ${error.message}`,
-            confirmButtonText: 'OK'
-          });
+          this.fees = [];
+          if (error.status === 404) {
+            this.message = 'No school fees found for the selected year, term, and class.';
+          } else if (error.status === 400) {
+            this.message = 'Error fetching data, server is down. Contact system admin';
+          } else if (error.status === 500) {
+            this.message = 'Fees for selected entries does not exist, contact school admin.';
+          } else {
+            this.message = `Failed to fetch school fees details: The server is down. Contact System Admin.`;
+          }
         }
       });
   }

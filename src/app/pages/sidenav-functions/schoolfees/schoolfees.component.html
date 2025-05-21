@@ -9,14 +9,18 @@
             <label for="year" class="col-md-4 col-form-label">Year</label>
             <div class="col-md-8">
               <select id="year" class="form-select" [(ngModel)]="myyear">
-                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                <option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </option>
               </select>
             </div>
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="d-flex justify-content-end">
-            <button class="btn btn-success" (click)="displayExistingFees()">
+            <button
+              class="btn btn-success my-2 my-sm-0"
+              (click)="displayExistingFees()">
               See existing fees
             </button>
           </div>
@@ -24,21 +28,18 @@
       </div>
     </div>
 
-    
-<!-- Conditionally display success or error message -->
-
+    <!-- Conditionally display success or error message -->
 
     <div class="row mx-md-5 mt-3">
       <div
-*ngIf="message"
-class="alert m-3"
-[ngClass]="{
-  'alert-success': messageType === 'success',
-  'alert-danger': messageType === 'error'
-}"
->
-{{ message }}
-</div>
+        *ngIf="message"
+        class="alert m-3"
+        [ngClass]="{
+          'alert-success': messageType === 'success',
+          'alert-danger': messageType === 'error'
+        }">
+        {{ message }}
+      </div>
       <div class="p-0 m-0">
         <table class="table table-bordered">
           <thead>
@@ -59,9 +60,14 @@ class="alert m-3"
               <td>{{ fee.term }}</td>
               <td>{{ fee.year }}</td>
               <td>
-                <button class="btn btn-success btn-sm" (click)="viewFeesDetails(fee.id,fee.year,fee.level,fee.term)">View</button>
+                <button
+                  class="btn btn-success btn-sm"
+                  (click)="
+                    viewFeesDetails(fee.id, fee.year, fee.level, fee.term)
+                  ">
+                  View
+                </button>
               </td>
-              
             </tr>
           </tbody>
         </table>

@@ -58,7 +58,11 @@ export class SchoolfeesComponent implements OnInit {
           error => {
             console.error('Error fetching fees:', error);
             this.fees = [];
-            this.message = 'Error fetching fees, please try again.';
+            if (error.status === 0) {
+              this.message = 'Unable to connect to the server. Please check your internet connection or contact the system administrator.';
+            } else {
+              this.message = 'There is no school fees set for the selected year. Contact school admin.';
+            }
             this.messageType = 'error';
           }
         );
@@ -96,11 +100,11 @@ export class SchoolfeesComponent implements OnInit {
               </thead>
               <tbody>
                 ${detailsArray.map(detail => `
-                  <tr>
-                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.id}</td>
-                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.item}</td>
-                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.description}</td>
-                    <td class="text-start feesdetail" style="font-size: 12px !important;">${detail.amount.toLocaleString()}</td>
+                  <tr style="border-bottom:1px solid #000000;">
+                    <td class="text-start feesdetail" style="font-size: 14px !important;">${detail.id}</td>
+                    <td class="text-start feesdetail" style="font-size: 14px !important;">${detail.item}</td>
+                    <td class="text-start feesdetail" style="font-size: 14px !important;">${detail.description}</td>
+                    <td class="text-start feesdetail" style="font-size: 14px !important;">${detail.amount.toLocaleString()}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -108,11 +112,20 @@ export class SchoolfeesComponent implements OnInit {
           <p>Total:  <span class="text-end mt-3 fw-normal" style="font-size:30px;">  UGX <span class="text-danger fw-bold">  ${formattedTotalAmount}</span> </span></p>
           `;
 
-          Swal.fire({
-          
-            html: detailsTable,
-            confirmButtonText: 'Close'
-          });
+            Swal.fire({
+              html: `
+              <div style="overflow-x:auto;">
+                <div class="table-responsive">
+                ${detailsTable}
+                </div>
+              </div>
+              `,
+              confirmButtonText: 'Close',
+              width: '90vw', // Allow modal to expand to 90% of viewport width
+              customClass: {
+              popup: 'swal-wide-table'
+              }
+            });
         },
         (error) => {
           console.error('Error fetching school fees details:', error);
