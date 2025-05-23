@@ -138,6 +138,23 @@ export class SchoolfeesComponent implements OnInit {
         }
       );
   }
+deleteFeesDetails(feesId: number, feesYear: string, feesLevel: string, feesTerm: string): void {
+  this.setAdminId();
+  console.log(`Deleting fees details for feesId: ${feesId}, year: ${feesYear}, level: ${feesLevel}, term: ${feesTerm}`);
+  
+  this.http.delete(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+    .subscribe({
+      next: () => {
+        Swal.fire('Fees details deleted successfully');
+        // Reload the entries in the UI
+        this.displayExistingFees();
+      },
+      error: (error) => {
+        console.error('Error deleting fees details:', error);
+        // Handle the error appropriately
+      }
+    });
+}
 
   private setAdminId(): void {
     if (this.accounttype === 'ROLE_ADMIN') {

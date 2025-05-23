@@ -61,11 +61,18 @@
               <td>{{ fee.year }}</td>
               <td>
                 <button
-                  class="btn btn-success btn-sm"
+                  class="btn btn-success btn-sm m-1"
                   (click)="
                     viewFeesDetails(fee.id, fee.year, fee.level, fee.term)
                   ">
                   View
+                </button>
+                <button
+                  class="btn btn-danger btn-sm m-1"
+                  (click)="
+                    deleteFeesDetails(fee.id, fee.year, fee.level, fee.term)
+                  ">
+                  Delete
                 </button>
               </td>
             </tr>

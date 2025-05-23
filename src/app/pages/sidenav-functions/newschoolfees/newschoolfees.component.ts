@@ -219,7 +219,7 @@ export class NewschoolfeesComponent {
   saveFees(): void {
     const schoolFeesSettingId = localStorage.getItem('schoolFeesSettingId');
     if (!schoolFeesSettingId) {
-      alert('School Fees Setting ID is missing.');
+      Swal.fire('School Fees Setting ID is missing.');
       return;
     }
 
@@ -232,14 +232,14 @@ export class NewschoolfeesComponent {
     this.http.post<any>('http://localhost:8080/api/school-fees-details', this.schoolFeesDetails)
       .subscribe({
         next: () => {
-          alert('Fees saved successfully!');
+          Swal.fire('Fees saved successfully!');
           
           // Now delete removed details from database
           this.deleteRemovedDetails();
         },
         error: (error) => {
           console.error('Error saving fees:', error);
-          alert('An error occurred while saving fees.');
+         Swal.fire('An error occurred while saving fees.');
         }
       });
   }
