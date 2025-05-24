@@ -120,9 +120,11 @@ export class NewStudentComponent {
     // Add schoolAdminId as a parameter
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
     
-    this.http.post(`http://localhost:8080/api/students/${this.studentId}/profile-picture`, 
-        formData, 
-        { params: params }).subscribe({
+    this.http.post(
+      `http://localhost:8080/api/students/${this.studentId}/profile-picture`,
+      formData,
+      { params: params, responseType: 'text' } // <-- Fix: expect plain text response
+    ).subscribe({
       next: (res: any) => {
         this.profilePictureUploading = false;
         this.profilePictureUploaded = true;
@@ -165,9 +167,11 @@ export class NewStudentComponent {
     // Add schoolAdminId as a parameter
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
     
-    this.http.post(`http://localhost:8080/api/students/${this.studentId}/video`, 
-        formData, 
-        { params: params }).subscribe({
+    this.http.post(
+      `http://localhost:8080/api/students/${this.studentId}/video`,
+      formData,
+      { params: params, responseType: 'text' } // <-- Fix: expect plain text response
+    ).subscribe({
       next: (res: any) => {
         this.studentVideoUploading = false;
         this.studentVideoUploaded = true;
@@ -216,13 +220,13 @@ uploadAdditionalImages() {
     this.pendingAdditionalImages.forEach((file, idx) => {
       formData.append('files', file);
     });
-    
     // Add schoolAdminId as a parameter
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
-    
-    this.http.post(`http://localhost:8080/api/students/${this.studentId}/images`, 
-        formData, 
-        { params: params }).subscribe({
+    this.http.post(
+      `http://localhost:8080/api/students/${this.studentId}/images`,
+      formData,
+      { params: params, responseType: 'text' } // <-- Fix: expect plain text response
+    ).subscribe({
       next: (res: any) => {
         this.additionalImagesUploading = false;
         this.additionalImagesUploaded = true;
