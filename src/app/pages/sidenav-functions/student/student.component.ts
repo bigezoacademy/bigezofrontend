@@ -34,8 +34,6 @@ export class StudentComponent {
   message: string = '';
   messageType: string = '';
 
-
-
   private http = inject(HttpClient);
   orderTrackingId: string | null = null;
   merchantReference: string | null = null;
@@ -49,6 +47,21 @@ export class StudentComponent {
   // Pagination
   currentPage: number = 1;
   pageSize: number = 5; // Number of students per page
+
+  // --- File Upload State ---
+  profilePictureFile: File | null = null;
+  profilePictureUrl: string | null = null;
+  profilePictureLoading: boolean = false;
+  profilePictureError: string = '';
+
+  studentVideoFile: File | null = null;
+  studentVideoUrl: string | null = null;
+  studentVideoLoading: boolean = false;
+  studentVideoError: string = '';
+
+  additionalImages: { file: File | null; url: string | null; loading: boolean; error: string }[] = Array.from({ length: 10 }, () => ({ file: null, url: null, loading: false, error: '' }));
+
+  showFileUploadUI: boolean = false;
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -325,5 +338,96 @@ export class StudentComponent {
 
   get totalPages(): number {
     return Math.ceil(this.filteredStudents.length / this.pageSize) || 1;
+  }
+
+  // --- File Upload Handlers ---
+  onProfilePictureSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      this.profilePictureError = 'Please select a valid image file.';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      this.profilePictureError = 'Image size should be less than 2MB.';
+      return;
+    }
+    this.profilePictureFile = file;
+    this.profilePictureError = '';
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.profilePictureUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  deleteProfilePicture(studentId: number) {
+    this.profilePictureLoading = true;
+    // TODO: Call backend API to delete
+    setTimeout(() => {
+      this.profilePictureFile = null;
+      this.profilePictureUrl = null;
+      this.profilePictureLoading = false;
+      this.profilePictureError = '';
+    }, 500);
+  }
+
+  onStudentVideoSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('video/')) {
+      this.studentVideoError = 'Please select a valid video file.';
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      this.studentVideoError = 'Video size should be less than 20MB.';
+      return;
+    }
+    this.studentVideoFile = file;
+    this.studentVideoError = '';
+    this.studentVideoUrl = file.name;
+  }
+
+  deleteStudentVideo(studentId: number) {
+    this.studentVideoLoading = true;
+    // TODO: Call backend API to delete
+    setTimeout(() => {
+      this.studentVideoFile = null;
+      this.studentVideoUrl = null;
+      this.studentVideoLoading = false;
+      this.studentVideoError = '';
+    }, 500);
+  }
+
+  onAdditionalImageSelected(event: any, index: number) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      this.additionalImages[index].error = 'Please select a valid image file.';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      this.additionalImages[index].error = 'Image size should be less than 2MB.';
+      return;
+    }
+    this.additionalImages[index].file = file;
+    this.additionalImages[index].error = '';
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.additionalImages[index].url = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  deleteAdditionalImage(studentId: number, imageNumber: number) {
+    const img = this.additionalImages[imageNumber - 1];
+    img.loading = true;
+    // TODO: Call backend API to delete
+    setTimeout(() => {
+      img.file = null;
+      img.url = null;
+      img.loading = false;
+      img.error = '';
+    }, 500);
   }
 }
