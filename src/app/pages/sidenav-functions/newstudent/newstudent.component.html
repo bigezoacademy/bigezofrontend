@@ -1,63 +1,107 @@
 <div class="container">
   <h4 class="text-success pt-5 d-flex justify-content-between">
     Create New Student
-    <button  class="btn btn-dark"  (click)="students()">  <i class="bi-arrow-left bi"></i> Students' List</button>
+    <button class="btn btn-dark" (click)="students()">
+      <i class="bi-arrow-left bi"></i> Students' List
+    </button>
   </h4>
 
   <div *ngIf="status === 'success'" class="alert alert-success text-center">
     <p class="">{{ addStudentStatus }}</p>
     <div class="row">
       <div class="col-md-6">
-        Username: <span class="text-center"> {{ sno }}</span> <br>
+        Username: <span class="text-center"> {{ sno }}</span> <br />
         Password: <span class="text-center"> {{ spass }}</span>
       </div>
       <div class="col-md-6">
-        <button (click)="sendEmail()" class="btn btn-primary m-1">Send to Email</button>
-        <button (click)="sendSMS()" class="btn btn-secondary m-1">Send to SMS</button>
+        <button (click)="sendEmail()" class="btn btn-primary m-1">
+          Send to Email
+        </button>
+        <button (click)="sendSMS()" class="btn btn-secondary m-1">
+          Send to SMS
+        </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="status === 'error' || status === null" class="alert alert-danger text-center">
+  <div
+    *ngIf="status === 'error' || status === null"
+    class="alert alert-danger text-center">
     {{ addStudentStatus }}
   </div>
 
-  <form (ngSubmit)="createStudent()">
+  <form (ngSubmit)="createStudent()" *ngIf="status !== 'success'">
     <div class="row">
       <!-- First Name Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="firstName" class="form-control" [(ngModel)]="firstName" name="firstName" required placeholder="First Name" />
+        <input
+          id="firstName"
+          class="form-control"
+          [(ngModel)]="firstName"
+          name="firstName"
+          required
+          placeholder="First Name" />
         <label for="firstName">First Name</label>
       </div>
 
       <!-- Last Name Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="lastName" class="form-control" [(ngModel)]="lastName" name="lastName" required placeholder="Last Name" />
+        <input
+          id="lastName"
+          class="form-control"
+          [(ngModel)]="lastName"
+          name="lastName"
+          required
+          placeholder="Last Name" />
         <label for="lastName">Last Name</label>
       </div>
 
       <!-- Student Number Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="studentNumber" class="form-control" [(ngModel)]="studentNumber" name="studentNumber" required placeholder="Student Number" />
+        <input
+          id="studentNumber"
+          class="form-control"
+          [(ngModel)]="studentNumber"
+          name="studentNumber"
+          required
+          placeholder="Student Number" />
         <label for="studentNumber">Student Number</label>
       </div>
 
       <!-- Birth Date Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="birthDate" type="date" class="form-control" [(ngModel)]="birthDate" name="birthDate" required placeholder="Birthday" />
+        <input
+          id="birthDate"
+          type="date"
+          class="form-control"
+          [(ngModel)]="birthDate"
+          name="birthDate"
+          required
+          placeholder="Birthday" />
         <label for="birthDate">Birthday</label>
       </div>
 
       <!-- Residence Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="residence" class="form-control" [(ngModel)]="residence" name="residence" required placeholder="Residence" />
+        <input
+          id="residence"
+          class="form-control"
+          [(ngModel)]="residence"
+          name="residence"
+          required
+          placeholder="Residence" />
         <label for="residence">Residence</label>
       </div>
 
       <!-- Health Status Select -->
       <div class="mb-3 col-md-4">
         <label for="healthStatus" class="form-label">Health Status</label>
-        <select id="healthStatus" class="form-select" [(ngModel)]="healthStatus" name="healthStatus" required>
+        <select
+          id="healthStatus"
+          class="form-select"
+          [(ngModel)]="healthStatus"
+          name="healthStatus"
+          required>
           <option value="" disabled selected>Select Health Status</option>
           <option value="healthy">Healthy</option>
           <option value="sick">Sick</option>
@@ -68,23 +112,48 @@
 
       <!-- Phone Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="phone" type="tel" class="form-control" [(ngModel)]="phone" name="phone" required placeholder="Phone" />
+        <input
+          id="phone"
+          type="tel"
+          class="form-control"
+          [(ngModel)]="phone"
+          name="phone"
+          required
+          placeholder="Phone" />
         <label for="phone">Phone</label>
       </div>
 
       <!-- Email Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="email" type="email" class="form-control" [(ngModel)]="email" name="email" required placeholder="Email" />
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder="Email" />
         <label for="email">Email</label>
       </div>
 
       <!-- Password Input (Hidden) -->
-      <input hidden id="password" type="password" class="form-control" [(ngModel)]="studentPassword" name="password" />
+      <input
+        hidden
+        id="password"
+        type="password"
+        class="form-control"
+        [(ngModel)]="studentPassword"
+        name="password" />
 
       <!-- Club Input -->
       <div class="mb-3 col-md-4">
         <label for="club" class="form-label">Club</label>
-        <select id="club" class="form-select" [(ngModel)]="club" name="club" required>
+        <select
+          id="club"
+          class="form-select"
+          [(ngModel)]="club"
+          name="club"
+          required>
           <option value="" disabled selected>Select Club</option>
           <option *ngFor="let club of clubs" [value]="club">{{ club }}</option>
         </select>
@@ -93,7 +162,12 @@
       <!-- Level Select -->
       <div class="mb-3 col-md-4">
         <label for="level" class="form-label">Level</label>
-        <select id="level" class="form-select" [(ngModel)]="level" name="level" required>
+        <select
+          id="level"
+          class="form-select"
+          [(ngModel)]="level"
+          name="level"
+          required>
           <option value="" disabled selected>Select Level</option>
           <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
         </select>
@@ -101,8 +175,15 @@
 
       <!-- Enrollment Status Select -->
       <div class="mb-3 col-md-4">
-        <label for="enrollmentStatus" class="form-label">Enrollment Status</label>
-        <select id="enrollmentStatus" class="form-select" [(ngModel)]="enrollmentStatus" name="enrollmentStatus" required>
+        <label for="enrollmentStatus" class="form-label"
+          >Enrollment Status</label
+        >
+        <select
+          id="enrollmentStatus"
+          class="form-select"
+          [(ngModel)]="enrollmentStatus"
+          name="enrollmentStatus"
+          required>
           <option value="" disabled selected>Choose Enrollment Status</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
@@ -115,7 +196,12 @@
       <!-- Year Select -->
       <div class="mb-3 col-md-4">
         <label for="year" class="form-label">Year</label>
-        <select id="year" class="form-select" [(ngModel)]="year" name="year" required>
+        <select
+          id="year"
+          class="form-select"
+          [(ngModel)]="year"
+          name="year"
+          required>
           <option value="" disabled selected>Select Year</option>
           <option *ngFor="let yr of years" [value]="yr">{{ yr }}</option>
         </select>
@@ -123,18 +209,34 @@
 
       <!-- Mother Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="mother" class="form-control" [(ngModel)]="mother" name="mother" placeholder="Mother's Name" />
+        <input
+          id="mother"
+          class="form-control"
+          [(ngModel)]="mother"
+          name="mother"
+          placeholder="Mother's Name" />
         <label for="mother">Mother's Name</label>
       </div>
 
       <!-- Father Input -->
       <div class="mb-3 col-md-4 form-floating">
-        <input id="father" class="form-control" [(ngModel)]="father" name="father" placeholder="Father's Name" />
+        <input
+          id="father"
+          class="form-control"
+          [(ngModel)]="father"
+          name="father"
+          placeholder="Father's Name" />
         <label for="father">Father's Name</label>
       </div>
 
       <!-- Hidden School Admin Input -->
-      <input hidden id="schoolAdmin" type="number" class="form-control" [(ngModel)]="schoolAdminId" name="schoolAdminId" />
+      <input
+        hidden
+        id="schoolAdmin"
+        type="number"
+        class="form-control"
+        [(ngModel)]="schoolAdminId"
+        name="schoolAdminId" />
 
       <!-- Submit Button -->
       <div class="mb-3 col-md-4"></div>
@@ -143,4 +245,142 @@
       </div>
     </div>
   </form>
+
+  <!-- Student File Upload UI: Only show after student creation -->
+  <div *ngIf="status === 'success'" class="mt-4">
+    <h5 class="text-primary">Upload Student Files</h5>
+    <div class="row">
+      <!-- Profile Picture Upload -->
+      <div class="mb-3 col-md-4">
+        <label class="form-label">Profile Picture</label>
+        <input
+          type="file"
+          accept="image/*"
+          class="form-control"
+          (change)="onProfilePictureSelected($event)"
+          [disabled]="profilePictureLoading" />
+        <div *ngIf="profilePictureUrl" class="mt-2">
+          <img
+            [src]="profilePictureUrl"
+            alt="Profile Preview"
+            class="img-thumbnail"
+            style="max-width: 120px; max-height: 120px" />
+          <button
+            type="button"
+            class="btn btn-danger btn-sm ms-2"
+            (click)="profilePictureFile = null; profilePictureUrl = null">
+            Remove
+          </button>
+          <button
+            *ngIf="studentId !== null"
+            type="button"
+            class="btn btn-success btn-sm ms-2"
+            (click)="uploadProfilePicture(studentId!)"
+            [disabled]="profilePictureLoading || !profilePictureFile">
+            {{ profilePictureUploaded ? "Update" : "Upload" }}
+          </button>
+        </div>
+        <div *ngIf="profilePictureError" class="text-danger small">
+          {{ profilePictureError }}
+        </div>
+        <div
+          *ngIf="profilePictureLoading"
+          class="spinner-border spinner-border-sm text-primary ms-2"></div>
+      </div>
+
+      <!-- Student Video Upload -->
+      <div class="mb-3 col-md-4">
+        <label class="form-label">Student Video</label>
+        <input
+          type="file"
+          accept="video/*"
+          class="form-control"
+          (change)="onStudentVideoSelected($event)"
+          [disabled]="studentVideoLoading" />
+        <div *ngIf="studentVideoUrl" class="mt-2">
+          <span class="text-primary">{{ studentVideoUrl }}</span>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm ms-2"
+            (click)="studentVideoFile = null; studentVideoUrl = null">
+            Remove
+          </button>
+          <button
+            *ngIf="studentId !== null"
+            type="button"
+            class="btn btn-success btn-sm ms-2"
+            (click)="uploadStudentVideo(studentId!)"
+            [disabled]="studentVideoLoading || !studentVideoFile">
+            {{ studentVideoUploaded ? "Update" : "Upload" }}
+          </button>
+        </div>
+        <div *ngIf="studentVideoError" class="text-danger small">
+          {{ studentVideoError }}
+        </div>
+        <div
+          *ngIf="studentVideoLoading"
+          class="spinner-border spinner-border-sm text-primary ms-2"></div>
+      </div>
+    </div>
+
+    <!-- Additional Images Upload (1-10) -->
+    <div class="mb-3 col-12">
+      <label class="form-label">Additional Images</label>
+      <div class="row g-2">
+        <div
+          class="col-6 col-md-2"
+          *ngFor="
+            let img of additionalImages.slice(0, additionalImagesCount);
+            let i = index
+          ">
+          <div class="border p-2 rounded text-center">
+            <div class="mb-1">Image {{ i + 1 }}</div>
+            <input
+              type="file"
+              accept="image/*"
+              class="form-control form-control-sm"
+              (change)="onAdditionalImageSelected($event, i)"
+              [disabled]="img.loading" />
+            <div *ngIf="img.url" class="mt-1">
+              <img
+                [src]="img.url"
+                alt="Image Preview"
+                class="img-thumbnail"
+                style="max-width: 80px; max-height: 80px" />
+              <button
+                type="button"
+                class="btn btn-danger btn-sm mt-1"
+                (click)="img.file = null; img.url = null">
+                Remove
+              </button>
+              <button
+                *ngIf="studentId !== null"
+                type="button"
+                class="btn btn-success btn-sm mt-1 ms-1"
+                (click)="uploadAdditionalImage(studentId!, i + 1)"
+                [disabled]="img.loading || !img.file">
+                {{ img.uploaded ? "Update" : "Upload" }}
+              </button>
+            </div>
+            <div *ngIf="img.error" class="text-danger small">
+              {{ img.error }}
+            </div>
+            <div
+              *ngIf="img.loading"
+              class="spinner-border spinner-border-sm text-primary mt-1"></div>
+          </div>
+        </div>
+        <div
+          class="col-6 col-md-2 d-flex align-items-center"
+          *ngIf="additionalImagesCount < 10">
+          <button
+            type="button"
+            class="btn btn-outline-primary w-100"
+            (click)="addAdditionalImage()">
+            <i class="bi bi-plus"></i> Add another image
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

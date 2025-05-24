@@ -46,6 +46,24 @@ export class NewStudentComponent {
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   clubs: string[] =["Science","Mathematics","Debate","Music","Drama","Art","Dance","Sports"];
 
+  // File upload states
+  profilePictureFile: File | null = null;
+  profilePictureUrl: string | null = null;
+  profilePictureLoading: boolean = false;
+  profilePictureError: string = '';
+  profilePictureUploaded: boolean = false;
+
+  studentVideoFile: File | null = null;
+  studentVideoUrl: string | null = null;
+  studentVideoLoading: boolean = false;
+  studentVideoError: string = '';
+  studentVideoUploaded: boolean = false;
+
+  additionalImages: { file: File | null; url: string | null; loading: boolean; error: string, uploaded: boolean }[] = Array.from({ length: 10 }, () => ({ file: null, url: null, loading: false, error: '', uploaded: false }));
+  additionalImagesCount: number = 1;
+
+  studentId: number | null = null;
+
   constructor(private clubService: ClubserviceService) {
     this.fetchClubs();
   }
@@ -120,17 +138,19 @@ export class NewStudentComponent {
       year: this.year,
       mother: this.mother,
       father: this.father,
+      enrollmentStatus: this.enrollmentStatus // <-- Now included
     };
   
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
   
     this.http.post('http://localhost:8080/api/students', newStudent, { params }).subscribe({
-      next: () => {
+      next: (response: any) => {
         this.addStudentStatus = `  Account created successfully for ${this.firstName}_${this.lastName}.`;
         this.status = 'success';
         this.sno=sessionStorage.getItem('studentUsername')||'';
         this.spass=sessionStorage.getItem('studentPassword')||'';
-
+        // Set studentId from backend response (assume response.id or response.studentId)
+        this.studentId = response.id || response.studentId || null;
         this.clearForm();
       },
       error: (err) => {
@@ -229,5 +249,224 @@ export class NewStudentComponent {
 
   students():any{
     this.router.navigateByUrl("student");
+  }
+
+  // --- Profile Picture ---
+  onProfilePictureSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      this.profilePictureError = 'Please select a valid image file.';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      this.profilePictureError = 'Image size should be less than 2MB.';
+      return;
+    }
+    this.profilePictureFile = file;
+    this.profilePictureError = '';
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.profilePictureUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadProfilePicture(studentId: number) {
+    if (!this.profilePictureFile) return;
+    this.profilePictureLoading = true;
+    const formData = new FormData();
+    formData.append('file', this.profilePictureFile);
+    this.http.post(`http://localhost:8080/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+      .subscribe({
+        next: () => {
+          this.profilePictureLoading = false;
+          this.profilePictureError = '';
+          this.profilePictureUploaded = true;
+          Swal.fire('Success', 'Profile picture uploaded!', 'success');
+        },
+        error: (err) => {
+          this.profilePictureLoading = false;
+          this.profilePictureError = 'Failed to upload profile picture.';
+          Swal.fire('Error', 'Failed to upload profile picture.', 'error');
+        }
+      });
+  }
+
+  deleteProfilePicture(studentId: number) {
+    this.profilePictureLoading = true;
+    this.http.delete(`http://localhost:8080/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`)
+      .subscribe({
+        next: () => {
+          this.profilePictureFile = null;
+          this.profilePictureUrl = null;
+          this.profilePictureLoading = false;
+          Swal.fire('Deleted', 'Profile picture deleted.', 'success');
+        },
+        error: () => {
+          this.profilePictureLoading = false;
+          Swal.fire('Error', 'Failed to delete profile picture.', 'error');
+        }
+      });
+  }
+
+  // --- Student Video ---
+  onStudentVideoSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('video/')) {
+      this.studentVideoError = 'Please select a valid video file.';
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      this.studentVideoError = 'Video size should be less than 20MB.';
+      return;
+    }
+    this.studentVideoFile = file;
+    this.studentVideoError = '';
+    this.studentVideoUrl = file.name;
+  }
+
+  uploadStudentVideo(studentId: number) {
+    if (!this.studentVideoFile) return;
+    this.studentVideoLoading = true;
+    const formData = new FormData();
+    formData.append('file', this.studentVideoFile);
+    this.http.post(`http://localhost:8080/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+      .subscribe({
+        next: () => {
+          this.studentVideoLoading = false;
+          this.studentVideoError = '';
+          this.studentVideoUploaded = true;
+          Swal.fire('Success', 'Video uploaded!', 'success');
+        },
+        error: (err) => {
+          this.studentVideoLoading = false;
+          this.studentVideoError = 'Failed to upload video.';
+          Swal.fire('Error', 'Failed to upload video.', 'error');
+        }
+      });
+  }
+
+  deleteStudentVideo(studentId: number) {
+    this.studentVideoLoading = true;
+    this.http.delete(`http://localhost:8080/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`)
+      .subscribe({
+        next: () => {
+          this.studentVideoFile = null;
+          this.studentVideoUrl = null;
+          this.studentVideoLoading = false;
+          Swal.fire('Deleted', 'Video deleted.', 'success');
+        },
+        error: () => {
+          this.studentVideoLoading = false;
+          Swal.fire('Error', 'Failed to delete video.', 'error');
+        }
+      });
+  }
+
+  // --- Additional Images ---
+  onAdditionalImageSelected(event: any, index: number) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      this.additionalImages[index].error = 'Please select a valid image file.';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      this.additionalImages[index].error = 'Image size should be less than 2MB.';
+      return;
+    }
+    this.additionalImages[index].file = file;
+    this.additionalImages[index].error = '';
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.additionalImages[index].url = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadAdditionalImage(studentId: number, imageNumber: number) {
+    const img = this.additionalImages[imageNumber - 1];
+    if (!img.file) return;
+    img.loading = true;
+    const formData = new FormData();
+    formData.append('file', img.file);
+    this.http.post(`http://localhost:8080/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+      .subscribe({
+        next: () => {
+          img.loading = false;
+          img.error = '';
+          img.uploaded = true;
+          Swal.fire('Success', `Image ${imageNumber} uploaded!`, 'success');
+        },
+        error: () => {
+          img.loading = false;
+          img.error = `Failed to upload image ${imageNumber}.`;
+          Swal.fire('Error', `Failed to upload image ${imageNumber}.`, 'error');
+        }
+      });
+  }
+
+  deleteAdditionalImage(studentId: number, imageNumber: number) {
+    const img = this.additionalImages[imageNumber - 1];
+    img.loading = true;
+    this.http.delete(`http://localhost:8080/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`)
+      .subscribe({
+        next: () => {
+          img.file = null;
+          img.url = null;
+          img.loading = false;
+          Swal.fire('Deleted', `Image ${imageNumber} deleted.`, 'success');
+        },
+        error: () => {
+          img.loading = false;
+          Swal.fire('Error', `Failed to delete image ${imageNumber}.`, 'error');
+        }
+      });
+  }
+
+  addAdditionalImage() {
+    if (this.additionalImagesCount < 10) {
+      this.additionalImagesCount++;
+    }
+  }
+
+  getStudentId(): number | null {
+    const id = this.sno;
+    if (!id) return null;
+    const num = Number(id);
+    return isNaN(num) ? null : num;
+  }
+
+  // Load student data for editing
+  editStudent(student: any) {
+    // Set all fields from the student object
+    this.firstName = student.firstName || '';
+    this.lastName = student.lastName || '';
+    this.studentNumber = student.studentNumber || '';
+    this.birthDate = student.birthDate || '';
+    this.residence = student.residence || '';
+    this.healthStatus = student.healthStatus || '';
+    this.phone = student.phone || '';
+    this.email = student.email || '';
+    this.studentPassword = student.password || '';
+    this.club = student.club || '';
+    this.level = student.level || '';
+    this.year = student.year || null;
+    this.mother = student.mother || '';
+    this.father = student.father || '';
+    this.enrollmentStatus = student.enrollmentStatus || '';
+    this.studentId = student.id || student.studentId || null;
+    // Set profile picture URL for preview
+    if (this.studentId) {
+      this.profilePictureUrl = `http://localhost:8080/api/students/${this.studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}&t=${Date.now()}`;
+    } else {
+      this.profilePictureUrl = null;
+    }
+    // Optionally reset upload states
+    this.profilePictureFile = null;
+    this.profilePictureUploaded = false;
+    this.profilePictureError = '';
   }
 }

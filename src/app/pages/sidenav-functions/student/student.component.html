@@ -338,34 +338,20 @@
       </div>
     </div>
     <div class="col-md-4 row pt-md-5">
-      <div id="carousel" class="carousel slide pt-md-5" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="1.jpg" class="d-block w-100" alt="Image 1" />
-          </div>
-          <div class="carousel-item">
-            <img src="1.jpg" class="d-block w-100" alt="Image 2" />
-          </div>
-          <div class="carousel-item">
-            <img src="1.jpg" class="d-block w-100" alt="Image 3" />
-          </div>
+      <div class="d-flex flex-column align-items-center pt-md-5">
+        <div *ngIf="currentStudent.profilePictureUrl; else noProfilePic">
+          <img
+            [src]="currentStudent.profilePictureUrl"
+            class="img-thumbnail mb-2"
+            style="max-width: 220px; max-height: 220px; border-radius: 8px"
+            alt="Profile Picture" />
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#carousel"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#carousel"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+        <ng-template #noProfilePic>
+          <div class="text-muted text-center" style="padding: 40px 0">
+            <i class="bi bi-person-circle" style="font-size: 5rem"></i><br />
+            No profile picture
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
