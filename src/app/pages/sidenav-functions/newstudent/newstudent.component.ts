@@ -66,6 +66,8 @@ export class NewStudentComponent {
   pendingAdditionalImages: File[] = [];
   additionalImagesUploading: boolean = false;
   additionalImagesUploaded: boolean = false;
+  uploadedImagesCount: number = 0; // Track number of uploaded images
+  totalImagesToUpload: number = 0; // Total number of images to upload
 
   constructor(private clubService: ClubserviceService, private http: HttpClient, private router: Router) {
     this.fetchClubs();
@@ -197,8 +199,8 @@ export class NewStudentComponent {
       Swal.fire('Invalid file', 'Please select a valid image file.', 'error');
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      Swal.fire('File too large', 'Image size should be less than 2MB.', 'error');
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      Swal.fire('File too large', 'Image size should be less than 5MB.', 'error');
       return;
     }
     if (this.additionalImages.length >= 10) {
@@ -214,30 +216,55 @@ export class NewStudentComponent {
   }
 
 uploadAdditionalImages() {
-    if (!this.pendingAdditionalImages.length || !this.studentId || !this.schoolAdminId) return;
-    this.additionalImagesUploading = true;
+  if (!this.additionalImages.length || !this.studentId || !this.schoolAdminId) return;
+
+  this.additionalImagesUploading = true;
+  let uploadCount = 0;
+  let errorCount = 0;
+  const totalToUpload = this.additionalImages.filter(img => !!img.file).length;
+  this.uploadedImagesCount = 0; // For progress indicator
+  this.totalImagesToUpload = totalToUpload;
+
+  if (totalToUpload === 0) {
+    this.additionalImagesUploading = false;
+    Swal.fire('Info', 'No images to upload.', 'info');
+    return;
+  }
+
+  this.additionalImages.forEach((img, idx) => {
+    if (!img.file) return;
+    img.uploading = true;
     const formData = new FormData();
-    this.pendingAdditionalImages.forEach((file, idx) => {
-      formData.append('files', file);
-    });
-    // Add schoolAdminId as a parameter
+    formData.append('file', img.file);
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
     this.http.post(
-      `http://localhost:8080/api/students/${this.studentId}/images`,
+      `http://localhost:8080/api/students/${this.studentId}/image/${idx + 1}`,
       formData,
-      { params: params, responseType: 'text' } // <-- Fix: expect plain text response
+      { params: params, responseType: 'text' }
     ).subscribe({
-      next: (res: any) => {
-        this.additionalImagesUploading = false;
-        this.additionalImagesUploaded = true;
-        this.pendingAdditionalImages = [];
-        Swal.fire('Success', 'Images uploaded!', 'success');
+      next: () => {
+        img.uploading = false;
+        uploadCount++;
+        this.uploadedImagesCount++;
+        if (uploadCount + errorCount === totalToUpload) {
+          this.additionalImagesUploading = false;
+          if (errorCount === 0) {
+            this.additionalImagesUploaded = true;
+            Swal.fire('Success', 'All images uploaded!', 'success');
+          }
+        }
       },
       error: () => {
-        this.additionalImagesUploading = false;
-        Swal.fire('Error', 'Failed to upload images.', 'error');
+        img.uploading = false;
+        errorCount++;
+        this.uploadedImagesCount++;
+        if (uploadCount + errorCount === totalToUpload) {
+          this.additionalImagesUploading = false;
+          Swal.fire('Error', 'Some images failed to upload.', 'error');
+        }
       }
     });
+  });
 }
 
   removeAdditionalImage(index: number) {
@@ -294,6 +321,8 @@ uploadAdditionalImages() {
       father: this.father,
       enrollmentStatus: this.enrollmentStatus // <-- Add this line
     };
+
+    // Use schoolAdminId as a query parameter (previous version)
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
     this.http.post<any>('http://localhost:8080/api/students', newStudent, { params }).subscribe({
       next: (res) => {

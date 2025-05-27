@@ -378,12 +378,22 @@
               </label>
             </div>
           </div>
+          <div *ngIf="additionalImagesUploading" class="mb-2">
+            <div class="progress" style="height: 20px">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                role="progressbar"
+                [style.width]="
+                  (uploadedImagesCount / totalImagesToUpload) * 100 + '%'
+                ">
+                {{ uploadedImagesCount }} / {{ totalImagesToUpload }}
+              </div>
+            </div>
+          </div>
           <button
             class="btn btn-success btn-sm w-100"
             (click)="uploadAdditionalImages()"
-            [disabled]="
-              !pendingAdditionalImages.length || additionalImagesUploading
-            ">
+            [disabled]="!additionalImages.length || additionalImagesUploading">
             {{ additionalImagesUploaded ? "Update" : "Upload" }}
           </button>
         </div>

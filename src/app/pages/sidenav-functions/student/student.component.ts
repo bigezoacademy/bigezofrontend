@@ -361,6 +361,63 @@ export class StudentComponent {
     reader.readAsDataURL(file);
   }
 
+  // Handler for edit button next to profile picture
+  onProfilePictureEdit() {
+    if (!this.currentStudent || !this.currentStudent.id) {
+      this.profilePictureError = 'No student selected for profile picture update.';
+      return;
+    }
+    // Trigger file input for profile picture update
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        this.profilePictureError = 'Please select a valid image file.';
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        this.profilePictureError = 'Image size should be less than 2MB.';
+        return;
+      }
+      this.profilePictureFile = file;
+      this.profilePictureError = '';
+      this.profilePictureLoading = true;
+
+      // Prepare FormData for file upload
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Call the update profile picture API (PUT)
+      this.http.put(
+        `${this.studentUrl}/${this.currentStudent.id}/profile-picture?schoolAdminId=${this.schoolAdminId}`,
+        formData,
+        { responseType: 'text' }
+      ).subscribe({
+        next: (response: any) => {
+          this.profilePictureLoading = false;
+          this.message = 'Profile picture updated successfully!';
+          this.messageType = 'success';
+          // Optionally refresh student data or update UI
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.profilePictureUrl = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        },
+        error: (err) => {
+          this.profilePictureLoading = false;
+          this.profilePictureError = 'Error uploading profile picture. Please try again.';
+          this.message = this.profilePictureError;
+          this.messageType = 'error';
+        }
+      });
+    };
+    fileInput.click();
+  }
+
   deleteProfilePicture(studentId: number) {
     this.profilePictureLoading = true;
     // TODO: Call backend API to delete
