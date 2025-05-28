@@ -8,7 +8,7 @@ import { ClubserviceService } from '../../../services/clubservice.service';
 
 @Component({
   selector: 'app-newstudent',
-  standalone: true,
+  standalone: true,  
   imports: [CommonModule, FormsModule],
   templateUrl: './newstudent.component.html',
   styleUrls: ['./newstudent.component.css'],
@@ -35,7 +35,8 @@ export class NewStudentComponent {
   year: number | null = null;
   mother: string = '';
   father: string = '';
-  
+  gender: string = '';
+
   schoolAdminId: number | null = localStorage.getItem('id')
     ? Number(localStorage.getItem('id'))
     : null;

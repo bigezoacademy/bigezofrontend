@@ -232,6 +232,21 @@
         <label for="father">Father's Name</label>
       </div>
 
+      <!-- Gender Select -->
+      <div class="mb-3 col-md-4">
+        <label for="gender" class="form-label">Gender</label>
+        <select
+          id="gender"
+          class="form-select"
+          [(ngModel)]="gender"
+          name="gender"
+          required>
+          <option value="" disabled selected>Select Gender</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+        </select>
+      </div>
+
       <!-- Hidden School Admin Input -->
       <input
         hidden

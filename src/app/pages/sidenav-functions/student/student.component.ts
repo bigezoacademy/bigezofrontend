@@ -117,8 +117,42 @@ export class StudentComponent {
   
 
   editStudent(student: any) {
+    console.log('Editing student:', student); // Debug: print student data
     this.isEditMode = true;
-    this.currentStudent = { ...student };
+    this.currentStudent = {
+      ...student,
+      // Ensure all fields from backend are mapped for editing
+      studentNumber: student.studentNumber || student.studentNumber || '',
+      birthDate: student.birthDate || student.birthdate || '',
+      residence: student.residence || '',
+      gender: student.gender || '',
+      club: student.club || '',
+      healthStatus: student.healthStatus || '',
+      mother: student.mother || '',
+      father: student.father || '',
+      phone: student.phone || '',
+      email: student.email || '',
+      enrollmentStatus: student.enrollmentStatus || '',
+      year: student.year || '',
+      profilePictureUrl: student.profilePictureUrl || '',
+      studentVideoUrl: student.studentVideoUrl || '',
+      image1Url: student.image1Url || '',
+      image2Url: student.image2Url || '',
+      image3Url: student.image3Url || '',
+      image4Url: student.image4Url || '',
+      image5Url: student.image5Url || '',
+      image6Url: student.image6Url || '',
+      image7Url: student.image7Url || '',
+      image8Url: student.image8Url || '',
+      image9Url: student.image9Url || '',
+      image10Url: student.image10Url || '',
+      schoolAdminId: student.schoolAdminId || this.schoolAdminId,
+      id: student.id || '',
+      firstName: student.firstName || '',
+      lastName: student.lastName || '',
+      level: student.level || '',
+      // Add any other fields you expect here
+    };
     console.log(this.currentStudent.enrollmentStatus); // Log to check if the value is set correctly
   }
   

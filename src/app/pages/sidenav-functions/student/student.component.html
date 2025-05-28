@@ -149,6 +149,18 @@
             <td>{{ student.father }}</td>
             <td>{{ student.phone }}</td>
             <td *ngIf="accounttype === 'ROLE_ADMIN'">
+              <!-- Profile Picture Column -->
+              <img
+                *ngIf="student.profilePictureUrl"
+                [src]="student.profilePictureUrl"
+                alt="Profile"
+                class="img-thumbnail"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  object-fit: cover;
+                  margin-right: 5px;
+                " />
               <!-- Edit Button -->
               <button
                 class="btn btn-sm btn-primary m-1"
