@@ -94,6 +94,13 @@ export class NewStudentComponent {
     return Math.floor(1000000 + Math.random() * 9000000).toString();
   }
 
+  // Generate a student number: 3 initials + 4 random digits
+  generateStudentNumber(): string {
+    const initials = (this.firstName.charAt(0) + (this.lastName.charAt(0) || '') + (this.lastName.charAt(1) || '')).toUpperCase();
+    const randomDigits = Math.floor(1000 + Math.random() * 9000).toString();
+    return initials + randomDigits;
+  }
+
   // --- File Upload Handlers ---
   onProfilePictureSelected(event: any) {
     const file = event.target.files[0];
@@ -279,7 +286,6 @@ uploadAdditionalImages() {
     if (
       !this.firstName ||
       !this.lastName ||
-      !this.studentNumber ||
       !this.birthDate ||
       !this.residence ||
       !this.healthStatus ||
@@ -294,6 +300,7 @@ uploadAdditionalImages() {
       return;
     }
     this.studentPassword = this.generateProvisionalPassword();
+    this.studentNumber = this.generateStudentNumber(); // Auto-generate student number
     setTimeout(() => {
       sessionStorage.setItem('studentPassword', this.studentPassword);
       sessionStorage.setItem('studentUsername', this.studentNumber);
@@ -320,11 +327,14 @@ uploadAdditionalImages() {
       year: this.year,
       mother: this.mother,
       father: this.father,
-      enrollmentStatus: this.enrollmentStatus // <-- Add this line
+      enrollmentStatus: this.enrollmentStatus,
+      gender: this.gender // <-- Add gender to the body
     };
 
-    // Use schoolAdminId as a query parameter (previous version)
-    const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
+    // Use schoolAdminId and gender as query parameters
+    const params = new HttpParams()
+      .set('schoolAdminId', String(this.schoolAdminId))
+      .set('gender', this.gender);
     this.http.post<any>('http://localhost:8080/api/students', newStudent, { params }).subscribe({
       next: (res) => {
         this.addStudentStatus = `  Account created successfully for ${this.firstName}_${this.lastName}.`;

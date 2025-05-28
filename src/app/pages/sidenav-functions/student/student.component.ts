@@ -122,7 +122,7 @@ export class StudentComponent {
     this.currentStudent = {
       ...student,
       // Ensure all fields from backend are mapped for editing
-      studentNumber: student.studentNumber || student.studentNumber || '',
+      studentNumber: student.studentNumber || '',
       birthDate: student.birthDate || student.birthdate || '',
       residence: student.residence || '',
       gender: student.gender || '',
@@ -287,7 +287,14 @@ export class StudentComponent {
       return;
     }
 
-    this.http.put<any>(`${this.studentUrl}/${this.currentStudent.id}?schoolAdminId=${this.schoolAdminId}`, this.currentStudent)
+    // Ensure residence and birthDate are included in the update body
+    const updateBody = {
+      ...this.currentStudent,
+      residence: this.currentStudent.residence || '',
+      birthDate: this.currentStudent.birthDate || '',
+    };
+
+    this.http.put<any>(`${this.studentUrl}/${this.currentStudent.id}?schoolAdminId=${this.schoolAdminId}`, updateBody)
       .subscribe({
         next: () => {
           this.isEditMode = false;
