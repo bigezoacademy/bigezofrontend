@@ -108,7 +108,7 @@ export class NewschoolfeesComponent {
     }
   
     // Step 1: Check if entry already exists
-    this.http.get<number>(`http://localhost:8080/api/school-fees-settings/find?year=${this.myyear}&term=${this.myterm}&level=${this.mylevel}`)
+    this.http.get<number>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-settings/find?year=${this.myyear}&term=${this.myterm}&level=${this.mylevel}`)
       .subscribe({
         next: (existingId) => {
           if (existingId) {
@@ -155,7 +155,7 @@ export class NewschoolfeesComponent {
       schoolAdmin: { id: schoolAdminId }
     };
   
-    this.http.post<any>('http://localhost:8080/api/school-fees-settings', schoolFeesSetting)
+    this.http.post<any>('https://bigezobackend2025-production.up.railway.app/api/school-fees-settings', schoolFeesSetting)
       .subscribe({
         next: (response) => {
           if (response && response.id) {
@@ -183,7 +183,7 @@ export class NewschoolfeesComponent {
   }
 
   fetchSchoolFeesDetails(feesId: number): void {
-    this.http.get<any[]>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+    this.http.get<any[]>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-details/by-fees-id?feesId=${feesId}`)
       .subscribe({
         next: (response) => {
           this.schoolFeesDetails = response;
@@ -229,7 +229,7 @@ export class NewschoolfeesComponent {
     });
 
     // Save updated details
-    this.http.post<any>('http://localhost:8080/api/school-fees-details', this.schoolFeesDetails)
+    this.http.post<any>('https://bigezobackend2025-production.up.railway.app/api/school-fees-details', this.schoolFeesDetails)
       .subscribe({
         next: () => {
           Swal.fire('Fees saved successfully!');
@@ -248,7 +248,7 @@ export class NewschoolfeesComponent {
     if (this.deletedDetails.length === 0) return; // No deleted items
 
     this.deletedDetails.forEach((id) => {
-      this.http.delete(`http://localhost:8080/api/school-fees-details/${id}`)
+      this.http.delete(`https://bigezobackend2025-production.up.railway.app/api/school-fees-details/${id}`)
         .subscribe({
           next: () => {
             console.log(`Detail with ID ${id} deleted successfully.`);

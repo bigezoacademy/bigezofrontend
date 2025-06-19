@@ -20,7 +20,7 @@ import { catchError, throwError } from 'rxjs';
 export class RequirementsComponent {
     // Update endpoint as needed
   accounttype: any = localStorage.getItem('Role');
-  requirementsUrl: string = 'http://localhost:8080/api/requirements';
+  requirementsUrl: string = 'https://bigezobackend2025-production.up.railway.app/api/requirements';
   requirements: any[] = []; // To store fetched requirements
   myyear: number = 2025; // Default year as number
   mylevel: string = localStorage.getItem('level') ?? ''; // Default level as string

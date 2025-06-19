@@ -7,8 +7,8 @@ import { Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:8080/api/payments'; // Update this with your backend URL
-  private apiUrl2 = 'http://localhost:8080/api/pesapal/request-token'; // Adjust the URL to match your backend
+  private apiUrl = 'https://bigezobackend2025-production.up.railway.app/api/payments'; // Update this with your backend URL
+  private apiUrl2 = 'https://bigezobackend2025-production.up.railway.app/api/pesapal/request-token'; // Adjust the URL to match your backend
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ submitPayment(orderRequest: any): Observable<string> {
 }
 
   getPaymentStatus(orderTrackingId: string): Observable<string> {
-    return this.http.get<string>(`http://localhost:8080/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
+    return this.http.get<string>(`https://bigezobackend2025-production.up.railway.app/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
   }
 
   /**

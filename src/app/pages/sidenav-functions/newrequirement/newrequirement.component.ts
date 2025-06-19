@@ -18,7 +18,7 @@ export class NewRequirementComponent {
   status: string | null = null;
   quantity: number | null = null;
 
-  newRequirementUrl: string = 'http://localhost:8080/api/requirements';
+  newRequirementUrl: string = 'https://bigezobackend2025-production.up.railway.app/api/requirements';
   item: string = '';
   description: string = '';
   unitCost: number | null = null;

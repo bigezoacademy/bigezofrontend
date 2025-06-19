@@ -42,7 +42,7 @@ export class SchoolfeesComponent implements OnInit {
   displayExistingFees(): void {
     this.setAdminId();
     if (this.adminId) {
-      this.http.get<SchoolFeesSetting[]>(`http://localhost:8080/api/school-fees-settings/find-by-year-and-admin?year=${this.myyear}&schoolAdminId=${this.adminId}`)
+      this.http.get<SchoolFeesSetting[]>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-settings/find-by-year-and-admin?year=${this.myyear}&schoolAdminId=${this.adminId}`)
         .subscribe(
           data => {
             if (data && data.length > 0) {
@@ -73,7 +73,7 @@ export class SchoolfeesComponent implements OnInit {
 
   viewFeesDetails(feesId: number,feesYear:string,feesLevel:string,feesTerm:string): void {
     this.setAdminId();
-    this.http.get<any>(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+    this.http.get<any>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-details/by-fees-id?feesId=${feesId}`)
       .subscribe(
         (data) => {
           if (!data || data.length === 0) {
@@ -183,7 +183,7 @@ export class SchoolfeesComponent implements OnInit {
     this.setAdminId();
     console.log(`Deleting fees details for feesId: ${feesId}, year: ${feesYear}, level: ${feesLevel}, term: ${feesTerm}`);
     
-    this.http.delete(`http://localhost:8080/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+    this.http.delete(`https://bigezobackend2025-production.up.railway.app/api/school-fees-details/by-fees-id?feesId=${feesId}`)
       .subscribe({
         next: () => {
           Swal.fire('Fees details deleted successfully');
