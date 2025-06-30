@@ -34,7 +34,7 @@ ngOnInit(): void {
     const adminId = localStorage.getItem("id");
      // Assuming the token is stored in localStorage
     if (adminId && token) {
-      fetch(`https://bigezobackend2025-production.up.railway.app/api/school-admins/${adminId}`, {
+      fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -116,7 +116,7 @@ this.router.navigateByUrl("terms");
                           }
 
 
-                  paytokenapiUrl = "https://bigezobackend2025-production.up.railway.app/api/pesapal/request-token";
+                  paytokenapiUrl = "https://bigezo-production.up.railway.app/api/pesapal/request-token";
                  private paymentService=inject(PaymentService);
 
             

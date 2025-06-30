@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class StudentComponent {
   accounttype: any = localStorage.getItem("Role");
-  studentUrl: string = 'https://bigezobackend2025-production.up.railway.app/api/students';
+  studentUrl: string = 'https://bigezo-production.up.railway.app/api/students';
   student: any[] = []; // Stores all students
   filteredStudents: any[] = []; // Stores students after filtering
 
@@ -213,7 +213,7 @@ export class StudentComponent {
           message: messageContent
         };
   
-        const url = `https://bigezobackend2025-production.up.railway.app/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+        const url = `https://bigezo-production.up.railway.app/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
   
         this.http.post(url, null, { responseType: 'text' })
           .subscribe({

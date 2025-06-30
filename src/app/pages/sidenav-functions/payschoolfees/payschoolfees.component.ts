@@ -103,7 +103,7 @@ makePayment() {
       const adminId = localStorage.getItem("id");
        // Assuming the token is stored in localStorage
       if (adminId && token) {
-        fetch(`https://bigezobackend2025-production.up.railway.app/api/school-admins/${adminId}`, {
+        fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -166,7 +166,7 @@ makePayment() {
       }
     
       
-      this.http.get<number>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-settings/find-by-year-term-level-and-admin?year=${this.myyear}&term=${this.myterm}&level=${this.mylevel}&schoolAdminId=${this.schoolAdminId}`)
+      this.http.get<number>(`https://bigezo-production.up.railway.app/api/school-fees-settings/find-by-year-term-level-and-admin?year=${this.myyear}&term=${this.myterm}&level=${this.mylevel}&schoolAdminId=${this.schoolAdminId}`)
         .subscribe({
           next: (existingId) => {
             if (existingId) {
@@ -199,7 +199,7 @@ makePayment() {
   }
 
     fetchSchoolFeesDetails(feesId: number): void {
-      this.http.get<any[]>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-details/by-fees-id?feesId=${feesId}`)
+      this.http.get<any[]>(`https://bigezo-production.up.railway.app/api/school-fees-details/by-fees-id?feesId=${feesId}`)
         .subscribe({
           next: (response) => {
             this.fees = response;
@@ -230,7 +230,7 @@ makePayment() {
   viewFeesDetails(feesYear: string, feesLevel: string, feesTerm: string): void {
     this.setAdminId();
   
-    this.http.get<number>(`https://bigezobackend2025-production.up.railway.app/api/school-fees-settings/find-by-year-term-level-and-admin?year=${feesYear}&term=${feesTerm}&level=${feesLevel}&schoolAdminId=${this.adminId}`)
+    this.http.get<number>(`https://bigezo-production.up.railway.app/api/school-fees-settings/find-by-year-term-level-and-admin?year=${feesYear}&term=${feesTerm}&level=${feesLevel}&schoolAdminId=${this.adminId}`)
       .subscribe({
         next: (response) => {
           console.log('Fees response:', response);

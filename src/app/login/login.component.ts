@@ -39,7 +39,7 @@ export class LoginComponent {
     // Handle login for student
     if (this.userType === 'student') {
      // localStorage.setItem('Role', "ROLE_USER");
-      loginUrl = 'https://bigezobackend2025-production.up.railway.app/auth/student-login';
+      loginUrl = 'https://bigezo-production.up.railway.app/auth/student-login';
       loginObj = {
         studentNumber: this.username, // Use studentNumber for student login
         password: this.password
@@ -52,7 +52,7 @@ export class LoginComponent {
         this.errorMessage = 'Username is required.';
         return;
       }
-      loginUrl = 'https://bigezobackend2025-production.up.railway.app/auth/login';
+      loginUrl = 'https://bigezo-production.up.railway.app/auth/login';
       loginObj = {
         username: this.username,
         password: this.password
