@@ -1,6 +1,38 @@
 <div class="d-flex row">
   <!-- Sidebar -->
   <div class="sidebar" [ngClass]="{ show: sidebarVisible }">
+    <!-- Subscription Status & Upgrade Button -->
+    <div
+      *ngIf="accounttype === 'ROLE_ADMIN'"
+      class="mb-3 p-2 border rounded bg-light"
+    >
+      <div class="d-flex align-items-center justify-content-between">
+        <span>
+          <i class="bi bi-stars text-warning me-2"></i>
+          <span
+            *ngIf="subscriptionStatus === 'COMPLETED'"
+            class="badge bg-success"
+            >Active</span
+          >
+          <span
+            *ngIf="subscriptionStatus === 'PENDING'"
+            class="badge bg-warning text-dark"
+            >Pending</span
+          >
+          <span
+            *ngIf="subscriptionStatus === 'FAILED' || !subscriptionStatus"
+            class="badge bg-danger"
+            >Inactive</span
+          >
+        </span>
+        <button
+          class="btn btn-sm btn-outline-primary ms-2"
+          (click)="goToSubscription()"
+        >
+          Upgrade
+        </button>
+      </div>
+    </div>
     <button class="close-btn" (click)="toggleSidebar()">×</button>
     <div class="row p-3 logobg mb-3">
       <div class="logo">
@@ -33,7 +65,7 @@
     </ul>
     <a
       (click)="home(); hideSidebarOnNav()"
-      *ngIf="accounttype === 'ROLE_ADMIN'"
+      *ngIf="accounttype === 'ROLE_ADMIN' && !subscriptionInProgress"
     >
       <i class="bi me-3 bi-graph-up-arrow"></i> Analytics
     </a>

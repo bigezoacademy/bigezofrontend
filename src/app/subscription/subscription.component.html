@@ -1,102 +1,169 @@
-<div
-  class="card shadow-lg border-0"
-  style="
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: #fff;
-    font-family: inherit;
-  "
->
-  <div class="card-body">
-    <h4
-      class="mb-3"
-      style="font-family: inherit; letter-spacing: 1px; font-weight: 600"
+<div class="container-fluid p-0">
+  <h4
+    class="mb-4"
+    style="font-family: inherit; font-weight: 600; letter-spacing: 1px"
+  >
+    <i
+      class="bi bi-stars me-2"
+      style="font-size: 2rem; vertical-align: middle"
+    ></i>
+    School Admin Subscription
+  </h4>
+  <!-- Subscription Packages as Simple Cards -->
+  <div *ngIf="!paymentIframeUrl" class="row g-4 mb-4">
+    <div class="col-md-4">
+      <div class="card h-100 border shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Free</h5>
+          <h6 class="card-subtitle mb-2 text-muted">$0/month</h6>
+          <ul class="list-unstyled mb-3">
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i> Manage
+              Student Database
+            </li>
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i> Add
+              School Fees
+            </li>
+          </ul>
+          <button class="btn btn-outline-secondary w-100" disabled>
+            Current Plan
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Standard</h5>
+          <h6 class="card-subtitle mb-2 text-muted">$10/month</h6>
+          <ul class="list-unstyled mb-3">
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i> Pay
+              School Fees
+            </li>
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              Students' Yearbook
+            </li>
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i> All Free
+              Features
+            </li>
+          </ul>
+          <button
+            type="button"
+            class="btn btn-primary w-100"
+            [disabled]="isSubscribing"
+            (click)="subscribeToPaidPlan('standard')"
+          >
+            <span
+              *ngIf="isSubscribing"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Subscribe to Standard
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Premium</h5>
+          <h6 class="card-subtitle mb-2 text-muted">$20/month</h6>
+          <ul class="list-unstyled mb-3">
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i> Canteen
+            </li>
+            <li>
+              <i class="bi bi-check-circle-fill text-success me-2"></i> All
+              Standard & Free Features
+            </li>
+          </ul>
+          <button
+            type="button"
+            class="btn btn-warning text-dark w-100"
+            [disabled]="isSubscribing"
+            (click)="subscribeToPaidPlan('premium')"
+          >
+            <span
+              *ngIf="isSubscribing"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Subscribe to Premium
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!paymentIframeUrl" class="row mb-4">
+    <div class="col-md-4">
+      <label class="form-label">Number of Students</label>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="studentCount"
+        name="studentCount"
+        min="1"
+        required
+      />
+    </div>
+  </div>
+
+  <!-- Responsive Payment Iframe -->
+  <div *ngIf="paymentIframeUrl" class="mt-4">
+    <h5 class="mb-3">Complete Payment</h5>
+    <div style="width: 100%; max-width: 600px; margin: 0 auto">
+      <iframe
+        [src]="paymentIframeUrl | safeUrl"
+        width="100%"
+        height="600"
+        frameborder="0"
+        allowfullscreen
+        style="border-radius: 12px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12)"
+      ></iframe>
+    </div>
+  </div>
+  <div *ngIf="subscriptionStatus" class="mt-3">
+    <span class="badge bg-success" *ngIf="subscriptionStatus === 'COMPLETED'"
+      >Subscription Active</span
     >
-      <i
-        class="bi bi-stars me-2"
-        style="font-size: 2rem; vertical-align: middle"
-      ></i>
-      School Admin Subscription
-    </h4>
-    <div class="row g-3 align-items-end">
-      <div class="col-md-4">
-        <label class="form-label">Number of Students</label>
-        <input
-          type="number"
-          class="form-control"
-          [(ngModel)]="studentCount"
-          name="studentCount"
-          min="1"
-          required
-        />
-      </div>
-      <div class="col-md-4 d-flex flex-column">
-        <button
-          type="button"
-          class="btn btn-primary mb-2"
-          [disabled]="isSubscribing"
-          (click)="subscribeToPaidPlan('standard')"
-        >
-          <span
-            *ngIf="isSubscribing"
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          Subscribe to Standard
-        </button>
-        <button
-          type="button"
-          class="btn btn-warning text-dark"
-          [disabled]="isSubscribing"
-          (click)="subscribeToPaidPlan('premium')"
-        >
-          <span
-            *ngIf="isSubscribing"
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          Subscribe to Premium
-        </button>
-      </div>
-    </div>
-    <div *ngIf="subscriptionStatus" class="mt-3">
-      <span class="badge bg-success" *ngIf="subscriptionStatus === 'COMPLETED'"
-        >Subscription Active</span
-      >
-      <span class="badge bg-danger" *ngIf="subscriptionStatus === 'FAILED'"
-        >Payment Failed</span
-      >
-      <span
-        class="badge bg-warning text-dark"
-        *ngIf="subscriptionStatus === 'PENDING'"
-        >Payment Pending</span
-      >
-    </div>
-    <div class="mt-4">
-      <h6 style="font-family: inherit; font-weight: 500">Feature Access:</h6>
-      <ul class="list-unstyled">
-        <li>
-          <i class="bi bi-check-circle-fill text-success me-2"></i> Manage
-          Student Database <span class="badge bg-info">Free</span>
-        </li>
-        <li>
-          <i class="bi bi-check-circle-fill text-success me-2"></i> Add School
-          Fees <span class="badge bg-info">Free</span>
-        </li>
-        <li>
-          <i class="bi bi-check-circle-fill text-primary me-2"></i> Pay School
-          Fees <span class="badge bg-primary">Standard</span>
-        </li>
-        <li>
-          <i class="bi bi-check-circle-fill text-primary me-2"></i> Students'
-          Yearbook <span class="badge bg-primary">Standard</span>
-        </li>
-        <li>
-          <i class="bi bi-check-circle-fill text-warning me-2"></i> Canteen
-          <span class="badge bg-warning text-dark">Premium</span>
-        </li>
-      </ul>
-    </div>
+    <span class="badge bg-danger" *ngIf="subscriptionStatus === 'FAILED'"
+      >Payment Failed</span
+    >
+    <span
+      class="badge bg-warning text-dark"
+      *ngIf="subscriptionStatus === 'PENDING'"
+      >Payment Pending</span
+    >
+  </div>
+  <div class="mt-4">
+    <h6 style="font-family: inherit; font-weight: 500">Feature Access:</h6>
+    <ul class="list-unstyled">
+      <li>
+        <i class="bi bi-check-circle-fill text-success me-2"></i> Manage Student
+        Database <span class="badge bg-info">Free</span>
+      </li>
+      <li>
+        <i class="bi bi-check-circle-fill text-success me-2"></i> Add School
+        Fees <span class="badge bg-info">Free</span>
+      </li>
+      <li>
+        <i class="bi bi-check-circle-fill text-primary me-2"></i> Pay School
+        Fees <span class="badge bg-primary">Standard</span>
+      </li>
+      <li>
+        <i class="bi bi-check-circle-fill text-primary me-2"></i> Students'
+        Yearbook <span class="badge bg-primary">Standard</span>
+      </li>
+      <li>
+        <i class="bi bi-check-circle-fill text-warning me-2"></i> Canteen
+        <span class="badge bg-warning text-dark">Premium</span>
+      </li>
+    </ul>
   </div>
 </div>

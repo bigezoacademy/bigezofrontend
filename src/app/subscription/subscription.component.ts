@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SafeUrlPipe } from '../pipes/safe-url.pipe';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-subscription',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SafeUrlPipe],
   templateUrl: './subscription.component.html',
   styleUrls: ['./subscription.component.css']
 })
@@ -15,6 +16,7 @@ export class SubscriptionComponent {
   studentCount: number = 1;
   isSubscribing: boolean = false;
   subscriptionStatus: string | null = null;
+  paymentIframeUrl: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -35,7 +37,7 @@ export class SubscriptionComponent {
       next: (paymentUrl: string) => {
         this.isSubscribing = false;
         if (paymentUrl) {
-          window.location.href = paymentUrl;
+          this.paymentIframeUrl = paymentUrl;
         }
       },
       error: (error: any) => {

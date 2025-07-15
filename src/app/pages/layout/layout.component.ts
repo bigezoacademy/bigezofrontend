@@ -12,21 +12,26 @@ import { PaymentService } from '../../services/payment.service';
 })
 export class LayoutComponent {
   sidebarVisible: boolean = false;
-  message: string = ''; // To show success/error messages
-  messageType: string = ''; // To determine the type of message ('success' or 'error')
-  schoolName:string='';
-
+  message: string = '';
+  messageType: string = '';
+  schoolName: string = '';
+  accounttype: any = localStorage.getItem("Role");
+  name: any = localStorage.getItem("firstName") + " " + localStorage.getItem("lastName");
+  seeExistingFees: boolean = false;
+  subscriptionStatus: string | null = localStorage.getItem('subscriptionStatus');
+  subscriptionInProgress: boolean = !!localStorage.getItem('paymentIframeUrl');
 
   constructor(private router: Router, private renderer: Renderer2) {}
 
   toggleSidebar(): void {
     this.sidebarVisible = !this.sidebarVisible;
   }
-accounttype:any=localStorage.getItem("Role");
-name:any=localStorage.getItem("firstName")+" "+localStorage.getItem("lastName");
 
-seeExistingFees: boolean = false;
-ngOnInit(): void {
+  goToSubscription() {
+    this.router.navigateByUrl('subscription');
+  }
+
+  ngOnInit(): void {
   const token = localStorage.getItem("Token");
   if(this.accounttype==="ROLE_ADMIN"){
    

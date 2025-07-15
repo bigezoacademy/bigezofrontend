@@ -18,6 +18,7 @@ import { NewschoolfeesComponent } from './pages/sidenav-functions/newschoolfees/
 import { PaySchoolfeesComponent } from './pages/sidenav-functions/payschoolfees/payschoolfees.component';
 import { ProductsComponent } from './pages/sidenav-functions/products/products.component';
 import { PaymentCallbackComponent } from './payment-callback/payment-callback.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 export const routes: Routes = [
    // Public route
@@ -104,7 +105,8 @@ export const routes: Routes = [
         component: ProductsComponent,
         canActivate:[authGuard],
         data:{role:['ROLE_ADMIN','ROLE_USER']}
-      }
+      },
+      { path: 'subscription', component: SubscriptionComponent },
     ],
   },
   { path: '**', redirectTo: '' }, // Catch-all for unknown routes
