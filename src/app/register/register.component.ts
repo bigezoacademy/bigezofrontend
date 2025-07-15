@@ -22,8 +22,10 @@ export class RegisterComponent {
   registerForm: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
+  isLoading: boolean = false;
 
-  private readonly registerUrl = 'https://bigezo-production.up.railway.app/auth/registerschool';
+  //private readonly registerUrl = 'https://bigezo-production.up.railway.app/auth/registerschool';
+  private readonly registerUrl = 'http://localhost:8080/auth/registerschool';
 
   districts: string[] = [
     'Abim', 'Adjumani', 'Agago', 'Alebtong', 'Amolatar', 'Amudat', 'Amuria', 'Amuru', 'Apac', 'Arua', 'Budaka', 'Bududa', 'Bugiri', 'Buhweju', 'Buikwe', 'Bukedea', 'Bukomansimbi', 'Bukwo', 'Bulambuli', 'Buliisa', 'Bundibugyo', 'Bunyangabu', 'Bushenyi', 'Busia', 'Butaleja', 'Butambala', 'Butebo', 'Buvuma', 'Buyende', 'Dokolo', 'Gomba', 'Gulu', 'Hoima', 'Ibanda', 'Iganga', 'Isingiro', 'Jinja', 'Kaabong', 'Kabale', 'Kabarole', 'Kaberamaido', 'Kagadi', 'Kakumiro', 'Kalangala', 'Kaliro', 'Kalungu', 'Kampala', 'Kamuli', 'Kamwenge', 'Kanungu', 'Kapchorwa', 'Kasese', 'Katakwi', 'Kayunga', 'Kibaale', 'Kiboga', 'Kibuku', 'Kikuube', 'Kiruhura', 'Kiryandongo', 'Kisoro', 'Kitagwenda', 'Kitgum', 'Koboko', 'Kole', 'Kotido', 'Kumi', 'Kwania', 'Kween', 'Kyankwanzi', 'Kyegegwa', 'Kyenjojo', 'Kyotera', 'Lamwo', 'Lira', 'Luuka', 'Luwero', 'Lwengo', 'Lyantonde', 'Manafwa', 'Maracha', 'Masaka', 'Masindi', 'Mayuge', 'Mbale', 'Mbarara', 'Mitooma', 'Mityana', 'Moroto', 'Moyo', 'Mpigi', 'Mubende', 'Mukono', 'Nakapiripirit', 'Nakaseke', 'Nakasongola', 'Namayingo', 'Namisindwa', 'Namutumba', 'Napak', 'Nebbi', 'Ngora', 'Ntoroko', 'Ntungamo', 'Nwoya', 'Omoro', 'Otuke', 'Oyam', 'Pader', 'Pakwach', 'Pallisa', 'Rakai', 'Rubanda', 'Rubirizi', 'Rukiga', 'Rukungiri', 'Rwampara', 'Serere', 'Sheema', 'Sironko', 'Soroti', 'Tororo', 'Wakiso', 'Yumbe', 'Zombo'
@@ -41,14 +43,13 @@ export class RegisterComponent {
     });
   }
 
- /*  onSubmit() {
+  onSubmit() {
     // Check if the form is valid
     if (this.registerForm.invalid) {
       this.errorMessage = 'Please fill out all required fields correctly.';
       return;
     }
-  
-  
+    this.isLoading = true;
     this.successMessage = '';
     this.errorMessage = '';
   
@@ -65,6 +66,7 @@ export class RegisterComponent {
   
     this.http.post<RegisterResponse>(this.registerUrl, formData).subscribe({
       next: (response) => {
+        this.isLoading = false;
         if (response.success) {
           this.successMessage = 'Registration successful!';
           this.registerForm.reset();
@@ -73,53 +75,19 @@ export class RegisterComponent {
         }
       },
       error: (error) => {
-        this.errorMessage = 'Registration failed. Please try again later.';
+        this.isLoading = false;
+        if (error.status === 0) {
+          this.errorMessage = 'Unable to connect to the server. Please ensure the backend is running.';
+        }
+       else if (error.status === 400 && error.error?.message === 'Admin username already exists') {
+          this.errorMessage = 'The username is already taken. Please choose a different one.';
+        } else {
+          this.errorMessage = `Registration failed. Please try again later. ${error}`;
+        }
         console.error('Error:', error);
       },
     });
-  } */
-
-    onSubmit() {
-      // Check if the form is valid
-      if (this.registerForm.invalid) {
-        this.errorMessage = 'Please fill out all required fields correctly.';
-        return;
-      }
-    
-      this.successMessage = '';
-      this.errorMessage = '';
-    
-      const formData = {
-        schoolName: this.registerForm.get('schoolName')?.value,
-        adminUsername: this.registerForm.get('adminUsername')?.value,  
-        adminPassword: this.registerForm.get('password')?.value,
-        adminPhone: this.registerForm.get('phone')?.value,
-        adminEmail: this.registerForm.get('email')?.value,
-        district: this.registerForm.get('district')?.value,
-      };
-    
-      this.http.post<RegisterResponse>(this.registerUrl, formData).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.successMessage = 'Registration successful!';
-            this.registerForm.reset();
-          } else {
-            this.errorMessage = response.message || 'Registration failed. Please try again later.';
-          }
-        },
-        error: (error) => {
-          if (error.status === 0) {
-            this.errorMessage = 'Unable to connect to the server. Please ensure the backend is running.';
-          }
-         else if (error.status === 400 && error.error?.message === 'Admin username already exists') {
-            this.errorMessage = 'The username is already taken. Please choose a different one.';
-          } else {
-            this.errorMessage = `Registration failed. Please try again later. ${error}`;
-          }
-          console.error('Error:', error);
-        },
-      });
-    }
+  }
     
 
   }

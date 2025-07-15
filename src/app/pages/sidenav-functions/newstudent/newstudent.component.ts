@@ -143,7 +143,8 @@ export class NewStudentComponent {
   
     const params = new HttpParams().set('schoolAdminId', String(this.schoolAdminId));
   
-    this.http.post('https://bigezo-production.up.railway.app/api/students', newStudent, { params }).subscribe({
+    //this.http.post('https://bigezo-production.up.railway.app/api/students', newStudent, { params }).subscribe({
+    this.http.post('http://localhost:8080/api/students', newStudent, { params }).subscribe({
       next: (response: any) => {
         this.addStudentStatus = `  Account created successfully for ${this.firstName}_${this.lastName}.`;
         this.status = 'success';
@@ -175,7 +176,8 @@ export class NewStudentComponent {
             `Thank you`
     };
   
-    this.http.post('https://bigezo-production.up.railway.app/api/send-email', emailData)
+    //this.http.post('https://bigezo-production.up.railway.app/api/send-email', emailData)
+    this.http.post('http://localhost:8080/api/send-email', emailData)
       .subscribe({
         next: () => {
           Swal.fire('Success', 'Email sent successfully!', 'success');
@@ -208,7 +210,8 @@ export class NewStudentComponent {
                `Thank you.`
     };
   
-    const url = `https://bigezo-production.up.railway.app/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+    //const url = `https://bigezo-production.up.railway.app/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+    const url = `http://localhost:8080/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
   
     this.http.post(url, null, { responseType: 'text' })
       .subscribe({
@@ -277,7 +280,8 @@ export class NewStudentComponent {
     this.profilePictureLoading = true;
     const formData = new FormData();
     formData.append('file', this.profilePictureFile);
-    this.http.post(`https://bigezo-production.up.railway.app/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+    //this.http.post(`https://bigezo-production.up.railway.app/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+    this.http.post(`http://localhost:8080/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
       .subscribe({
         next: () => {
           this.profilePictureLoading = false;
@@ -295,7 +299,8 @@ export class NewStudentComponent {
 
   deleteProfilePicture(studentId: number) {
     this.profilePictureLoading = true;
-    this.http.delete(`https://bigezo-production.up.railway.app/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`)
+    //this.http.delete(`https://bigezo-production.up.railway.app/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`)
+    this.http.delete(`http://localhost:8080/api/students/${studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}`)
       .subscribe({
         next: () => {
           this.profilePictureFile = null;
@@ -332,7 +337,8 @@ export class NewStudentComponent {
     this.studentVideoLoading = true;
     const formData = new FormData();
     formData.append('file', this.studentVideoFile);
-    this.http.post(`https://bigezo-production.up.railway.app/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+    //this.http.post(`https://bigezo-production.up.railway.app/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+    this.http.post(`http://localhost:8080/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
       .subscribe({
         next: () => {
           this.studentVideoLoading = false;
@@ -350,7 +356,8 @@ export class NewStudentComponent {
 
   deleteStudentVideo(studentId: number) {
     this.studentVideoLoading = true;
-    this.http.delete(`https://bigezo-production.up.railway.app/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`)
+    //this.http.delete(`https://bigezo-production.up.railway.app/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`)
+    this.http.delete(`http://localhost:8080/api/students/${studentId}/video?schoolAdminId=${this.schoolAdminId}`)
       .subscribe({
         next: () => {
           this.studentVideoFile = null;
@@ -392,7 +399,8 @@ export class NewStudentComponent {
     img.loading = true;
     const formData = new FormData();
     formData.append('file', img.file);
-    this.http.post(`https://bigezo-production.up.railway.app/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+    //this.http.post(`https://bigezo-production.up.railway.app/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
+    this.http.post(`http://localhost:8080/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`, formData, { responseType: 'text' })
       .subscribe({
         next: () => {
           img.loading = false;
@@ -411,7 +419,8 @@ export class NewStudentComponent {
   deleteAdditionalImage(studentId: number, imageNumber: number) {
     const img = this.additionalImages[imageNumber - 1];
     img.loading = true;
-    this.http.delete(`https://bigezo-production.up.railway.app/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`)
+    //this.http.delete(`https://bigezo-production.up.railway.app/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`)
+    this.http.delete(`http://localhost:8080/api/students/${studentId}/image/${imageNumber}?schoolAdminId=${this.schoolAdminId}`)
       .subscribe({
         next: () => {
           img.file = null;
@@ -460,7 +469,8 @@ export class NewStudentComponent {
     this.studentId = student.id || student.studentId || null;
     // Set profile picture URL for preview
     if (this.studentId) {
-      this.profilePictureUrl = `https://bigezo-production.up.railway.app/api/students/${this.studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}&t=${Date.now()}`;
+      //this.profilePictureUrl = `https://bigezo-production.up.railway.app/api/students/${this.studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}&t=${Date.now()}`;
+      this.profilePictureUrl = `http://localhost:8080/api/students/${this.studentId}/profile-picture?schoolAdminId=${this.schoolAdminId}&t=${Date.now()}`;
     } else {
       this.profilePictureUrl = null;
     }

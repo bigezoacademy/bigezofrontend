@@ -15,7 +15,8 @@ import Swal from 'sweetalert2';
 })
 export class StudentComponent {
   accounttype: any = localStorage.getItem("Role");
-  studentUrl: string = 'https://bigezo-production.up.railway.app/api/students';
+  //studentUrl: string = 'https://bigezo-production.up.railway.app/api/students';
+  studentUrl: string = 'http://localhost:8080/api/students';
   student: any[] = []; // Stores all students
   filteredStudents: any[] = []; // Stores students after filtering
 
@@ -213,7 +214,8 @@ export class StudentComponent {
           message: messageContent
         };
   
-        const url = `https://bigezo-production.up.railway.app/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+        //const url = `https://bigezo-production.up.railway.app/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
+        const url = `http://localhost:8080/api/sms/send?phone=${encodeURIComponent(smsData.phone)}&message=${encodeURIComponent(smsData.message)}`;
   
         this.http.post(url, null, { responseType: 'text' })
           .subscribe({

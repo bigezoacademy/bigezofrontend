@@ -40,7 +40,8 @@ myyear: number = new Date().getFullYear();
       const adminId = localStorage.getItem("id");
        // Assuming the token is stored in localStorage
       if (adminId && token) {
-        fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
+        //fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
+        fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

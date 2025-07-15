@@ -76,8 +76,14 @@
     <button
       type="submit"
       class="btn btn-success w-100"
-      [disabled]="loginForm.invalid"
+      [disabled]="loginForm.invalid || isLoading"
     >
+      <span
+        *ngIf="isLoading"
+        class="spinner-border spinner-border-sm me-2"
+        role="status"
+        aria-hidden="true"
+      ></span>
       Login
     </button>
 

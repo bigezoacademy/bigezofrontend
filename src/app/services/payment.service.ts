@@ -7,9 +7,11 @@ import { Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'https://bigezo-production.up.railway.app/api/payments'; // Update this with your backend URL
-  private apiUrl2 = 'https://bigezo-production.up.railway.app/api/pesapal/request-token'; // Adjust the URL to match your backend
-
+  //private apiUrl = 'https://bigezo-production.up.railway.app/api/payments'; // Update this with your backend URL
+  //private apiUrl2 = 'https://bigezo-production.up.railway.app/api/pesapal/request-token'; // Adjust the URL to match your backend
+  //   return this.http.get<string>(`https://bigezo-production.up.railway.app/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
+  private apiUrl = 'http://localhost:8080/api/payments'; // LOCAL TESTING
+  private apiUrl2 = 'http://localhost:8080/api/pesapal/request-token'; // LOCAL TESTING
   constructor(private http: HttpClient) {}
 
 submitPayment(orderRequest: any): Observable<string> {
@@ -21,8 +23,12 @@ submitPayment(orderRequest: any): Observable<string> {
   );
 }
 
+  // getPaymentStatus(orderTrackingId: string): Observable<string> {
+  //   return this.http.get<string>(`https://bigezo-production.up.railway.app/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
+  // }
+
   getPaymentStatus(orderTrackingId: string): Observable<string> {
-    return this.http.get<string>(`https://bigezo-production.up.railway.app/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
+    return this.http.get<string>(`http://localhost:8080/api/pesapal/transaction-status?orderTrackingId=${orderTrackingId}`);
   }
 
   /**
@@ -62,6 +68,34 @@ submitPayment(orderRequest: any): Observable<string> {
     const notification_id = options.notification_id || localStorage.getItem('notification_id') || '5bbe0e70-32aa-4204-b00b-dc4bd606fa7f';
     const branch = options.branch || localStorage.getItem('branch') || 'Store Name - HQ';
 
+    // const paymentInfo: any = {
+    //   id: randomId,
+    //   currency: 'UGX',
+    //   amount: options.amount,
+    //   description: options.description,
+    //   callback_url: options.callback_url || 'http://bigezo.grealm.org/payment-callback',
+    //   redirect_mode: options.redirect_mode || 'iframe',
+    //   notification_id: notification_id,
+    //   branch: branch,
+    //   billing_address: {
+    //     email_address,
+    //     phone_number,
+    //     country_code: 'UG',
+    //     first_name,
+    //     middle_name,
+    //     last_name,
+    //     line_1,
+    //     line_2,
+    //     city,
+    //     state,
+    //     postal_code,
+    //     zip_code
+    //   },
+    //   school_admin_id: schoolAdminId,
+    //   student_id: studentId
+    // };
+
+    // Localhost version
     const paymentInfo: any = {
       id: randomId,
       currency: 'UGX',
@@ -72,18 +106,18 @@ submitPayment(orderRequest: any): Observable<string> {
       notification_id: notification_id,
       branch: branch,
       billing_address: {
-        email_address,
-        phone_number,
-        country_code: 'UG',
-        first_name,
-        middle_name,
-        last_name,
-        line_1,
-        line_2,
-        city,
-        state,
-        postal_code,
-        zip_code
+      email_address,
+      phone_number,
+      country_code: 'UG',
+      first_name,
+      middle_name,
+      last_name,
+      line_1,
+      line_2,
+      city,
+      state,
+      postal_code,
+      zip_code
       },
       school_admin_id: schoolAdminId,
       student_id: studentId

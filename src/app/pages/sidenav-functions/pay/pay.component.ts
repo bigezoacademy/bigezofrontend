@@ -85,7 +85,7 @@ export class PayComponent {
       currency: 'UGX',
       amount: 500.0,
       description: 'Some random description for testing...',
-      callback_url: 'http://localhost:4200/student', // Set this as needed
+      callback_url: 'http://bigezo.grealm.org/student', // Set this as needed
       notification_id: environment.notificationId, // Retrieve from environment
       billing_address: {
         email_address: 'ochalfie@gmail.com',
