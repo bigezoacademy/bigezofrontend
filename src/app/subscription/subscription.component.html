@@ -1,117 +1,84 @@
 <div class="container-fluid p-0">
-  <h4
-    class="mb-4"
+  <h1
+    class="m-4 text-success"
     style="font-family: inherit; font-weight: 600; letter-spacing: 1px"
   >
     <i
       class="bi bi-stars me-2"
       style="font-size: 2rem; vertical-align: middle"
     ></i>
-    School Admin Subscription
-  </h4>
+    PACKAGES
+  </h1>
   <!-- Subscription Packages as Simple Cards -->
   <div *ngIf="!paymentIframeUrl" class="row g-4 mb-4">
-    <div class="col-md-4">
-      <div class="card h-100 border shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Free</h5>
-          <h6 class="card-subtitle mb-2 text-muted">$0/month</h6>
-          <ul class="list-unstyled mb-3">
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i> Manage
-              Student Database
-            </li>
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i> Add
-              School Fees
-            </li>
-          </ul>
-          <button class="btn btn-outline-secondary w-100" disabled>
-            Current Plan
-          </button>
+    <!-- Dynamically render pricing cards from pricingList -->
+    <ng-container *ngFor="let pkg of pricingList">
+      <div class="col-md-4">
+        <div class="card h-100 border shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ capitalize(pkg.tier) }}</h5>
+            <h3
+              class="mb-2 fw-bold"
+              [ngClass]="{
+                'text-primary': pkg.tier === 'standard',
+                'text-danger': pkg.tier === 'premium',
+                'text-secondary': pkg.tier === 'free'
+              }"
+              style="font-size: 1.5rem; letter-spacing: 1px"
+            >
+              UGX {{ getCalculatedPrice(pkg.tier) | number : "1.0-0" }}
+            </h3>
+            <ul class="list-unstyled mb-3">
+              <!-- Free card features -->
+              <li *ngIf="pkg.tier === 'free'">
+                <i class="bi bi-check-circle-fill text-success me-2"></i> Manage
+                Student Database
+              </li>
+              <li *ngIf="pkg.tier === 'free'">
+                <i class="bi bi-check-circle-fill text-success me-2"></i> Add
+                School Fees
+              </li>
+              <!-- Dynamic features for paid packages -->
+              <li *ngFor="let feature of pkg.parsedFeatures">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                {{ feature }}
+              </li>
+            </ul>
+            <div class="mb-2" *ngIf="pkg.tier !== 'free'">
+              <label class="form-label">Number of Students</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="studentCount[pkg.tier]"
+                min="1"
+                required
+              />
+            </div>
+            <button
+              *ngIf="pkg.tier !== 'free'"
+              type="button"
+              class="btn w-100"
+              [ngClass]="pkg.tier === 'standard' ? 'btn-primary' : 'btn-danger'"
+              [disabled]="isSubscribing[pkg.tier]"
+              (click)="openSpinnerModal(pkg.tier)"
+            >
+              Subscribe
+            </button>
+            <button
+              *ngIf="pkg.tier === 'free'"
+              class="btn btn-outline-secondary w-100"
+              disabled
+            >
+              Current Plan
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card h-100 border shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Standard</h5>
-          <h6 class="card-subtitle mb-2 text-muted">$10/month</h6>
-          <ul class="list-unstyled mb-3">
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i> Pay
-              School Fees
-            </li>
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i>
-              Students' Yearbook
-            </li>
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i> All Free
-              Features
-            </li>
-          </ul>
-          <button
-            type="button"
-            class="btn btn-primary w-100"
-            [disabled]="isSubscribing"
-            (click)="subscribeToPaidPlan('standard')"
-          >
-            <span
-              *ngIf="isSubscribing"
-              class="spinner-border spinner-border-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
-            Subscribe to Standard
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card h-100 border shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Premium</h5>
-          <h6 class="card-subtitle mb-2 text-muted">$20/month</h6>
-          <ul class="list-unstyled mb-3">
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i> Canteen
-            </li>
-            <li>
-              <i class="bi bi-check-circle-fill text-success me-2"></i> All
-              Standard & Free Features
-            </li>
-          </ul>
-          <button
-            type="button"
-            class="btn btn-warning text-dark w-100"
-            [disabled]="isSubscribing"
-            (click)="subscribeToPaidPlan('premium')"
-          >
-            <span
-              *ngIf="isSubscribing"
-              class="spinner-border spinner-border-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
-            Subscribe to Premium
-          </button>
-        </div>
-      </div>
-    </div>
+    </ng-container>
   </div>
-  <div *ngIf="!paymentIframeUrl" class="row mb-4">
-    <div class="col-md-4">
-      <label class="form-label">Number of Students</label>
-      <input
-        type="number"
-        class="form-control"
-        [(ngModel)]="studentCount"
-        name="studentCount"
-        min="1"
-        required
-      />
-    </div>
+  <!-- Pricing error message -->
+  <div *ngIf="pricingError" class="alert alert-danger mt-3">
+    {{ pricingError }}
   </div>
 
   <!-- Responsive Payment Iframe -->
@@ -128,42 +95,23 @@
       ></iframe>
     </div>
   </div>
-  <div *ngIf="subscriptionStatus" class="mt-3">
-    <span class="badge bg-success" *ngIf="subscriptionStatus === 'COMPLETED'"
-      >Subscription Active</span
-    >
-    <span class="badge bg-danger" *ngIf="subscriptionStatus === 'FAILED'"
-      >Payment Failed</span
-    >
-    <span
-      class="badge bg-warning text-dark"
-      *ngIf="subscriptionStatus === 'PENDING'"
-      >Payment Pending</span
-    >
-  </div>
-  <div class="mt-4">
-    <h6 style="font-family: inherit; font-weight: 500">Feature Access:</h6>
-    <ul class="list-unstyled">
-      <li>
-        <i class="bi bi-check-circle-fill text-success me-2"></i> Manage Student
-        Database <span class="badge bg-info">Free</span>
-      </li>
-      <li>
-        <i class="bi bi-check-circle-fill text-success me-2"></i> Add School
-        Fees <span class="badge bg-info">Free</span>
-      </li>
-      <li>
-        <i class="bi bi-check-circle-fill text-primary me-2"></i> Pay School
-        Fees <span class="badge bg-primary">Standard</span>
-      </li>
-      <li>
-        <i class="bi bi-check-circle-fill text-primary me-2"></i> Students'
-        Yearbook <span class="badge bg-primary">Standard</span>
-      </li>
-      <li>
-        <i class="bi bi-check-circle-fill text-warning me-2"></i> Canteen
-        <span class="badge bg-warning text-dark">Premium</span>
-      </li>
-    </ul>
+  <!-- Modal Spinner Popup -->
+  <div
+    class="modal fade"
+    id="spinnerModal"
+    tabindex="-1"
+    aria-labelledby="spinnerModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Processing...</span>
+          </div>
+          <div class="mt-3">Processing your subscription...</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

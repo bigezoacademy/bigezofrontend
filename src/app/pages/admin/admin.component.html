@@ -58,115 +58,114 @@
         class="mb-3 text-danger"
         style="font-family: inherit; font-weight: 700; letter-spacing: 2px"
       >
-        <span
-          style="
-            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-          "
-          >Analytics</span
-        >
+        <span style="color: #2775af">Analytics</span>
       </h1>
     </div>
   </div>
 
-  <!-- Summary Cards Section (Adobe Cloud Inspired) -->
+  <!-- Summary Cards Section (Simple, Google Cloud-inspired) -->
   <div class="row text-center mb-4 g-4">
     <div class="col-md-3">
-      <div
-        class="card shadow-lg border-0"
-        style="
-          background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-          color: #fff;
-        "
-      >
-        <div class="card-body">
+      <div class="card shadow-sm border rounded-3" style="background: #fff">
+        <div class="card-body py-3 px-2">
           <div class="d-flex align-items-center justify-content-between mb-2">
-            <span><i class="bi bi-wallet2" style="font-size: 2rem"></i></span>
             <span
-              class="badge bg-light text-success rounded-pill"
-              style="font-size: 1.2rem"
-              >UGX 743,000,000</span
+              ><i
+                class="bi bi-wallet2"
+                style="font-size: 2rem; color: #1976d2"
+              ></i
+            ></span>
+            <span
+              class="badge bg-primary bg-opacity-10 text-primary rounded-pill"
+              style="font-size: 1.1rem"
+              >{{ dashboardData?.requirementsRevenue | currency : "UGX" }}</span
+            >
             >
           </div>
-          <h5 class="card-title mb-0" style="font-family: inherit">
+          <p
+            class="mb-0 text-secondary"
+            style="font-family: inherit; font-size: 1.05rem"
+          >
             Requirements Revenue
-          </h5>
+          </p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div
-        class="card shadow-lg border-0"
-        style="
-          background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-          color: #fff;
-        "
-      >
-        <div class="card-body">
+      <div class="card shadow-sm border rounded-3" style="background: #fff">
+        <div class="card-body py-3 px-2">
           <div class="d-flex align-items-center justify-content-between mb-2">
             <span
-              ><i class="bi bi-people-fill" style="font-size: 2rem"></i
+              ><i
+                class="bi bi-people-fill"
+                style="font-size: 2rem; color: #43a047"
+              ></i
             ></span>
             <span
-              class="badge bg-light text-secondary rounded-pill"
-              style="font-size: 1.2rem"
-              >UGX 122,330,000</span
+              class="badge bg-success bg-opacity-10 text-success rounded-pill"
+              style="font-size: 1.1rem"
+              >{{ dashboardData?.alumniContributions | currency : "UGX" }}</span
+            >
             >
           </div>
-          <h5 class="card-title mb-0" style="font-family: inherit">
+          <p
+            class="mb-0 text-secondary"
+            style="font-family: inherit; font-size: 1.05rem"
+          >
             Alumni Contributions
-          </h5>
+          </p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div
-        class="card shadow-lg border-0"
-        style="
-          background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-          color: #fff;
-        "
-      >
-        <div class="card-body">
+      <div class="card shadow-sm border rounded-3" style="background: #fff">
+        <div class="card-body py-3 px-2">
           <div class="d-flex align-items-center justify-content-between mb-2">
             <span
-              ><i class="bi bi-person-check" style="font-size: 2rem"></i
+              ><i
+                class="bi bi-person-check"
+                style="font-size: 2rem; color: #e53935"
+              ></i
             ></span>
             <span
-              class="badge bg-light text-success rounded-pill"
-              style="font-size: 1.2rem"
-              >2,250</span
+              class="badge bg-danger bg-opacity-10 text-danger rounded-pill"
+              style="font-size: 1.1rem"
+              >{{ dashboardData?.studentsRegistered }}</span
+            >
             >
           </div>
-          <h5 class="card-title mb-0" style="font-family: inherit">
+          <p
+            class="mb-0 text-secondary"
+            style="font-family: inherit; font-size: 1.05rem"
+          >
             Students Registered
-          </h5>
+          </p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div
-        class="card shadow-lg border-0"
-        style="
-          background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-          color: #fff;
-        "
-      >
-        <div class="card-body">
+      <div class="card shadow-sm border rounded-3" style="background: #fff">
+        <div class="card-body py-3 px-2">
           <div class="d-flex align-items-center justify-content-between mb-2">
             <span
-              ><i class="bi bi-graph-up-arrow" style="font-size: 2rem"></i
+              ><i
+                class="bi bi-graph-up-arrow"
+                style="font-size: 2rem; color: #fbc02d"
+              ></i
             ></span>
             <span
-              class="badge bg-light text-success rounded-pill"
-              style="font-size: 1.2rem"
-              >423</span
+              class="badge bg-warning bg-opacity-10 text-warning rounded-pill"
+              style="font-size: 1.1rem"
+              >{{ dashboardData?.schoolFeesDefaulters }}</span
+            >
             >
           </div>
-          <h5 class="card-title mb-0" style="font-family: inherit">
+          <p
+            class="mb-0 text-secondary"
+            style="font-family: inherit; font-size: 1.05rem"
+          >
             School Fees Defaulters
-          </h5>
+          </p>
         </div>
       </div>
     </div>
@@ -176,17 +175,14 @@
   <div class="row g-4">
     <!-- 🏫 Student Performance Chart -->
     <div class="col-md-6">
-      <div
-        class="card shadow-lg border-0"
-        style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%)"
-      >
+      <div class="card shadow-sm border rounded-3" style="background: #fff">
         <div class="card-body">
-          <h5
-            class="text-center mb-3"
-            style="font-family: inherit; color: #330867"
+          <p
+            class="text-center mb-3 text-secondary"
+            style="font-family: inherit; font-size: 1.05rem"
           >
             Students Registered
-          </h5>
+          </p>
           <div class="text-center mb-2">
             <button
               class="btn btn-secondary graphbtn"
@@ -200,25 +196,21 @@
             [data]="performanceChartData"
             [options]="performanceChartOptions"
             chartType="line"
-          >
-          </canvas>
+          ></canvas>
         </div>
       </div>
     </div>
 
     <!-- 🚹🚺 Boys vs Girls Chart -->
     <div class="col-md-6">
-      <div
-        class="card shadow-lg border-0"
-        style="background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%)"
-      >
+      <div class="card shadow-sm border rounded-3" style="background: #fff">
         <div class="card-body">
-          <h5
-            class="text-center mb-3"
-            style="font-family: inherit; color: #fff"
+          <p
+            class="text-center mb-3 text-secondary"
+            style="font-family: inherit; font-size: 1.05rem"
           >
             Boys vs Girls Enrollment
-          </h5>
+          </p>
           <div class="text-center mb-2">
             <button
               class="btn btn-light graphbtn"
@@ -232,8 +224,7 @@
             [data]="genderChartData"
             [options]="genderChartOptions"
             chartType="line"
-          >
-          </canvas>
+          ></canvas>
         </div>
       </div>
     </div>

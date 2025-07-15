@@ -34,11 +34,7 @@
       </div>
     </div>
     <button class="close-btn" (click)="toggleSidebar()">×</button>
-    <div class="row p-3 logobg mb-3">
-      <div class="logo">
-        <img src="logo.png" alt="Logo" class="" />
-      </div>
-    </div>
+
     <a (click)="home(); hideSidebarOnNav()" *ngIf="accounttype === 'ROLE_USER'">
       <i class="bi me-3 bi-pen"></i> News
     </a>

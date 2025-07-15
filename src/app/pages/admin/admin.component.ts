@@ -13,6 +13,9 @@ import { SubscriptionComponent } from '../../subscription/subscription.component
   styleUrl: './admin.component.css'
 })
 export class AdminComponent implements OnInit {
+  // ...existing properties...
+  schoolAdminId: number = Number(localStorage.getItem('id')) || 1;
+  dashboardData: any;
   userId: any = localStorage.getItem("id");
   subscriptionStatus: 'free' | 'standard' | 'premium' = 'free';
   isAnalyticsEnabled: boolean = false;
@@ -100,18 +103,28 @@ export class AdminComponent implements OnInit {
       },
       title: {
         display: true,
-        text: 'Gender Comparison: Boys vs Girls (2019–2023)' // 📢 Added Title
+        text: 'Gender Comparison: Boys vs Girls (2019–2023)'
       },
       tooltip: {
         enabled: true,
         callbacks: {
-          label: (tooltipItem) => ` ${tooltipItem.dataset.label}: ${tooltipItem.raw}` // ✨ Custom Tooltip Format
+          label: (tooltipItem) => {
+            // Show whole numbers only
+            const value = Math.round(Number(tooltipItem.raw));
+            return ` ${tooltipItem.dataset.label}: ${value}`;
+          }
         }
       }
     },
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: true,
+        ticks: {
+          callback: function(value) {
+            // Show whole numbers only
+            return Math.round(Number(value));
+          }
+        }
       }
     }
   };
@@ -127,29 +140,75 @@ constructor(private http: HttpClient) {}
 
 ngOnInit(): void {
   this.checkSubscriptionStatus();
+  this.getDashboardData();
 }
+  // ...existing properties...
+  // Only keep one version of each helper method below
+  // Only keep one version of each helper method below
+  getDashboardData(): void {
+    this.http.get<any>(`http://localhost:8080/api/dashboard?schoolAdminId=${this.schoolAdminId}`)
+      .subscribe({
+        next: (data: any) => {
+          console.log('Dashboard API response:', data);
+          this.dashboardData = data; // Assign the entire response to dashboardData
 
-checkSubscriptionStatus() {
-  // Replace with your actual backend endpoint
-  this.http.get<{status: 'free' | 'standard' | 'premium'}>(`/api/subscriptions/status?userId=${this.userId}`).subscribe({
-    next: (res) => {
-      this.subscriptionStatus = res.status;
-      this.isAnalyticsEnabled = (res.status === 'standard' || res.status === 'premium');
-    },
-    error: () => {
-      this.subscriptionStatus = 'free';
-      this.isAnalyticsEnabled = false;
-    }
-  });
-}
+          // Update Student Performance Chart Data
+          if (data?.studentPerformanceData) {
+            // Create new array instances to trigger ng2-charts change detection
+            this.performanceChartData.labels = [...data.studentPerformanceData.labels];
+            this.performanceChartData.datasets[0].data = [...data.studentPerformanceData.data];
+            // Reassign the whole data object to ensure chart update
+            this.performanceChartData = { ...this.performanceChartData };
+          }
 
-downloadChart(chart: BaseChartDirective | undefined, chartName: string) {
-  if (chart && chart.chart) {
-    const link = document.createElement('a');
-    link.href = chart.chart.toBase64Image();
-    link.download = `${chartName}-chart.png`;
-    link.click();
+          // Update Boys vs Girls Chart Data
+          if (data?.genderEnrollmentData) {
+            // Create new array instances to trigger ng2-charts change detection
+            this.genderChartData.labels = [...data.genderEnrollmentData.labels];
+            this.genderChartData.datasets[0].data = [...data.genderEnrollmentData.boys];
+            this.genderChartData.datasets[1].data = [...data.genderEnrollmentData.girls];
+            // Reassign the whole data object to ensure chart update
+            this.genderChartData = { ...this.genderChartData };
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching dashboard data:', error);
+          if (error && error.status === 403) {
+            console.error('403 Forbidden: Likely missing or invalid JWT token.');
+            if (error.error) {
+              console.error('Backend error message:', error.error);
+            }
+            // Optionally, display a user-friendly message or redirect to login
+          } else if (error && error.status === 401) {
+            console.error('401 Unauthorized: JWT token may be expired or invalid.');
+          } else {
+            console.error('Unknown error occurred while fetching dashboard data.');
+          }
+        }
+      });
   }
-}
+  // Removed mapChartData and mapGenderChartData as per backend instructions
+
+  checkSubscriptionStatus() {
+    this.http.get<{status: 'free' | 'standard' | 'premium'}>(`/api/subscriptions/status?userId=${this.userId}`).subscribe({
+      next: (res: any) => {
+        this.subscriptionStatus = res.status;
+        this.isAnalyticsEnabled = (res.status === 'standard' || res.status === 'premium');
+      },
+      error: () => {
+        this.subscriptionStatus = 'free';
+        this.isAnalyticsEnabled = false;
+      }
+    });
+  }
+
+  downloadChart(chart: BaseChartDirective | undefined, chartName: string) {
+    if (chart && chart.chart) {
+      const link = document.createElement('a');
+      link.href = chart.chart.toBase64Image();
+      link.download = `${chartName}-chart.png`;
+      link.click();
+    }
+  }
 
 }
