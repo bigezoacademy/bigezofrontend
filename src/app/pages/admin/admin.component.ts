@@ -1,16 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, Chart } from 'chart.js';
+import { CommonModule } from '@angular/common';
+import { SubscriptionComponent } from '../../subscription/subscription.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [NgChartsModule],
+  imports: [NgChartsModule, CommonModule, SubscriptionComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   userId: any = localStorage.getItem("id");
+  subscriptionStatus: 'free' | 'standard' | 'premium' = 'free';
+  isAnalyticsEnabled: boolean = false;
 
   // 🎯 Student Performance Chart
   performanceChartData: ChartConfiguration<'line'>['data'] = {
@@ -116,6 +121,27 @@ export class AdminComponent {
 
 
 // Add this method to your component class
+
+
+constructor(private http: HttpClient) {}
+
+ngOnInit(): void {
+  this.checkSubscriptionStatus();
+}
+
+checkSubscriptionStatus() {
+  // Replace with your actual backend endpoint
+  this.http.get<{status: 'free' | 'standard' | 'premium'}>(`/api/subscriptions/status?userId=${this.userId}`).subscribe({
+    next: (res) => {
+      this.subscriptionStatus = res.status;
+      this.isAnalyticsEnabled = (res.status === 'standard' || res.status === 'premium');
+    },
+    error: () => {
+      this.subscriptionStatus = 'free';
+      this.isAnalyticsEnabled = false;
+    }
+  });
+}
 
 downloadChart(chart: BaseChartDirective | undefined, chartName: string) {
   if (chart && chart.chart) {
