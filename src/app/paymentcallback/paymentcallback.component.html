@@ -14,21 +14,37 @@
     </div>
   </ng-container>
   <ng-template #paymentStatusBlock>
-    <div *ngIf="status === 'success'" class="alert alert-success">
-      <h2 class="mb-3">
+    <div
+      *ngIf="status === 'success'"
+      class="alert alert-success border border-success rounded shadow-sm p-4"
+    >
+      <h2 class="mb-3 text-success">
         <i class="bi bi-check-circle-fill"></i> Payment Successful!
       </h2>
-      <p class="lead">Thank you for your payment.</p>
-      <p *ngIf="amount">
-        Amount Paid: <strong>UGX {{ amount | number : "1.0-0" }}</strong>
-      </p>
-      <p>
-        Order Tracking ID: <strong>{{ orderTrackingId }}</strong>
-      </p>
-      <p>
-        Merchant Reference: <strong>{{ merchantReference }}</strong>
-      </p>
-      <p>{{ message }}</p>
+      <p class="lead text-success">Thank you for your payment.</p>
+      <div class="row justify-content-center mb-3">
+        <div class="col-md-6">
+          <div class="card bg-light border-success mb-3">
+            <div class="card-body">
+              <p *ngIf="amount" class="mb-2">
+                <span class="fw-bold">Amount Paid:</span>
+                <span class="text-success"
+                  >UGX {{ amount | number : "1.0-0" }}</span
+                >
+              </p>
+              <p class="mb-2">
+                <span class="fw-bold">Order Tracking ID:</span>
+                <span class="text-success">{{ orderTrackingId }}</span>
+              </p>
+              <p class="mb-2">
+                <span class="fw-bold">Merchant Reference:</span>
+                <span class="text-success">{{ merchantReference }}</span>
+              </p>
+              <p *ngIf="message" class="mb-0 text-success">{{ message }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="btn btn-primary mt-3" (click)="navigateToSubscription()">
         Back to Subscription
       </button>
