@@ -15,11 +15,11 @@ export class LayoutComponent {
   message: string = '';
   messageType: string = '';
   schoolName: string = '';
-  accounttype: any = localStorage.getItem("Role");
-  name: any = localStorage.getItem("firstName") + " " + localStorage.getItem("lastName");
+  accounttype: any = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("Role") : null);
+  name: any = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("firstName") : "") + " " + (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("lastName") : "");
   seeExistingFees: boolean = false;
-  subscriptionStatus: string | null = localStorage.getItem('subscriptionStatus');
-  subscriptionInProgress: boolean = !!localStorage.getItem('paymentIframeUrl');
+  subscriptionStatus: string | null = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('subscriptionStatus') : null);
+  subscriptionInProgress: boolean = (typeof window !== 'undefined' && window.localStorage ? !!window.localStorage.getItem('paymentIframeUrl') : false);
 
   constructor(private router: Router, private renderer: Renderer2) {}
 
@@ -32,42 +32,37 @@ export class LayoutComponent {
   }
 
   ngOnInit(): void {
-  const token = localStorage.getItem("Token");
-  if(this.accounttype==="ROLE_ADMIN"){
-   
-    this.name="School Admin";
-    const adminId = localStorage.getItem("id");
-     // Assuming the token is stored in localStorage
-    if (adminId && token) {
-      //fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
-      fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        this.schoolName = data.schoolName;
-        localStorage.setItem('schoolName', this.schoolName);
-      })
-      .catch(error => {
-        console.error('Error fetching school name:', error);
-        this.message = 'Error fetching school name, please try again.';
-        this.messageType = 'error';
-      });
+    const getLS = (key: string) => (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null);
+    const setLS = (key: string, value: string) => { if (typeof window !== 'undefined' && window.localStorage) window.localStorage.setItem(key, value); };
+    const clearLS = () => { if (typeof window !== 'undefined' && window.localStorage) window.localStorage.clear(); };
+    const token = getLS("Token");
+    if(this.accounttype==="ROLE_ADMIN"){
+      this.name="School Admin";
+      const adminId = getLS("id");
+      if (adminId && token) {
+        fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.schoolName = data.schoolName;
+          setLS('schoolName', this.schoolName);
+        })
+        .catch(error => {
+          console.error('Error fetching school name:', error);
+          this.message = 'Error fetching school name, please try again.';
+          this.messageType = 'error';
+        });
+      }
     }
-  }
-  else if(!token){
-     // Clear the local storage
-     localStorage.clear();
-
-     // Optionally clear session storage if used
-     sessionStorage.clear();
- 
-     // Navigate to the home or login page
-     this.router.navigateByUrl("");
+    else if(!token){
+      clearLS();
+      if (typeof window !== 'undefined' && window.sessionStorage) window.sessionStorage.clear();
+      this.router.navigateByUrl("");
   }
 }
 transactions():any{

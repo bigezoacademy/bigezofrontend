@@ -57,11 +57,6 @@ export const routes: Routes = [
         canActivate:[authGuard],
         data:{role:['ROLE_ADMIN','ROLE_USER']}
       },
-       {path:'payment-callback',
-        component:PaymentCallbackComponent,
-        canActivate:[authGuard],
-        data:{role:['ROLE_ADMIN','ROLE_USER']}
-      },
       {
         path: 'pay',
         component: PayComponent,
@@ -103,6 +98,12 @@ export const routes: Routes = [
       },
       {path:'products',
         component: ProductsComponent,
+        canActivate:[authGuard],
+        data:{role:['ROLE_ADMIN','ROLE_USER']}
+      },
+      {
+        path: 'subscription/callback',
+        component: PaymentCallbackComponent,
         canActivate:[authGuard],
         data:{role:['ROLE_ADMIN','ROLE_USER']}
       },

@@ -36,12 +36,12 @@ export class NewStudentComponent {
   mother: string = '';
   father: string = '';
   
-  schoolAdminId: number | null = localStorage.getItem('id')
-    ? Number(localStorage.getItem('id'))
+  schoolAdminId: number | null = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('id') : null)
+    ? Number(typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('id') : null)
     : null;
 
   studentUsername: string | null = null;
-  schoolName: string = localStorage.getItem('schoolName') || ''; // Fetch from localStorage
+  schoolName: string = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('schoolName') : '') || '';
 
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   clubs: string[] =["Science","Mathematics","Debate","Music","Drama","Art","Dance","Sports"];
@@ -80,7 +80,7 @@ export class NewStudentComponent {
   }
   
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
-  studentEmail: string = localStorage.getItem('studentEmail') || '';
+  studentEmail: string = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('studentEmail') : '') || '';
   studentPhone: string = sessionStorage.getItem('studentPhone') || '';
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -121,7 +121,7 @@ export class NewStudentComponent {
       sessionStorage.setItem('studentYear', this.year?.toString() || '');
     });
   
-    localStorage.setItem('studentEmail', this.email);
+    if (typeof window !== 'undefined' && window.localStorage) window.localStorage.setItem('studentEmail', this.email);
   
     const newStudent = {
       firstName: this.firstName,

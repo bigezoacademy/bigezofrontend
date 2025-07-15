@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   providers: [DecimalPipe]
 })
 export class StudentComponent {
-  accounttype: any = localStorage.getItem("Role");
+  accounttype: any = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("Role") : null);
   //studentUrl: string = 'https://bigezo-production.up.railway.app/api/students';
   studentUrl: string = 'http://localhost:8080/api/students';
   student: any[] = []; // Stores all students
@@ -27,7 +27,7 @@ export class StudentComponent {
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7'];
   myenrollmentStatus: string = 'active';
   myschool: string = '';
-  schoolAdminId: number = localStorage.getItem("id") ? Number(localStorage.getItem("id")) : 0;
+  schoolAdminId: number = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("id") : null) ? Number(typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("id") : null) : 0;
 
   isEditMode: boolean = false;
   currentStudent: any = null;

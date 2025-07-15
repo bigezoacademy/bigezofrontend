@@ -23,18 +23,20 @@ export class SchoolfeesComponent implements OnInit {
   fees: SchoolFeesSetting[] = [];
   message: string = '';
   messageType: string = '';
-  schoolName: string = localStorage.getItem('schoolName') || 'School Name';
+  schoolName: string = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('schoolName') : 'School Name') || 'School Name';
   adminId: string = '';
 
-  accounttype: any = localStorage.getItem('Role');
+  accounttype: any = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('Role') : null);
 
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('Token');
+    const getLS = (key: string) => (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null);
+    const clearLS = () => { if (typeof window !== 'undefined' && window.localStorage) window.localStorage.clear(); };
+    const token = getLS('Token');
     if (!token) {
-      localStorage.clear();
-      sessionStorage.clear();
+      clearLS();
+      if (typeof window !== 'undefined' && window.sessionStorage) window.sessionStorage.clear();
       this.router.navigateByUrl('');
     }
   }

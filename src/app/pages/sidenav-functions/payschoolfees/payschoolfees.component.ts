@@ -76,7 +76,7 @@ makePayment() {
 
  private http = inject(HttpClient);
   myyear: number = new Date().getFullYear(); 
-  mylevel: string = localStorage.getItem('level') ?? ''; 
+  mylevel: string = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('level') : '') ?? ''; 
   myterm: number = 1; 
   schooladmin: string = 'admin123';
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
@@ -93,17 +93,17 @@ makePayment() {
     
   
 
-  accounttype:any=localStorage.getItem("Role");
+  accounttype:any=(typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("Role") : null);
 
 
   ngOnInit(): void {
-    const token = localStorage.getItem("Token");
+    const getLS = (key: string) => (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null);
+    const setLS = (key: string, value: string) => { if (typeof window !== 'undefined' && window.localStorage) window.localStorage.setItem(key, value); };
+    const clearLS = () => { if (typeof window !== 'undefined' && window.localStorage) window.localStorage.clear(); };
+    const token = getLS("Token");
     if(this.accounttype==="ROLE_ADMIN"){
-     
-      const adminId = localStorage.getItem("id");
-       // Assuming the token is stored in localStorage
+      const adminId = getLS("id");
       if (adminId && token) {
-        //fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
         fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
           method: 'GET',
           headers: {
@@ -114,7 +114,7 @@ makePayment() {
         .then(response => response.json())
         .then(data => {
           this.schoolName = data.schoolName;
-          localStorage.setItem('schoolName', this.schoolName);
+          setLS('schoolName', this.schoolName);
         })
         .catch(error => {
           console.error('Error fetching school name:', error);
@@ -124,13 +124,8 @@ makePayment() {
       }
     }
     else if(!token){
-       // Clear the local storage
-       localStorage.clear();
-  
-       // Optionally clear session storage if used
-       sessionStorage.clear();
-   
-       // Navigate to the home or login page
+       clearLS();
+       if (typeof window !== 'undefined' && window.sessionStorage) window.sessionStorage.clear();
        this.router.navigateByUrl("");
     }
   }
@@ -138,12 +133,12 @@ makePayment() {
 
 
   displayAmounts(): void {
-    
+    const getLS = (key: string) => (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null);
     if(this.accounttype==="ROLE_USER"){
-      this.schoolAdminId=localStorage.getItem("schoolAdminId");
+      this.schoolAdminId=getLS("schoolAdminId");
     }
     if(this.accounttype==="ROLE_ADMIN"){
-      this.schoolAdminId=localStorage.getItem("id");
+      this.schoolAdminId=getLS("id");
     }
       if (!this.schoolAdminId) {
         Swal.fire({

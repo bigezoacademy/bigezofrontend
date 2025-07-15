@@ -74,21 +74,25 @@ export class LoginComponent {
          const firstName=res.data.firstName;
          const lastName=res.data.lastName;
          this.role="ROLE_USER";
-         localStorage.setItem('Token', token);
-         localStorage.setItem('id', this.userId);
-         localStorage.setItem('Role', this.role);
-         localStorage.setItem('schoolAdminId', schoolAdminId.toString()); 
-         localStorage.setItem('firstName',firstName);
-         localStorage.setItem('lastName',lastName);
-         localStorage.setItem('level',res.data.level);
-         localStorage.setItem('showcart','true');
+         if (typeof window !== 'undefined' && window.localStorage) {
+           window.localStorage.setItem('Token', token);
+           window.localStorage.setItem('id', this.userId);
+           window.localStorage.setItem('Role', this.role);
+           window.localStorage.setItem('schoolAdminId', schoolAdminId.toString()); 
+           window.localStorage.setItem('firstName',firstName);
+           window.localStorage.setItem('lastName',lastName);
+           window.localStorage.setItem('level',res.data.level);
+           window.localStorage.setItem('showcart','true');
+         }
         }
         else{
          this.userId = res.data.userId;
       this.role=res.data.role;
-      localStorage.setItem('Token', token);
-      localStorage.setItem('id', this.userId);
-      localStorage.setItem('Role', this.role);
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('Token', token);
+        window.localStorage.setItem('id', this.userId);
+        window.localStorage.setItem('Role', this.role);
+      }
         }
        
        

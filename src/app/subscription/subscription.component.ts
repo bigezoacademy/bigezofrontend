@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PaymentCallbackComponent } from '../paymentcallback/paymentcallback.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SafeUrlPipe } from '../pipes/safe-url.pipe';
@@ -7,11 +8,17 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-subscription',
   standalone: true,
-  imports: [CommonModule, FormsModule, SafeUrlPipe],
+  imports: [CommonModule, FormsModule, SafeUrlPipe, PaymentCallbackComponent],
   templateUrl: './subscription.component.html',
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
+  onCloseCallback() {
+    this.cancelled = false;
+  }
+  cancelled: boolean = false;
+  // Import PaymentCallbackComponent for standalone usage
+  static imports = [CommonModule, FormsModule, SafeUrlPipe, PaymentCallbackComponent];
   pricingList: any[] = [];
   readonly freeTier = { tier: 'free', costPerStudent: 0 };
   openSpinnerModal(tier: string) {
@@ -34,6 +41,11 @@ export class SubscriptionComponent implements OnInit {
   pricingError: string | null = null;
 
   constructor(private http: HttpClient) {}
+
+  cancelPayment() {
+    this.paymentIframeUrl = null;
+    this.cancelled = true;
+  }
 
   ngOnInit(): void {
     this.fetchPricing();
@@ -98,7 +110,7 @@ export class SubscriptionComponent implements OnInit {
     if (!tier || !this.studentCount[tier]) return;
     this.isSubscribing[tier] = true;
     this.subscriptionStatus = null;
-    const schoolAdminId = localStorage.getItem('id') || '1';
+    const schoolAdminId = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('id') : '1') || '1';
     const numberOfStudents = this.studentCount[tier];
     // Find the correct tierName from pricing API data
     let tierName = tier;

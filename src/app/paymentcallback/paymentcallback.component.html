@@ -1,0 +1,58 @@
+<div class="container py-5 text-center">
+  <ng-container *ngIf="cancelMessage; else paymentStatusBlock">
+    <div class="alert alert-warning">
+      <h2 class="mb-3">
+        <i class="bi bi-x-circle-fill"></i> Payment Cancelled
+      </h2>
+      <p class="lead">{{ cancelMessage }}</p>
+      <button
+        class="btn btn-outline-primary mt-3"
+        (click)="navigateToSubscription()"
+      >
+        Back to Subscription
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #paymentStatusBlock>
+    <div *ngIf="status === 'success'" class="alert alert-success">
+      <h2 class="mb-3">
+        <i class="bi bi-check-circle-fill"></i> Payment Successful!
+      </h2>
+      <p class="lead">Thank you for your payment.</p>
+      <p *ngIf="amount">
+        Amount Paid: <strong>UGX {{ amount | number : "1.0-0" }}</strong>
+      </p>
+      <p>
+        Order Tracking ID: <strong>{{ orderTrackingId }}</strong>
+      </p>
+      <p>
+        Merchant Reference: <strong>{{ merchantReference }}</strong>
+      </p>
+      <p>{{ message }}</p>
+      <button class="btn btn-primary mt-3" (click)="navigateToSubscription()">
+        Back to Subscription
+      </button>
+    </div>
+    <div *ngIf="status === 'failed'" class="alert alert-danger">
+      <h2 class="mb-3"><i class="bi bi-x-circle-fill"></i> Payment Failed</h2>
+      <p class="lead">Unfortunately, your payment could not be processed.</p>
+      <p>{{ message }}</p>
+      <button class="btn btn-secondary mt-3" (click)="navigateToSubscription()">
+        Try Again
+      </button>
+    </div>
+    <div *ngIf="status === 'pending'" class="alert alert-warning">
+      <h2 class="mb-3">
+        <i class="bi bi-hourglass-split"></i> Payment Pending
+      </h2>
+      <p class="lead">Your payment is being processed. Please wait...</p>
+      <p>{{ message }}</p>
+      <button
+        class="btn btn-outline-primary mt-3"
+        (click)="navigateToSubscription()"
+      >
+        Back to Subscription
+      </button>
+    </div>
+  </ng-template>
+</div>

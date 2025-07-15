@@ -52,21 +52,22 @@ submitPayment(orderRequest: any): Observable<string> {
       .join('');
 
     // Get values from localStorage
-    const studentId = Number(localStorage.getItem('id'));
-    const schoolAdminId = Number(localStorage.getItem('schoolAdminId'));
-    const email_address = localStorage.getItem('email') || 'student@example.com';
-    const phone_number = localStorage.getItem('phone') || '0704678948';
-    const first_name = localStorage.getItem('firstName') || 'John';
-    const middle_name = localStorage.getItem('middleName') || '';
-    const last_name = localStorage.getItem('lastName') || 'Doe';
-    const line_1 = localStorage.getItem('address1') || '123 Main Street';
-    const line_2 = localStorage.getItem('address2') || '';
-    const city = localStorage.getItem('city') || 'Kampala';
-    const state = localStorage.getItem('state') || '';
-    const postal_code = localStorage.getItem('postalCode') || '';
-    const zip_code = localStorage.getItem('zipCode') || '';
-    const notification_id = options.notification_id || localStorage.getItem('notification_id') || '5bbe0e70-32aa-4204-b00b-dc4bd606fa7f';
-    const branch = options.branch || localStorage.getItem('branch') || 'Store Name - HQ';
+    const getLS = (key: string) => (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null);
+    const studentId = Number(getLS('id'));
+    const schoolAdminId = Number(getLS('schoolAdminId'));
+    const email_address = getLS('email') || 'student@example.com';
+    const phone_number = getLS('phone') || '0704678948';
+    const first_name = getLS('firstName') || 'John';
+    const middle_name = getLS('middleName') || '';
+    const last_name = getLS('lastName') || 'Doe';
+    const line_1 = getLS('address1') || '123 Main Street';
+    const line_2 = getLS('address2') || '';
+    const city = getLS('city') || 'Kampala';
+    const state = getLS('state') || '';
+    const postal_code = getLS('postalCode') || '';
+    const zip_code = getLS('zipCode') || '';
+    const notification_id = options.notification_id || getLS('notification_id') || '5bbe0e70-32aa-4204-b00b-dc4bd606fa7f';
+    const branch = options.branch || getLS('branch') || 'Store Name - HQ';
 
     // const paymentInfo: any = {
     //   id: randomId,

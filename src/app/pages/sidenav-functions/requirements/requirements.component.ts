@@ -212,7 +212,7 @@ ngOnInit() {
   paymentDetails = {
     location: '',
   };
-  selectedItems: any[] = JSON.parse(localStorage.getItem('selectedItems') || '[]');
+  selectedItems: any[] = (typeof window !== 'undefined' && window.localStorage ? JSON.parse(window.localStorage.getItem('selectedItems') || '[]') : []);
 
   calculateTotal(): number {
     return this.selectedItems.reduce((total, item) => total + item.unitCost * item.quantity, 0);
@@ -235,8 +235,10 @@ ngOnInit() {
     );
 
     // Store selected items and total amount in local storage
-    localStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
-    localStorage.setItem('totalAmount', totalAmount.toString());
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem('selectedItems', JSON.stringify(this.selectedItems));
+      window.localStorage.setItem('totalAmount', totalAmount.toString());
+    }
 
    console.log('Selected items and total amount stored in local storage:', {
         selectedItems: this.selectedItems,

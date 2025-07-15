@@ -14,9 +14,9 @@ import { SubscriptionComponent } from '../../subscription/subscription.component
 })
 export class AdminComponent implements OnInit {
   // ...existing properties...
-  schoolAdminId: number = Number(localStorage.getItem('id')) || 1;
+  schoolAdminId: number = 1;
   dashboardData: any;
-  userId: any = localStorage.getItem("id");
+  userId: string | null = null;
   subscriptionStatus: 'free' | 'standard' | 'premium' = 'free';
   isAnalyticsEnabled: boolean = false;
 
@@ -139,8 +139,12 @@ export class AdminComponent implements OnInit {
 constructor(private http: HttpClient) {}
 
 ngOnInit(): void {
-  this.checkSubscriptionStatus();
-  this.getDashboardData();
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.schoolAdminId = Number(window.localStorage.getItem('id')) || 1;
+      this.userId = window.localStorage.getItem('id');
+    }
+    this.checkSubscriptionStatus();
+    this.getDashboardData();
 }
   // ...existing properties...
   // Only keep one version of each helper method below

@@ -30,17 +30,16 @@ myyear: number = new Date().getFullYear();
     displayExistingFees(): void {
       this.seeExistingFees = true;
     }
-  accounttype:any=localStorage.getItem("Role");
+  accounttype:any=(typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem("Role") : null);
 
 
   ngOnInit(): void {
-    const token = localStorage.getItem("Token");
+    const getLS = (key: string) => (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem(key) : null);
+    const setLS = (key: string, value: string) => { if (typeof window !== 'undefined' && window.localStorage) window.localStorage.setItem(key, value); };
+    const token = getLS("Token");
     if(this.accounttype==="ROLE_ADMIN"){
-     
-      const adminId = localStorage.getItem("id");
-       // Assuming the token is stored in localStorage
+      const adminId = getLS("id");
       if (adminId && token) {
-        //fetch(`https://bigezo-production.up.railway.app/api/school-admins/${adminId}`, {
         fetch(`http://localhost:8080/api/school-admins/${adminId}`, {
           method: 'GET',
           headers: {
@@ -51,7 +50,7 @@ myyear: number = new Date().getFullYear();
         .then(response => response.json())
         .then(data => {
           this.schoolName = data.schoolName;
-          localStorage.setItem('schoolName', this.schoolName);
+          setLS('schoolName', this.schoolName);
         })
         .catch(error => {
           console.error('Error fetching school name:', error);
